@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,11 +24,12 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group(['middleware' => 'auth'], function(){
     Route::resource('/genre',\App\Http\Controllers\GenreController::class);
-    Route::resource('/movie',\App\Http\Controllers\MovieController::class);
-    Route::resource('/one_movie',\App\Http\Controllers\OneMovieController::class);
-    Route::resource('/user',\App\Http\Controllers\UserController::class);
-    Route::resource('/serie',\App\Http\Controllers\SerieController::class);
-    Route::resource('/serie/quality',\App\Http\Controllers\SerieQualityController::class);
-
-    Route::post('/user/upgradeAdmin',[\App\Http\Controllers\UserController::class,'upgradeAdmin'])->name('user.upgradeAdmin');
+    Route::get('/pinpost/{blog}',[BlogController::class,'PinPost'])->name('pin.post');
+    Route::resource('/contact',ContactController::class);
 });
+
+    Route::resource('/blog', BlogController::class);
+
+    Route::resource('/contact', ContactController::class);
+    Route::get('guestblogdetail/{slug}', [BlogController::class,'viewBlogDetail'])->name('guest.blog.detail');
+    Route::get('allblogs', [BlogController::class,'AllBlogs'])->name('all.blogs');

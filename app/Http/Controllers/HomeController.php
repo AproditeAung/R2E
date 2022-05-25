@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\BlogResource;
+use App\Models\Blog;
+use App\Models\Contact;
+use App\Models\Genre;
 use App\Models\Movie;
+use App\Models\ReportBlog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class HomeController extends Controller
 {
@@ -24,24 +30,59 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $movies = Movie::simplePaginate(5);
+        $weeklyViewers = [];
 
-//        return $movies;
-        return view('Backend.home',compact('movies'));
+        for ($i=0; $i<7; $i++){
+            if(isset(request()->StartDate)){
+                $date = Carbon::parse(request()->StartDate)->addDays($i) ;
+            }else{
+                $date = now()->subDays(6)->addDays($i);
+            }
+            $viewers = ReportBlog::whereDate('created_at',$date)->get()->sum('viewers');
+
+            array_push($weeklyViewers,['date' => $date->format('d M') , 'viewers' => $viewers ?? 0]);
+        }
+
+        $monthlyViewers = [];
+
+        for ($i=0; $i<12; $i++){
+            $month = Carbon::parse(now()->format('Y').'-1-1')->addMonths($i) ;
+            $viewers = ReportBlog::whereMonth('created_at',$month)->get()->sum('viewers');
+
+            array_push($monthlyViewers,['month' => $month->format('M') , 'viewers' => $viewers ?? 0]);
+        }
+
+
+        $ALlTimeViewers = 0;
+        $TotalBlogs = Blog::all()->count();
+        $Contacts = Contact::all()->count();
+
+        foreach ($monthlyViewers as $m){
+             $ALlTimeViewers += $m['viewers'];
+        }
+
+        $widget = [
+            'AllTimeViewers' => $ALlTimeViewers,
+            'TotalBLogs' => $TotalBlogs,
+            'Contacts' => $Contacts
+        ];
+        return view('Backend.home',compact('weeklyViewers','monthlyViewers','widget'));
     }
 
     public function welcome(Request $request)
     {
-        $movies = Movie::when(isset(request()->search),function ($q){
-            return $q->where('title','LIKE',"%".request()->search."%")
-                      ->orWhere('release_year',"LIKE","%".request()->search."%")
-                     ->orWhere('director',"LIKE","%".request()->search."%");
+        $blogs = Blog::when(isset(request()->search),function ($q){
+            return $q->where('title','LIKE',"%".request()->search."%");
         })->when(isset(request()->select),function ($q){
-            return $q->where('is_serie',request()->select);
-        })->orderBy('id','desc')->simplePaginate(9);
+            return $q->where('category_id',request()->select);
+        });
 
-//        return $movies;
-        return view('welcome',compact('movies'));
+        $pinBlog = Blog::where('pinBlog','1')->first();
+        $mostViewBlogs = Blog::orderBy('countUser','DESC')->limit(3)->get();
+        $lastestNews =Blog::orderBy('id','desc')->limit(3)->get();
+
+        $categories = Genre::all();
+        return view('welcome',compact('blogs','pinBlog','mostViewBlogs','lastestNews','categories'));
     }
 
 

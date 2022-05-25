@@ -17,11 +17,12 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
+    <link rel="stylesheet" href="{{ asset('summernote/summernote.css') }}">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-dark shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -79,5 +80,37 @@
             @yield('content')
         </main>
     </div>
+
+    <script src="{{ asset('summernote/summernote.js') }}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @include('components.message')
+    <script>
+        $(document).ready(function() {
+            $('#summernote').summernote({
+                dialogsFade: true,
+                dialogsInBody: true,
+                tabsize: 2,
+                codeviewFilter: false,
+                codeviewIframeFilter: true,
+                height: 200,
+                lineHeights: ['0.2', '0.3', '0.4', '0.5', '0.6', '0.8', '1.0', '1.2', '1.4', '1.5', '2.0', '3.0'],
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['fontname', ['fontname']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    // ['table', ['table']],
+                    ['height', ['height']],
+                    ['insert', ['link']],
+                    // ['view', ['fullscreen', 'codeview', 'help']],
+                    // ['insert', ['link', 'picture', 'video']],
+
+                ],
+
+            });
+        });
+    </script>
 </body>
 </html>

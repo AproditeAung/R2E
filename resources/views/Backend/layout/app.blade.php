@@ -13,6 +13,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('Backend/css/main.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('summernote-bs4.css') }}">
+
 
 @yield('style')
     <!--
@@ -29,7 +31,6 @@
 <body>
 <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
     @include('Backend.layout.header')
-
     <div class="app-main">
         @include('Backend.layout.sidebar')
 
@@ -38,24 +39,6 @@
 
                 @yield('content')
 
-            </div>
-            <div class="app-wrapper-footer">
-                <div class="app-footer">
-                    <div class="app-footer__inner">
-                        <div class="app-footer-left">
-                        <span class="d-flex align-items-baseline ">
-                            <span class="font-weight-bolder ">Copyright  {{ date('Y') }} All right reserved by </span>
-                            <img src="{{ asset("Backend/assets/images/logo-inverse.png") }}" class="ml-2 " alt="">
-
-                        </span>
-                        </div>
-                        <div class="app-footer-right">
-                        <span class="font-weight-bolder ">
-                            Developed By Ivan
-                        </span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -71,12 +54,7 @@
         }
     });
 </script>
-{{--<script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>--}}
 
-
-{{--<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>--}}
-{{--<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>--}}
-{{--sweet alert 2--}}
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- Laravel Javascript Validation -->
 <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
@@ -85,14 +63,38 @@
 {{--this is for session alert with toast--}}
 {{--@include('Backend.layout.flash')--}}
 {{--@include('components.alert')--}}
+
+<script src="{{ asset('summernote-bs4.min.js') }}"></script>
 @include('components.message')
 <script>
-    // $(document).ready(function (){
-    //    $('#backBtn').click(function (){
-    //        history.back();
-    //        return false;
-    //    })
-    // });
+    $(document).ready(function() {
+        $('#summernote').summernote({
+            // dialogsFade: true,
+            dialogsInBody: true,
+            // tabsize: 2,
+            // codeviewFilter: false,
+            // codeviewIframeFilter: true,
+            height: 800,
+            // lineHeights: ['0.2', '0.3', '0.4', '0.5', '0.6', '0.8', '1.0', '1.2', '1.4', '1.5', '2.0', '3.0'],
+            //
+
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['fontname', ['fontname','Nunito']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['height', ['height']],
+                // ['insert', ['link']],
+                // ['view', ['fullscreen', 'codeview', 'help']],
+                ['insert', ['link', 'picture']],
+
+            ],
+
+
+        });
+    });
 </script>
 
 </body>

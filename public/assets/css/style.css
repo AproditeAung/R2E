@@ -39,9 +39,20 @@ body {
 
 .relative{
     background: transparent!important;
-    border-radius: 10px;
+    border-radius: 1px;
 }
 
+::-webkit-scrollbar {
+    width: 0.1rem;
+}
+
+::-webkit-scrollbar-track {
+    background: whitesmoke;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #feda68;
+}
 
 /*----------------------------
 ---------- RESET CSS ---------
@@ -286,11 +297,9 @@ input::-webkit-input-placeholder {
 	z-index: 99;
 }
 .header-area {
-    display: grid;
-    grid-template-rows: repeat(2,1fr);
-    grid-template-columns: repeat(12,1fr);
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    grid-gap: 20px;
 }
 .logo {
     grid-column: span 2;
@@ -316,8 +325,9 @@ input::-webkit-input-placeholder {
 }
 .mainmenu li a:not(.theme-btn) {
     display: inline-block;
-	margin-right: 30px;
+	margin-left: 30px;
 	padding: 3px 0;
+    outline: 0;
 }
 .slicknav_menu {
 	padding: 0;
@@ -385,7 +395,6 @@ option {
 	color: #fff;
     border: none;
     margin: 0;
-    border-left: 1px solid #ddd;
     margin-left: 20px;
 }
 

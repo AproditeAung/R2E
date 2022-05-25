@@ -8,6 +8,7 @@ use App\Models\Genre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 
 class GenreController extends Controller
@@ -20,8 +21,7 @@ class GenreController extends Controller
     public function index()
     {
         $Genres = Genre::all();
-        $message = 'hello';
-        return view('Backend.Genre.index',compact('Genres','message'));
+        return view('Backend.Genre.index',compact('Genres'));
     }
 
     /**
@@ -45,6 +45,7 @@ class GenreController extends Controller
         $genre = new Genre();
         $genre->name = $request->genre;
         $genre->user_id = Auth::user()->id;
+        $genre->slug = Str::slug($request->genre);
         $genre->save();
         return redirect()->route('genre.index')->with('message',['icon'=>'success','text'=>'Successfully inserted']);
     }

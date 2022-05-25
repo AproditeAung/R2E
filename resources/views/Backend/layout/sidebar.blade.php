@@ -14,7 +14,7 @@
             <button type="button"
                     class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
                 <span class="btn-icon-wrapper">
-                    <i class="fa fa-ellipsis-v fa-w-6"></i>
+                    <i class="fa fa-ellipsis-v fa-w-6 "></i>
                 </span>
             </button>
         </span>
@@ -25,16 +25,18 @@
                 <li class="app-sidebar__heading ">Dashboards</li>
 
                 <x-side-bar route="{{ route('home') }}" sidebarname="Dashboard" icon="pe-7s-display2 "  active="admin_home_active"/>
-                <x-side-bar route="{{ route('genre.index') }}" sidebarname="Create Genres" icon="pe-7s-disk "  active="genre_index_active"/>
+                <x-side-bar route="{{ route('genre.index') }}" sidebarname="Create Category" icon="pe-7s-disk "  active="genre_index_active"/>
 
-                <li class="app-sidebar__heading">User Manager</li>
-                <x-side-bar route="{{ route('user.create') }}" sidebarname="Create User" icon="pe-7s-user "  active="user_create_active"/>
-                <x-side-bar route="{{ route('user.index') }}" sidebarname="List User" icon="pe-7s-menu "  active="user_index_active"/>
+{{--                <li class="app-sidebar__heading">User Manager</li>--}}
+{{--                <x-side-bar route="{{ route('user.create') }}" sidebarname="Create User" icon="pe-7s-user "  active="user_create_active"/>--}}
+{{--                <x-side-bar route="{{ route('user.index') }}" sidebarname="List User" icon="pe-7s-menu "  active="user_index_active"/>--}}
 
-                <li class="app-sidebar__heading">Movie Manager</li>
-                <x-side-bar route="{{ route('movie.create') }}" sidebarname="Create Movie" icon="pe-7s-magic-wand "  active="movie_create_active"/>
-                <x-side-bar route="{{ route('one_movie.index') }}" sidebarname="Movie List" icon="pe-7s-video "  active="one_movie_create_active"/>
-                <x-side-bar route="{{ route('serie.index') }}" sidebarname=" Series List" icon="pe-7s-menu "  active="serie_index_active"/>
+                <li class="app-sidebar__heading">BLog Manager</li>
+                <x-side-bar route="{{ route('blog.create') }}" sidebarname="Create Blog" icon="pe-7s-magic-wand "  active="blog_create_active"/>
+                <x-side-bar route="{{ route('blog.index') }}" sidebarname="Blog List" icon="pe-7s-display2 "  active="blog_index_active"/>
+
+                <li class="app-sidebar__heading">Contact Manager</li>
+                <x-side-bar route="{{ route('contact.index') }}" sidebarname="Contact List" icon="pe-7s-phone "  active="contact_index_active"/>
 
             </ul>
         </div>
