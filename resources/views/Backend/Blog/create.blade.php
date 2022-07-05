@@ -1,6 +1,7 @@
 @extends('Backend.layout.app')
 @section('title') Blog @endsection
 @section('blog_create_active','mm-active')
+
 @section('content')
     <div class="app-page-title">
         <div class="page-title-wrapper">
@@ -44,7 +45,7 @@
 
                             <div class="form-group ">
                                 <label class="form-label  icon-gradient bg-mean-fruit h6">Description</label>
-                                <textarea name="body" id="summernote" > {{ old('body') }}</textarea>
+                                <textarea name="body" class="form-control" rows="10" cols="30"> {{ old('body') }}</textarea>
                                 @error('body')
                                 <x-alert error="{{ $message }}" css="danger my-4 "> </x-alert>
                                 @enderror
@@ -60,15 +61,6 @@
                                     <x-alert error="{{ $message }}" css="danger my-4 "> </x-alert>
                                     @enderror
                                 </div>
-
-                                <div class="form-group w-100 ">
-                                    <label class="form-label  icon-gradient bg-mean-fruit h6">Sample Letter</label>
-                                    <textarea name="sample" class="form-control " >{{ old('sample') }}</textarea>
-                                    @error('sample')
-                                    <x-alert error="{{ $message }}" css="danger my-4 "> </x-alert>
-                                    @enderror
-                                </div>
-
 
 
 

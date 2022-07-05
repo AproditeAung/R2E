@@ -7,13 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Blog extends Model
 {
-    protected $with = ['categoryName'];
+    protected $with = ['categoryName','user'];
     use HasFactory;
 
-    protected $fillable = ['title','category_id','created_at','sample','body','countUser','pinBlog'];
+    protected $fillable = ['title','category_id','created_at','dislike','body','like','pinBlog'];
 
     public function categoryName()
     {
-        return $this->belongsTo(Genre::class,'category_id','id');
+        return $this->belongsTo(Category::class,'category_id','id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Blog;
 use App\Models\Movie;
+use App\Models\ReaderWallet;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -20,27 +22,33 @@ class DatabaseSeeder extends Seeder
     {
 
         DB::table('users')->insert([
-            'name' => 'ivanphyo',
-            'email' => 'ivanphyo2015@gmail.com',
+            'name' => 'KNDF0001',
+            'email' => 'kndf0001@gmail.com',
             'email_verified_at' => now(),
             'password' => Hash::make('ivan2020'), // ivan2020
             'remember_token' => Str::random(10),
-            'role' => '1',
-            'is_premium' => '1',
+            'role' => '2',
+            'reference_id' => uniqid()
 
         ]);
 
-        //Genres
+        $wallet = new ReaderWallet();
+        $wallet->user_id  = 1;
+        $wallet->wallet_no = uniqid();
+        $wallet->amount = 0;
+        $wallet->save();
 
-        $movies_geners = ['football','comic','commedy','romantic','18+','21+','K-drama','C-drama','K-pop'];
 
-        foreach ($movies_geners as $movie){
-            DB::table('genres')->insert([
-                'name' => $movie,
+        $blog_geners = ['football','comic','commedy','romantic','18+','21+','K-drama','C-drama','K-pop'];
+
+        foreach ($blog_geners as $blog){
+            DB::table('categories')->insert([
+                'name' => $blog,
                 'user_id' => User::all()->random()->id,
-                'slug' => Str::slug($movie)
+                'slug' => Str::slug($blog)
             ]);
         };
 
+        Blog::factory()->count(50)->create();
     }
 }

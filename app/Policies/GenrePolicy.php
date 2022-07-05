@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\Genre;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -25,10 +25,10 @@ class GenrePolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Genre  $genre
+     * @param  \App\Models\Category  $genre
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Genre $genre)
+    public function view(User $user, Category $genre)
     {
         //
     }
@@ -48,10 +48,10 @@ class GenrePolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Genre  $genre
+     * @param  \App\Models\Category  $genre
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Genre $genre)
+    public function update(User $user, Category $genre)
     {
         //
     }
@@ -60,10 +60,10 @@ class GenrePolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Genre  $genre
+     * @param  \App\Models\Category  $genre
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Genre $genre)
+    public function delete(User $user, Category $genre)
     {
         //
     }
@@ -72,10 +72,10 @@ class GenrePolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Genre  $genre
+     * @param  \App\Models\Category  $genre
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Genre $genre)
+    public function restore(User $user, Category $genre)
     {
         //
     }
@@ -84,10 +84,10 @@ class GenrePolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Genre  $genre
+     * @param  \App\Models\Category  $genre
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Genre $genre)
+    public function forceDelete(User $user, Category $genre)
     {
         //
     }

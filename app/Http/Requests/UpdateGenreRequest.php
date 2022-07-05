@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Genre;
+use App\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateGenreRequest extends FormRequest
@@ -22,7 +22,7 @@ class UpdateGenreRequest extends FormRequest
      *
      * @return array
      */
-    public function rules(Genre $genre)
+    public function rules(Category $genre)
     {
         return [
             'genre' => 'required|min:|max:30|unique:App\Models\Genre,name'

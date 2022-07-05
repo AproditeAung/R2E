@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\ReaderWallet;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -53,6 +55,8 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+//            'phone' => ['required','string','min:9','max:11','unique:users,phone'],
+
         ]);
     }
 
@@ -68,6 +72,31 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+//            'phone' => $data['phone'],
         ]);
+    }
+
+
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        $user->reference_id = uniqid();
+        if(isset($request->reference_id)){
+            $parent = User::where('reference_id',$request->reference_id)->first()->id;
+            $user->parent_id = $request->$parent;
+        }
+        $user->update();
+
+        $wallet = new ReaderWallet();
+        $wallet->user_id  = $user->id;
+        $wallet->wallet_no = uniqid();
+        $wallet->amount = 0;
+        $wallet->save();
     }
 }

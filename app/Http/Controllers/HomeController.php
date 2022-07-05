@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\BlogResource;
 use App\Models\Blog;
 use App\Models\Contact;
-use App\Models\Genre;
+use App\Models\Category;
 use App\Models\Movie;
 use App\Models\ReportBlog;
 use Illuminate\Http\Request;
@@ -78,10 +78,12 @@ class HomeController extends Controller
         });
 
         $pinBlog = Blog::where('pinBlog','1')->first();
-        $mostViewBlogs = Blog::orderBy('countUser','DESC')->limit(3)->get();
-        $lastestNews =Blog::orderBy('id','desc')->limit(3)->get();
+        $mostViewBlogs = Blog::orderBy('countUser','DESC')->limit(4)->get();
+        $lastestNews =Blog::orderBy('id','desc')->limit(6)->get();
 
-        $categories = Genre::all();
+        $categories = Category::all();
+
+
         return view('welcome',compact('blogs','pinBlog','mostViewBlogs','lastestNews','categories'));
     }
 

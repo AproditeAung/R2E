@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Models\ReaderWallet;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -20,6 +21,7 @@ class UserController extends Controller
         $users = User::when(isset(request()->role) && request()->role != 3,function ($q){
             return $q->where('role',request()->role);
         })->simplePaginate(5);
+
         return view('Backend.userCRUD.index',compact('users'));
     }
 
@@ -37,7 +39,7 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(UserCreateRequest $request)
     {
@@ -46,9 +48,34 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->role = $request->role;
-        $user->is_premium = $request->is_premium;
+        $user->reference_id = uniqid();
         $user->save();
+
+        $wallet = new ReaderWallet();
+        $wallet->user_id  = $user->id;
+        $wallet->wallet_no = uniqid();
+        $wallet->amount = 0;
+        $wallet->save();
         return redirect()->route('user.index')->with('message',['icon'=>'success','text'=>'successfully created']);
+    }
+
+
+    public function generateUser()
+    {
+        $name ='kndf'.User::orderBy('id','desc')->first()->id;
+        $email ='kndf'.User::orderBy('id','desc')->first()->id.'@kndf.com';
+        $user = new User();
+        $user->name =$name;
+        $user->email =$email;
+        $user->password = Hash::make('mustbewin'); // mustbewin
+        $user->save();
+
+        $wallet = new ReaderWallet();
+        $wallet->user_id  = $user->id;
+        $wallet->wallet_no = uniqid();
+        $wallet->amount = 0;
+        $wallet->save();
+        return redirect()->route('user.create')->with('message',['icon'=>'success','text'=>'successfully created','user'=>$user]);
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Genre;
+use App\Models\Category;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class BlogResource extends JsonResource

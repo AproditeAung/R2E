@@ -16,11 +16,13 @@ class CreateBlogsTable extends Migration
         Schema::create('blogs', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('category_id');
+            $table->foreignId('user_id')->constrained('users','id')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('title');
             $table->longText('body');
             $table->text('slug');
-            $table->text('sample');
             $table->string('ImageRec')->default('blogPic.png');
+            $table->bigInteger('like')->default(0);
+            $table->bigInteger('dislike')->default(0);
             $table->unsignedBigInteger('countUser');
             $table->enum('pinBlog',[0,1])->comment('0 is no pin');
             $table->timestamps();

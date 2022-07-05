@@ -1,5 +1,5 @@
 window._ = require('lodash');
-
+import Swal from 'sweetalert2'
 try {
     require('bootstrap');
 } catch (e) {}
@@ -11,9 +11,9 @@ try {
  */
 
 window.AOS = require('aos/dist/aos');
-AOS.init();
+window.Swal = require('sweetalert2');
 window.axios = require('axios');
-
+window.$ = require('jquery/dist/jquery');
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /**

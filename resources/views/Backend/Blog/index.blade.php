@@ -54,6 +54,7 @@
                             @endforelse
                         </tbody>
                     </table>
+                    {{ $blogs->links() }}
                 </div>
             </div>
 

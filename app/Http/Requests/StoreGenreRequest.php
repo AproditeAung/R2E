@@ -24,14 +24,14 @@ class StoreGenreRequest extends FormRequest
     public function rules()
     {
         return [
-            'genre' => 'required|min:3|max:40|unique:App\Models\Genre,name'
+            'title' => 'required|min:3|max:40|unique:App\Models\Category,name'
         ];
     }
 
     public function messages()
     {
         return [
-            'genre.required' => 'You Should Write Something'
+            'title.required' => 'You Should Write Something'
         ];
     }
 }

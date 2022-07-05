@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/icofont.css') }}">
+    <link rel="stylesheet" href="{{ asset('summernote-lite.min.css') }}">
     <title>Big News</title>
 
     <style>
@@ -61,81 +62,168 @@
             padding-bottom: .75rem;
             font-size: .875rem;
         }
+
+        .menuButton{
+            padding: 8px 15px;
+            background: transparent;
+            border:none;
+        }
+
+        .offcanvas-bottom{
+            height: 9vh;
+        }
+
+        .outline{
+            width: 50%;
+            height: 4px;
+            background: lightskyblue;
+            opacity: 0;
+        }
+
+        .customNavItem{
+            transition: .4s all;
+            font-size: 16px;
+        }
+        .customNavItem.active{
+            font-weight: bolder;
+        }
+
+        .customNavItem.active .outline{
+            opacity: 1;
+        }
+
+        @font-face {
+            font-family: "Billian";
+            src: url("{{ asset('assets/fonts/Billian.ttf') }}") format("truetype") ,
+            url("{{ asset('assets/fonts/Billian.ttf') }}") format("truetype");
+        }
+
+        @font-face {
+            font-family: "Myanmar";
+            src: url("{{ asset('assets/fonts/MyanmarSquare.ttf') }}") format("truetype")  ,
+            url("{{ asset('assets/fonts/MyanmarSquare.ttf') }}") format("truetype") ;
+        }
+
+
+        body{
+            font-family: "Billian","Myanmar","sans-serif" !important;
+        }
+
     </style>
+
+    @yield('style')
 </head>
-<body>
+<body >
 
         <div id="loader" class="loader">
             <img src="{{ asset('Image/loading.svg') }}" width="50%" alt="">
         </div>
 
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container ">
+        <div class="container mt-3  d-none d-lg-block ">
+            <nav class="navbar navbar-expand-lg navbar-white shadow-sm rounded-pill rounded px-4  bg-white   ">
+                <div class="container d-flex justify-content-between align-items-center  ">
+                    <a class="navbar-brand fw-bolder " href="{{ route('welcome') }}">C2E</a>
 
-                <a class="navbar-brand fw-bolder " href="{{ route('welcome') }}">Big News</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="icofont icofont-navigation-menu"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto  mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link @yield('home_active')" aria-current="page" href="{{ route('welcome') }}">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link @yield('blog_active')" aria-current="page" href="{{ route('all.blogs') }}">Blogs</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link @yield('contact_active')" href="{{ route('contact.create') }}">Contact Us</a>
-                        </li>
-{{--                        <li class="nav-item dropdown  ">--}}
-{{--                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">--}}
-{{--                                Category--}}
-{{--                            </a>--}}
-{{--                            <ul class="dropdown-menu dropdown-menu-dark" style="z-index: 99" aria-labelledby="navbarDropdown">--}}
-{{--                               @foreach($categories as $cat)--}}
-{{--                                    <li><a class="dropdown-item" href="#">{{ $cat->name }}</a></li>--}}
-{{--                                @endforeach--}}
-{{--                            </ul>--}}
-{{--                        </li>--}}
-                    </ul>
-                    <form action="{{ route('all.blogs')  }}" method="get" class="d-flex">
-                        @csrf
-                        <input class="form-control border-secondary text-white  me-2" name="search" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-secondary  " type="submit">Search</button>
-                    </form>
+                    <div >
+                        <ul class="navbar-nav  mb-2 mb-lg-0  ">
+                            <li class="nav-item">
+                                <a class="nav-link @yield('home_active')" aria-current="page" href="{{ route('welcome') }}">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @yield('blog_active')" aria-current="page" href="{{ route('all.blogs') }}">Blogs</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link @yield('profile_active')" href="{{ route('profile') }}">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @yield('wallet_active')" href="{{ route('wallet.index') }}">Wallet</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @yield('contact_active')" href="{{ route('contact.create') }}">Contact Us</a>
+                            </li>
+                        </ul>
+
+                    </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
+        </div>
 
-        <div class="container  position-sticky sticky-top">
-            <div class="nav-scroller bg-info p-3   py-1 mb-2">
-                <nav class="nav d-flex justify-content-between">
-                    @foreach($categories as $c)
-                        <a class="p-2 link-secondary" href="{{ url('allblogs/?select='.$c->id) }}">{{ $c->name }}</a>
-                    @endforeach
-                </nav>
+        <div class="container d-block d-lg-none p-3 mb-4  ">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <button class="menuButton  " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                        <i class="icofont icofont-navigation-menu icofont-2x "></i>
+                    </button>
+
+                    <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+                        <div class="offcanvas-body small">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="customNavItem active">Home
+                                    <p class="outline"></p>
+                                </span>
+                                <span class="customNavItem ">Wallet
+                                    <p class="outline"></p>
+                                </span>
+                                <span class="customNavItem ">Hot
+                                    <p class="outline"></p>
+                                </span>
+                                <span class="customNavItem ">Setting
+                                    <p class="outline"></p>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <img src="{{ asset('assets/img/portfolio/portfolio1.png') }}" width="40" height="40" class="rounded rounded-circle " alt="">
             </div>
         </div>
 
-        <div class="container text-secondary">
-            <div class="row ">
+        <div class="container ">
+            <div class="row  ">
                 @yield('contant')
             </div>
         </div>
+
         <script src="{{ asset('js/app.js') }}"></script>
+        <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+
         {{--<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>--}}
+        <script src="{{ asset('summernote-lite.min.js') }}"></script>
 
 @include('components.message')
 @yield('script')
 
 <script>
-            (function(d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) return;
-                js = d.createElement(s); js.id = id;
-                js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
+            var gArrayFonts = ["Billian","Myanmar","sans-serif"];
+            $(document).ready(function() {
+                $('#summernote').summernote({
+                    fontNames: gArrayFonts,
+                    fontNamesIgnoreCheck: gArrayFonts,
+                    dialogsFade: true,
+                    dialogsInBody: true,
+                    tabsize: 2,
+                    codeviewFilter: false,
+                    codeviewIframeFilter: true,
+                    height: 200,
+                    lineHeights: ['0.2', '0.3', '0.4', '0.5', '0.6', '0.8', '1.0', '1.2', '1.4', '1.5', '2.0', '3.0'],
+                    toolbar: [
+                        ['style', ['style']],
+                        ['fontname', ['fontname']],
+                        ['font', ['bold', 'underline', 'clear']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        // ['table', ['table']],
+                        ['height', ['height']],
+                        ['insert', ['link']],
+                        // ['view', ['fullscreen', 'codeview', 'help']],
+                        // ['insert', ['link', 'picture', 'video']],
+
+                    ],
+
+                });
+            });
+
 
 
     AOS.init();
@@ -150,6 +238,16 @@
             loader.classList.add('d-none');
         },1500)
 
+    });
+
+    let allNavItems = $('.customNavItem').toArray();
+
+    allNavItems.map(el => {
+        el.addEventListener("click",function (e){
+            allNavItems.map(el => el.classList.remove('active'));
+            e.target.classList.add('active');
+            console.log(e.target);
+        })
     })
 
 </script>

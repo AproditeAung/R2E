@@ -26,8 +26,8 @@ class UpdateBlogRequest extends FormRequest
         return [
             'title' => 'required',
             'body' => 'required',
-            'sample' => 'required',
-            'category_id' => 'required'
+            'category_id' => 'required',
+            'blogPic' => 'image'
         ];
     }
 }
