@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MusicController;
 use App\Http\Controllers\ReaderWalletController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,17 +36,27 @@ Route::group(['middleware' => 'auth'], function(){
         Route::resource('/requestEditor',\App\Http\Controllers\RequestEditorController::class);
         Route::resource('/wallet',ReaderWalletController::class);
 
+        Route::group(['middleware' => 'AdminAndEditor'],function (){
+            Route::resource('/music', MusicController::class);
+            Route::resource('/artist',\App\Http\Controllers\ArtistController::class);
+            Route::resource('/music_category',\App\Http\Controllers\MusicCategoryController::class);
+        });
+
         Route::group(['middleware' => 'isAdmin'],function (){
             Route::resource('/user',\App\Http\Controllers\UserController::class);
             Route::get('/upgradeadmin',[\App\Http\Controllers\UserController::class,'upgradeAdmin'])->name('user.upgradeAdmin');
             Route::get('/generateuser',[\App\Http\Controllers\UserController::class,'generateUser'])->name('user.generateUser');
         });
 });
-Route::resource('/video',\App\Http\Controllers\VideoBLogController::class);
-Route::post('/createvideo',[\App\Http\Controllers\VideoBLogController::class,'createVideo'])->name('create.video');
+
+
+//Route::resource('/video',\App\Http\Controllers\VideoBLogController::class);
+//Route::post('/createvideo',[\App\Http\Controllers\VideoBLogController::class,'createVideo'])->name('create.video');
 
     Route::post('/feedback',[BlogController::class,'feedback'])->name('user.feedback');
 
     Route::resource('/contact', ContactController::class);
     Route::get('guestblogdetail/{slug}', [BlogController::class,'viewBlogDetail'])->name('guest.blog.detail');
     Route::get('allblogs', [BlogController::class,'AllBlogs'])->name('all.blogs');
+    Route::get('allsongs', [HomeController::class,'AllMusic'])->name('all.music');
+    Route::post('musicpayment', [MusicController::class,'MusicPayment'])->name('music.payment');

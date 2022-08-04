@@ -4,12 +4,12 @@
     @include('components.categorybar')
     <div class="col-md-9 my-3 ">
         <div class="row">
-            <form action="{{ route('all.blogs')  }}" method="get" class="d-flex fixed-bottom">
+            <form action="{{ route('all.blogs')  }}" method="get" class="d-flex ">
                 <input class="form-control border-secondary text-white  me-2" name="search" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-secondary  " type="submit">Search</button>
             </form>
             @forelse($blogs as $blog)
-                <div class="col-md-3">
+                <div class="col-lg-4 mb-3 " >
                     <a href="{{ route('guest.blog.detail',$blog->slug) }}" class="h6 link-secondary text-decoration-none  ">
                         {{ $blog->title }}
                         <p class="text-decoration-none ">{{ $blog->created_at->diffForHumans() }}</p>
@@ -45,3 +45,4 @@
         </div>
     </div>
 @endsection
+

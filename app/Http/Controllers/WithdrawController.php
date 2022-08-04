@@ -6,7 +6,9 @@ use App\Models\ReaderWallet;
 use App\Models\Withdraw;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use phpDocumentor\Reflection\Types\Integer;
 use PHPUnit\Exception;
 
@@ -18,13 +20,23 @@ class WithdrawController extends Controller
     }
     public function store(Request $request)
     {
-        $request->validate([
-            'amount' => 'required|integer',
+
+
+        $validator = Validator::make($request->all(),[
+            'phone' => 'required|string',
+            'amount' => 'required|integer|min:1',
+            'type' => 'required|string'
         ]);
 
+        if($validator->fails()){
+            return redirect()->back()->with('message',[
+                'icon' => 'error',
+                'text' => 'something was wrong!',
+            ])->withErrors($validator);
+        }
         $wallet = ReaderWallet::where('user_id',Auth::id())->first();
 
-        if((int)$request->amount >= 10000 && $wallet->amount >= 10000){
+        if((int)$request->amount >= 1000 && $wallet->amount >= 1000){
 
             DB::beginTransaction();
 
@@ -32,7 +44,8 @@ class WithdrawController extends Controller
                 $withdraw = new Withdraw();
                 $withdraw->amount = (int)$request->amount;
                 $withdraw->user_id = $wallet->user_id;
-                $withdraw->gmail = $request->gmail;
+                $withdraw->phone = Crypt::encryptString($request->phone);
+                $withdraw->type = $request->type;
                 $withdraw->save();
 
                 $wallet->decrement('amount',(int)$request->amount);

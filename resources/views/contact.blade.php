@@ -1,5 +1,5 @@
 @extends('main')
-@section('contact_active','active')
+@section('contact_active','active fw-bolder')
 @section('contant')
 
 

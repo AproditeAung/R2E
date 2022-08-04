@@ -24,10 +24,21 @@ class StoreBlogRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required',
-            'body' => 'required',
-            'category_id' => 'required',
-            'blogPic' => 'required|image|dimensions:min_width=500,max_width=1500,ratio=16/9'
+            'title' => 'required|string',
+            'body' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+            'blogPic' => 'required|image|mimes:jpg,jpeg,png|max:4096|dimensions:min_width=200,min_width=500,ratio=16/9',
+            'sample' => 'required|min:1|string'
+        ];
+
+
+    }
+
+
+    public function messages()
+    {
+        return [
+            'category_id.required' => 'Category field is required',
         ];
     }
 }

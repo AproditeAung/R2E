@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\ReaderWallet;
+use App\Models\UserDetail;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -86,12 +87,18 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
-        $user->reference_id = uniqid();
+
+        $userDetail = new UserDetail();
+
         if(isset($request->reference_id)){
             $parent = User::where('reference_id',$request->reference_id)->first()->id;
-            $user->parent_id = $request->$parent;
+            $userDetail->parent_id = $parent;
+
         }
-        $user->update();
+        $userDetail->reference_id = uniqid();
+        $userDetail->ip = $request->getClientIp();
+        $userDetail->user_id = $user->id;
+        $userDetail->save();
 
         $wallet = new ReaderWallet();
         $wallet->user_id  = $user->id;

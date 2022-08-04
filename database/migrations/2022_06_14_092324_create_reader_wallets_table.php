@@ -17,7 +17,7 @@ class CreateReaderWalletsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users','id');
             $table->string('wallet_no')->unique();
-            $table->decimal('amount',15,4)->default(0);
+            $table->bigInteger('amount',)->default(0);
             $table->timestamps();
         });
     }

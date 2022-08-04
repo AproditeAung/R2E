@@ -15,13 +15,23 @@
                 <form action="{{ route('withdraw.store') }}" method="post" >
                     @csrf
                     <div class="form-group mb-3 ">
-                        <label for="" class="form-label">Gmail</label>
-                        <input type="email" class="form-control  " name="gmail" >
+                        <label for="" class="form-label">Phone</label>
+                        <input type="tel" class="form-control  " name="phone"  >
                     </div>
                     <div class="form-group mb-3 ">
                         <label for="" class="form-label">Amount</label>
                         <input type="number" class="form-control  " name="amount" >
                     </div>
+
+                   <div class="form-group mb-3 ">
+                       <label for="" class="form-label">Select Option  </label>
+                       <select class="form-select " name="type" aria-label="Default select example">
+                           <option selected disabled>Open this select menu</option>
+                           <option value="Kpay">Kpay </option>
+                           <option value="PhoneBill">Phone Bill</option>
+                           <option value="Charity">Charity</option>
+                       </select>
+                   </div>
 
                     <div class="form-group text-end ">
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>

@@ -8,12 +8,12 @@
     </style>
 @endsection
 @section('title') profile @endsection
-@section('profile_active','fw-bold')
+@section('profile_active','active fw-bold')
 
 @section('contant')
 
 
-    <div class="col-lg-8 my-md-5  ">
+    <div class="col-lg-8 mb-3 my-md-5  ">
         <div class="card border-secondary bg-transparent  shadow-sm ">
 
             <div class="card-body table-responsive ">
@@ -22,7 +22,7 @@
                 </span>
                 <hr>
                 <div class="row ">
-                    <div class="col-lg-4 mb-3  mb-lg-0 ">
+                    <div class=" col-6 col-lg-4 mb-3  mb-lg-0 ">
                         <h4 class="mb-3 ">BLog Manager</h4>
                         <div class="mb-2 ">
                             <a href="{{ route('blog.create') }}" class="btn btn-outline-secondary">Create Blog</a>
@@ -31,20 +31,26 @@
                             <a href="{{ route('blog.index') }}" class="btn btn-outline-secondary">Blogs</a>
                         </div>
                         <div class="mb-2 ">
-                            <a href="{{ route('blog.create') }}" class="btn btn-outline-secondary">Create Category</a>
+                            <a href="{{ route('category.create') }}" class="btn btn-outline-secondary">Create Category</a>
                         </div>
                     </div>
-                    <div class="col-lg-4 mb-3  mb-lg-0 ">
-                        <h4 class="mb-3 ">Video Manager</h4>
+                    <div class=" col-6 col-lg-4 mb-3  mb-lg-0 ">
+                        <h4 class="mb-3 ">Music Manager</h4>
                         <div class="mb-2 ">
-                            <a href="{{ route('blog.create') }}" class="btn btn-outline-secondary">Create Video</a>
+                            <a href="{{ route('artist.create') }}" class="btn btn-outline-secondary">Upload Artist</a>
                         </div>
                         <div class="mb-2 ">
-                            <a href="{{ route('blog.create') }}" class="btn btn-outline-secondary">Videos</a>
+                            <a href="{{ route('music.create') }}" class="btn btn-outline-secondary">Upload Music</a>
+                        </div>
+                        <div class="mb-2 ">
+                            <a href="{{ route('all.music') }}" class="btn btn-outline-secondary">Songs</a>
                         </div>
                     </div>
-                    <div class="col-lg-4 mb-3  mb-lg-0 ">
+                    <div class=" col-6 col-lg-4 mb-3  mb-lg-0 ">
                         <h4 class="mb-3 ">Comming Soon</h4>
+                        <div class="mb-2 ">
+                            <a href="{{ route('welcome') }}" class="btn btn-outline-secondary">.....</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -78,8 +84,8 @@
                     <span class="fw-bold h6 ">{{ $user->email }}</span>
                 </div>
                 <div class="d-flex justify-content-between align-items-baseline  mt-3   ">
-                    <span class="fw-bold h6 ">Phone</span>
-                    <span class="fw-bold h6 ">{{ $user->phone }}</span>
+                    <span class="fw-bold h6 ">Referral Id</span>
+                    <span class="fw-bold h6 ">{{ $user->detail->reference_id }}</span>
                 </div>
 
             </div>

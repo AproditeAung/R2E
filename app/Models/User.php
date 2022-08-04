@@ -24,6 +24,8 @@ class User extends Authenticatable
         'phone'
     ];
 
+    protected $with = ['detail'];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -46,5 +48,10 @@ class User extends Authenticatable
     public function wallet()
     {
         return $this->hasOne(ReaderWallet::class);
+    }
+
+    public function detail()
+    {
+        return $this->hasOne(UserDetail::class);
     }
 }

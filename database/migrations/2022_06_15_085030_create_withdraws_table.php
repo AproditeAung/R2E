@@ -17,7 +17,9 @@ class CreateWithdrawsTable extends Migration
             $table->id();
             $table->bigInteger('user_id');
             $table->bigInteger('amount');
-            $table->string('gmail');
+            $table->string('phone');
+            $table->string('type');
+            $table->enum('status',[0,1])->default(0)->comment('o is Pending And 1 is confirmed');
             $table->timestamps();
         });
     }

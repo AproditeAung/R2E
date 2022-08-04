@@ -21,6 +21,7 @@ class BlogFactory extends Factory
         return [
             'title' => $title,
             'body' => $this->faker->paragraph(random_int(10,40)),
+            'sample' => $this->faker->paragraph(random_int(3,5)),
             'slug' => \Illuminate\Support\Str::slug($title),
             'category_id' => Category::all()->random()->id,
             'user_id' => User::all()->random()->id,

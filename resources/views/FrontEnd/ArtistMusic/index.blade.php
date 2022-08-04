@@ -30,14 +30,17 @@
                                     <td class="  ">{{\Illuminate\Support\Str::limit($blog->title,40) }}</td>
                                     <td class="  ">{{ \Illuminate\Support\Str::limit($blog->sample,50) }}</td>
                                     <td>
-                                        <form action="{{ route('blog.destroy',$blog->id) }}" id="blogDelete" method="post">
-                                            @csrf @method('delete')
-                                        </form>
-                                        <button class="btn btn-danger " type="button" onclick="confirm()"><i class="pe-7s-trash "></i></button>
+                                        @if($blog->user->role == 2)
+                                            <form action="{{ route('blog.destroy',$blog->id) }}" id="blogDelete" method="post">
+                                                @csrf @method('delete')
+                                            </form>
+                                            <button class="btn-outline btn-danger " type="button" onclick="confirm()"><i class="icofont icofont-trash"></i></button>
+                                            <a href="{{ route('pin.post',$blog->id) }}" class="btn btn-outline-{{ $blog->pinBlog == '1' ? 'success' : 'outline-success' }}"><i class="pe-7s-pin"></i></a>
+                                        @endif
 
-                                        <a href="{{ route('blog.edit',$blog->id) }}" class="btn btn-warning "><i class="pe-7s-pen"></i></a>
-                                        <a href="{{ route('blog.show',$blog->id) }}" class="btn btn-info "><i class="pe-7s-info"></i></a>
-                                        <a href="{{ route('pin.post',$blog->id) }}" class="btn btn-{{ $blog->pinBlog == '1' ? 'success' : 'outline-success' }}"><i class="pe-7s-pin"></i></a>
+                                        <a href="{{ route('blog.edit',$blog->id) }}" class="btn btn-outline-secondary "><i class="icofont icofont-pen-alt-2"></i></a>
+                                        <a href="{{ route('blog.show',$blog->id) }}" class="btn btn-outline-info "><i class="icofont icofont-info"></i></a>
+
                                     </td>
                                 </tr>
                             @empty

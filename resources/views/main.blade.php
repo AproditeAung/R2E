@@ -1,3 +1,17 @@
+<div id="loader" style=" width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 0; left: 0;
+            z-index: 9999;
+            background: #fcfcfc;
+            transition: 1s all ease-in;" class="loader">
+    <img src="{{ asset('Image/loading.svg') }}" width="50%" alt="">
+</div>
+
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -20,30 +34,25 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: #13151f;
+            background: #b4b5b7;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #13151f;
+            background: #afafb0;
         }
-        .loader{
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            top: 0; left: 0;
-            z-index: 9999;
-            background: #13151f;
-            transition: 1s all ease-in;
-        }
+
         .nav-scroller {
             position: relative;
             z-index: 2;
             height: 2.75rem;
             overflow-y: hidden;
 
+        }
+        .navbar{
+            background: url("{{ asset('Image/subscribe_slice_right.png') }}");
+            background-size: contain;
+            background-position: right;
+            background-repeat: no-repeat;
         }
 
         .nav-scroller .nav {
@@ -76,20 +85,38 @@
         .outline{
             width: 50%;
             height: 4px;
-            background: lightskyblue;
+            background: #0c90cb;
             opacity: 0;
         }
 
         .customNavItem{
             transition: .4s all;
             font-size: 16px;
+            text-decoration: none;
+            color: black;
         }
         .customNavItem.active{
             font-weight: bolder;
+            color: #0c90cb;
         }
 
         .customNavItem.active .outline{
             opacity: 1;
+        }
+
+        .customDropdown{
+            transition: .4s all ease;
+        }
+
+        .customDropdown:hover{
+            border: 1px solid #0c90cb;
+            box-shadow: 5px 3px 13px -4px rgba(240,255,240,0.8);
+        }
+
+        .dropdown-item.active, .dropdown-item:active{
+            color: #0c90cb;
+            font-weight: bold;
+            background: transparent;
         }
 
         @font-face {
@@ -109,14 +136,34 @@
             font-family: "Billian","Myanmar","sans-serif" !important;
         }
 
+         .glass{
+             /* From https://css.glass */
+             background: rgba(255, 255, 255, 0.15);
+             border-radius: 16px;
+             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+             backdrop-filter: blur(3px);
+             -webkit-backdrop-filter: blur(3px);
+             border: 1px solid rgba(255, 255, 255, 0.06);
+             z-index: 9999;
+             overflow: hidden;
+             display: none;
+         }
+
+         .glass.active{
+             display: block;
+         }
+
     </style>
 
     @yield('style')
 </head>
 <body >
 
-        <div id="loader" class="loader">
-            <img src="{{ asset('Image/loading.svg') }}" width="50%" alt="">
+        <div id="glass" class=" glass min-vw-100  position-absolute top-0 " style="left: 0">
+            <div class="d-flex flex-column justify-content-center align-items-center  min-vh-100 " >
+                <img src="{{ asset('Image/loading.svg') }}" width="30%"  alt="">
+                <h3>Plase Wait! Take Your Money</h3></div>
+             </div>
         </div>
 
         <div class="container mt-3  d-none d-lg-block ">
@@ -131,6 +178,10 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link @yield('blog_active')" aria-current="page" href="{{ route('all.blogs') }}">Blogs</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link @yield('music_active')" aria-current="page" href="{{ route('all.music') }}">Music</a>
                             </li>
 
                             <li class="nav-item">
@@ -159,23 +210,43 @@
                     <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
                         <div class="offcanvas-body small">
                             <div class="d-flex justify-content-between align-items-center">
-                                <span class="customNavItem active">Home
+                                <a href="{{ route('welcome') }}" class="customNavItem @yield('home_active')">Home
                                     <p class="outline"></p>
-                                </span>
-                                <span class="customNavItem ">Wallet
+                                </a>
+                                <a href="{{ route('welcome') }}" class="customNavItem @yield('blog_active')">Blogs
                                     <p class="outline"></p>
-                                </span>
-                                <span class="customNavItem ">Hot
+                                </a>
+                                <a href="{{ route('welcome') }}" class="customNavItem @yield('music_active')">Songs
                                     <p class="outline"></p>
-                                </span>
-                                <span class="customNavItem ">Setting
-                                    <p class="outline"></p>
-                                </span>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <img src="{{ asset('assets/img/portfolio/portfolio1.png') }}" width="40" height="40" class="rounded rounded-circle " alt="">
+                <div class="dropdown">
+                    <img src="{{ asset('assets/img/portfolio/portfolio1.png') }}" width="40" height="40"  class="customDropdown rounded rounded-circle dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" alt="">
+                    <ul class="dropdown-menu bg-body " aria-labelledby="dropdownMenuButton1">
+                        <li>
+                            <a href="{{ route('wallet.index') }}" class=" dropdown-item @yield('wallet_active') "> Wallet </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('profile') }}" class="dropdown-item @yield('profile_active')"> Profile</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item ">Setting</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('contact.create') }}" class="dropdown-item  @yield('contact_active')"> Contact Us</a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form action="{{ route('logout') }}" id="logout" method="post">
+                                @csrf
+                            </form>
+                            <button class="dropdown-item text-danger" onclick="document.getElementById('logout').submit()">Logout</button>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
 
@@ -190,22 +261,21 @@
 
         {{--<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>--}}
         <script src="{{ asset('summernote-lite.min.js') }}"></script>
-
 @include('components.message')
 @yield('script')
 
 <script>
-            var gArrayFonts = ["Billian","Myanmar","sans-serif"];
+            var gArrayFonts = ["Billian","Myanmar"];
             $(document).ready(function() {
                 $('#summernote').summernote({
                     fontNames: gArrayFonts,
                     fontNamesIgnoreCheck: gArrayFonts,
-                    dialogsFade: true,
-                    dialogsInBody: true,
+                    // dialogsFade: true,
+                    // dialogsInBody: true,
                     tabsize: 2,
                     codeviewFilter: false,
                     codeviewIframeFilter: true,
-                    height: 200,
+                    height: 450,
                     lineHeights: ['0.2', '0.3', '0.4', '0.5', '0.6', '0.8', '1.0', '1.2', '1.4', '1.5', '2.0', '3.0'],
                     toolbar: [
                         ['style', ['style']],

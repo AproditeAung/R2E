@@ -14,6 +14,7 @@ class ReaderWalletController extends Controller
     {
         $wallet = ReaderWallet::where('user_id',Auth::id())->first();
         $withdraws = Withdraw::where('user_id',Auth::id())->paginate(5);
-        return view('wallet',compact('wallet','withdraws'));
+        $notifications = Auth::user()->notifications()->paginate(10);
+        return view('wallet',compact('wallet','withdraws','notifications'));
     }
 }

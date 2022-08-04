@@ -18,7 +18,7 @@ class IsAdmin
     public function handle(Request $request, Closure $next)
     {
         if(Auth::user()->role != 2){
-            return redirect()->with('message',['icon'=>'error','text'=>'UnAuthorized']);
+            return redirect()->back()->with('message',['icon'=>'error','text'=>'UnAuthorized']);
         }
         return $next($request);
     }

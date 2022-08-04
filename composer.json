@@ -14,7 +14,9 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
         "pion/laravel-chunk-upload": "^1.5",
-        "proengsoft/laravel-jsvalidation": "^4.6"
+        "proengsoft/laravel-jsvalidation": "^4.6",
+        "stevebauman/location": "^6.5",
+        "wapmorgan/mp3info": "^0.0.8"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

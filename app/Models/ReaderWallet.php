@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class ReaderWallet extends Model
 {
     use HasFactory;
-    protected $fillable =['user_id'];
+
+    protected $fillable =['user_id','readBlog','todayRead'];
 }

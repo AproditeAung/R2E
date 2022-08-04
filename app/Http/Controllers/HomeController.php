@@ -7,9 +7,12 @@ use App\Models\Blog;
 use App\Models\Contact;
 use App\Models\Category;
 use App\Models\Movie;
+use App\Models\Music;
+use App\Models\MusicCategory;
 use App\Models\ReportBlog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use ipinfo\ipinfo\IPinfo;
 
 class HomeController extends Controller
 {
@@ -20,7 +23,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except('welcome');
+        $this->middleware('isAdmin')->except('welcome','AllMusic');
     }
 
     /**
@@ -71,6 +74,11 @@ class HomeController extends Controller
 
     public function welcome(Request $request)
     {
+
+//        $location_text = new IPinfo(env('IPINFO_SECRET'));
+//        dd($location_text->getDetails('196.247.59.154'));
+//        return view('index', ['location' => $location_text]);
+
         $blogs = Blog::when(isset(request()->search),function ($q){
             return $q->where('title','LIKE',"%".request()->search."%");
         })->when(isset(request()->select),function ($q){
@@ -87,5 +95,22 @@ class HomeController extends Controller
         return view('welcome',compact('blogs','pinBlog','mostViewBlogs','lastestNews','categories'));
     }
 
+    public function AllMusic(Request $request)
+    {
+        $categories = MusicCategory::all();
+        if (isset($request->search)){
+            $request->validate([
+                'search' => 'string'
+            ]);
+        }
+        $songs = Music::when(isset($request->search),function ($q) use($request){
+            return $q->whereHas('artist',function ($next) use ($request){
+                return $next->where('name',"like","%$request->search%");
+            })->orWhere('name',"like","%$request->search%");
+        })->paginate(5);
 
+
+
+        return view('songAll',compact('songs','categories'));
+    }
 }

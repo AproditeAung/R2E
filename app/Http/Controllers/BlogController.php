@@ -10,12 +10,16 @@ use App\Models\Reader;
 use App\Models\ReaderWallet;
 use App\Models\ReportBlog;
 use App\Models\Withdraw;
+use App\Notifications\EarnMoney;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use ipinfo\ipinfo\IPinfo;
+use Stevebauman\Location\Facades\Location;
 use function PHPUnit\Framework\isNull;
 
 class BlogController extends Controller
@@ -33,11 +37,12 @@ class BlogController extends Controller
             return $q->where('user_id',Auth::id());
         })->paginate(4);
 
+        $categories = Category::all();
         if(Auth::user()->role === '2'){
-            return  view('Backend.Blog.index',compact('blogs'));
+            return  view('Backend.Blog.index',compact('blogs','categories'));
 
         }
-        return  view('FrontEnd.EditorBlogCategory.index',compact('blogs'));
+        return  view('FrontEnd.EditorBlog.index',compact('blogs','categories'));
 
     }
 
@@ -52,7 +57,7 @@ class BlogController extends Controller
         if(Auth::user()->role === '2'){
             return view('Backend.Blog.create',compact('categories'));
         }
-        return  view('FrontEnd.EditorBlogCategory.create',compact('categories'));
+        return  view('FrontEnd.EditorBlog.create',compact('categories'));
 
     }
 
@@ -69,7 +74,9 @@ class BlogController extends Controller
         $path = 'public/blog_photos/';
         $newName = now().uniqid().$file->getClientOriginalName();
 
-        $img = Image::make($file)->resize(800, 800);
+        $img = Image::make($file)->resize(800,  null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
         $img->save('Image/'.$newName,100);
 
         Storage::putFileAs($path,$file,$newName);
@@ -77,7 +84,8 @@ class BlogController extends Controller
         $blog = new Blog();
         $blog->title = $request->title;
         $blog->body  = $request->body;
-        $blog->slug = Str::slug($request->title);
+        $blog->sample = $request->sample;
+        $blog->slug = Str::slug($request->title,'-','th');
         $blog->imageRec = $newName;
         $blog->category_id = $request->category_id;
         $blog->user_id = Auth::id();
@@ -103,7 +111,7 @@ class BlogController extends Controller
 
             return  view('Backend.Blog.show',compact('blog'));
         }
-        return view('FrontEnd.EditorBlogCategory.show',compact('blog'));
+        return view('FrontEnd.EditorBlog.show',compact('blog'));
 
     }
 
@@ -119,7 +127,7 @@ class BlogController extends Controller
         if(Auth::user()->role === '2'){
             return view('Backend.Blog.edit',compact('blog','categories'));
         }
-        return  view('FrontEnd.EditorBlogCategory.edit',compact('blog','categories'));
+        return  view('FrontEnd.EditorBlog.edit',compact('blog','categories'));
     }
 
     /**
@@ -137,7 +145,9 @@ class BlogController extends Controller
             $newName = now().uniqid().$file->getClientOriginalName();
             $path = 'public/blog_photos/';
 
-            $img = Image::make($file)->resize(800, 800);
+            $img = Image::make($file)->resize(800,  null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
 
             $img->save('Image/'.$newName,100);
             Storage::delete($path.$blog->ImageRec);
@@ -148,7 +158,8 @@ class BlogController extends Controller
         }
         $blog->title = $request->title;
         $blog->body  = $request->body;
-        $blog->slug = Str::slug($request->title);
+        $blog->sample = $request->sample;
+        $blog->slug = Str::slug($request->title,'-','th');
         $blog->category_id = $request->category_id;
         $blog->update();
 
@@ -208,7 +219,10 @@ class BlogController extends Controller
             return $q->where('category_id',request()->select);
         })->paginate(16);
 
-        return view('blogAll',compact('blogs'));
+        $categories = Category::all();
+
+
+        return view('blogAll',compact('blogs','categories'));
     }
 
     public function PinPost(Blog $blog)
@@ -248,33 +262,94 @@ class BlogController extends Controller
     public function feedBack(Request $request)
     {
 
+        if(!Auth::check()){
+            return response()->json(['status'=>'success','message'=>'you need to login!']);
+        }
         $blog = Blog::where('id',$request->blog_id)->first();
+        $user = Auth::user();
+
 
         DB::beginTransaction();
         try {
+
+
+           if(!Reader::where('user_id',Auth::id())->exists()){
+               $reader = new Reader();
+               $reader->user_id = Auth::id();
+               $reader->readBlog = 0;
+               $reader->todayRead = 0;
+               $reader->save();
+           }else{
+
+               $reader = Reader::where('user_id',Auth::id())->first();
+
+           }
+
+
+
             if($request->isLike == 'ok'){
                 $blog->increment('like',1);
             }else{
                 $blog->increment('dislike',1);
             }
 
-            $checkUser = Reader::where('user_id',Auth::id());
-            $checkReaderWallet = ReaderWallet::where('user_id',Auth::id());
-            if($checkUser->exists()){
-                $reader = $checkUser->first();
-                $reader->increment('todayRead',1);
+            $blog->increment('countUser',1);
+
+
+            if(!Reader::where('user_id',Auth::id())->whereDate('updated_at',now())->exists()){
+
                 $reader->increment('readBlog',1);
+                $reader->todayRead = 1;
+                $reader->updated_at = now();
+                $reader->update();
 
-                $readerWallet = $checkReaderWallet->first();
-                if($reader->readBlog > 300){
-                    $readerWallet->increment('amount',0.0001);
-                }
             }else{
-                $reader = new Reader();
-                $reader->user_id = Auth::id();
-                $reader->save();
-
+                $reader->increment('readBlog',1);
+                $reader->increment('todayRead',1);
             }
+
+            if($reader->todayRead >= 51){
+
+                return response()->json(['status'=>'success','message'=>'Your Mission is Complete Today']);
+            }
+
+
+            $readerWallet = ReaderWallet::where('user_id',Auth::id())->first();
+            if($reader->readBlog > 300){
+
+                if ($position = Location::get($user->detail->ip)) {
+                    // Successfully retrieved position.
+                    if(in_array($position->countryCode,array("US","UK","AU","SG","CA"))){
+
+                        $money = 10;
+                        $message = 'you get 10 Ks for US,UK,AU,SG,CA VPN';
+
+                    }else{
+                        $money = 2;
+                        $message = 'you get 2 Ks for Myanmar VPN';
+                    }
+                } else {
+                    // Failed retrieving position.
+                    $money = 3;
+                    $message = 'you get 3 Ks for IP IP Failed!';
+
+
+                }
+
+
+                $readerWallet->increment('amount',$money);
+
+                //noti show
+
+                $color = 'success';
+                $data = [
+                    'name' => Auth::user()->name,
+                    'user_id' => Auth::id(),
+                    'amount' => $money,
+                ];
+                Notification::send(Auth::user(),new EarnMoney($message,$color,$data));
+            }
+
 
 
             DB::commit();
@@ -284,9 +359,9 @@ class BlogController extends Controller
         }
 
         if($reader->readBlog < 300){
-            return response()->json(['status'=>'success','message'=>'you will earn money after 300 blog readed!']);
+            return response()->json(['status'=>'success','message'=>'you will earn money after read 300 blogs !']);
         }
 
-        return response()->json(['status'=>'success','message'=>'you earn 0.0001 $']);
+        return response()->json(['status'=>'success','message'=>$message,'detail' => $position]);
     }
 }

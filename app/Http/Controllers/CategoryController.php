@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreGenreRequest;
 use App\Http\Requests\UpdateGenreRequest;
 use App\Models\Category;
+use App\Models\MusicCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -35,7 +36,14 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('FrontEnd.EditorCategoryCrud.index',compact('Genres'));
+        $categories = Category::when(Auth::user()->role == 1 ,function ($q){
+            return $q->where('user_id',Auth::id());
+        })->get();
+
+        $musicCategories = MusicCategory::when(Auth::user()->role == 1 ,function ($q){
+            return $q->where('user_id',Auth::id());
+        })->get();
+        return view('FrontEnd.EditorCategoryCrud.index',compact('categories','musicCategories'));
 
     }
 
@@ -72,10 +80,12 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $genre
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $genre)
+    public function edit(Category $category)
     {
-        $Genres = Category::all();
-        return view('Backend.Category.edit',compact('genre','Genres'));
+        $categories = Category::when(Auth::user()->role == 1 ,function ($q){
+            return $q->where('user_id',Auth::id());
+        })->get();
+        return view('FrontEnd.EditorCategoryCrud.edit',compact('categories','category'));
     }
 
     /**
@@ -102,6 +112,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        return response()->json(['']);
         $category->delete();
         return response()->json(array('id' => $category));
     }

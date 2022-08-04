@@ -14,6 +14,7 @@ window.AOS = require('aos/dist/aos');
 window.Swal = require('sweetalert2');
 window.axios = require('axios');
 window.$ = require('jquery/dist/jquery');
+
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /**

@@ -19,6 +19,7 @@ class CreateBlogsTable extends Migration
             $table->foreignId('user_id')->constrained('users','id')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('title');
             $table->longText('body');
+            $table->text('sample');
             $table->text('slug');
             $table->string('ImageRec')->default('blogPic.png');
             $table->bigInteger('like')->default(0);
