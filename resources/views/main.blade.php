@@ -80,12 +80,14 @@
 
         .offcanvas-bottom{
             height: 9vh;
+            backdrop-filter: blur(10px);
+            background: transparent;
         }
 
         .outline{
-            width: 50%;
+            width: 100%;
             height: 4px;
-            background: #0c90cb;
+            background: #ffffff;
             opacity: 0;
         }
 
@@ -93,11 +95,11 @@
             transition: .4s all;
             font-size: 16px;
             text-decoration: none;
-            color: black;
+            color: #c0bdbd;
         }
         .customNavItem.active{
             font-weight: bolder;
-            color: #0c90cb;
+            color: #ffffff;
         }
 
         .customNavItem.active .outline{
@@ -183,16 +185,25 @@
                             <li class="nav-item">
                                 <a class="nav-link @yield('music_active')" aria-current="page" href="{{ route('all.music') }}">Music</a>
                             </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link @yield('profile_active')" href="{{ route('profile') }}">Profile</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link @yield('wallet_active')" href="{{ route('wallet.index') }}">Wallet</a>
-                            </li>
+                            @auth
+                                <li class="nav-item">
+                                    <a class="nav-link @yield('profile_active')" href="{{ route('profile') }}">Profile</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link @yield('wallet_active')" href="{{ route('wallet.index') }}">Wallet</a>
+                                </li>
+                            @endauth
                             <li class="nav-item">
                                 <a class="nav-link @yield('contact_active')" href="{{ route('contact.create') }}">Contact Us</a>
                             </li>
+
+                            @guest
+                                <li class="nav-item">
+                                    <a class="nav-link " href="{{ route('login') }}">
+                                        <i class="icofont icofont-lock h4 "></i>
+                                    </a>
+                                </li>
+                                @endguest
                         </ul>
 
                     </div>
@@ -210,14 +221,21 @@
                     <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
                         <div class="offcanvas-body small">
                             <div class="d-flex justify-content-between align-items-center">
-                                <a href="{{ route('welcome') }}" class="customNavItem @yield('home_active')">Home
-                                    <p class="outline"></p>
+                                <a href="{{ route('welcome') }}" class="customNavItem @yield('home_active')">
+                                    <i class="icofont icofont-home h1"></i>
+                                    <p class="outline mb-0 mt-1 "></p>
                                 </a>
-                                <a href="{{ route('welcome') }}" class="customNavItem @yield('blog_active')">Blogs
-                                    <p class="outline"></p>
+                                <a href="{{ route('all.blogs') }}" class="customNavItem @yield('blog_active')">
+                                    <i class="icofont icofont-social-blogger h1"></i>
+                                    <p class="outline mb-0 mt-1 "></p>
                                 </a>
-                                <a href="{{ route('welcome') }}" class="customNavItem @yield('music_active')">Songs
-                                    <p class="outline"></p>
+                                <a href="{{ route('all.music') }}" class="customNavItem @yield('music_active')">
+                                    <i class="icofont icofont-music h1"></i>
+                                    <p class="outline mb-0 mt-1 "></p>
+                                </a>
+                                <a href="{{ route('contact.create') }}" class="customNavItem @yield('contact_active')">
+                                    <i class="icofont icofont-phone  h1"></i>
+                                    <p class="outline mb-0 mt-1 "></p>
                                 </a>
                             </div>
                         </div>
@@ -226,25 +244,33 @@
                 <div class="dropdown">
                     <img src="{{ asset('assets/img/portfolio/portfolio1.png') }}" width="40" height="40"  class="customDropdown rounded rounded-circle dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" alt="">
                     <ul class="dropdown-menu bg-body " aria-labelledby="dropdownMenuButton1">
-                        <li>
-                            <a href="{{ route('wallet.index') }}" class=" dropdown-item @yield('wallet_active') "> Wallet </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('profile') }}" class="dropdown-item @yield('profile_active')"> Profile</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item ">Setting</a>
-                        </li>
+
                         <li>
                             <a href="{{ route('contact.create') }}" class="dropdown-item  @yield('contact_active')"> Contact Us</a>
                         </li>
                         <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <form action="{{ route('logout') }}" id="logout" method="post">
-                                @csrf
-                            </form>
-                            <button class="dropdown-item text-danger" onclick="document.getElementById('logout').submit()">Logout</button>
-                        </li>
+                        @guest
+                            <li>
+                                <a href="{{ route('login') }}" class="dropdown-item">
+                                    <span class="me-2 ">Login</span>
+                                    <i class="icofont icofont-lock h4"></i>
+                                </a>
+                            </li>
+                        @endguest
+                       @auth
+                            <li>
+                                <a href="{{ route('wallet.index') }}" class=" dropdown-item @yield('wallet_active') "> Wallet </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('profile') }}" class="dropdown-item @yield('profile_active')"> Profile</a>
+                            </li>
+                            <li>
+                                <form action="{{ route('logout') }}" id="logout" method="post">
+                                    @csrf
+                                </form>
+                                <button class="dropdown-item text-danger" onclick="document.getElementById('logout').submit()">Logout</button>
+                            </li>
+                        @endauth
                     </ul>
                 </div>
             </div>
