@@ -44,9 +44,8 @@ Route::group(['middleware' => 'auth'], function(){
 
         Route::group(['middleware' => 'isAdmin'],function (){
             Route::get('/pinpost/{blog}',[BlogController::class,'PinPost'])->name('pin.post');
-
             Route::resource('/user',\App\Http\Controllers\UserController::class);
-            Route::get('/upgradeadmin',[\App\Http\Controllers\UserController::class,'upgradeAdmin'])->name('user.upgradeAdmin');
+            Route::post('/upgradeadmin',[\App\Http\Controllers\UserController::class,'upgradeAdmin'])->name('user.upgradeAdmin');
             Route::get('/generateuser',[\App\Http\Controllers\UserController::class,'generateUser'])->name('user.generateUser');
         });
 });

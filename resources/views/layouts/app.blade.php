@@ -20,62 +20,231 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+        ::-webkit-scrollbar {
+            width: 0.1rem;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #b4b5b7;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #afafb0;
+        }
+
+        .nav-scroller {
+            position: relative;
+            z-index: 2;
+            height: 2.75rem;
+            overflow-y: hidden;
+
+        }
+        .navbar{
+            background: url("{{ asset('Image/subscribe_slice_right.png') }}");
+            background-size: contain;
+            background-position: right;
+            background-repeat: no-repeat;
+        }
+
+        .nav-scroller .nav {
+            display: flex;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav-scroller .nav-link {
+            padding-top: .75rem;
+            padding-bottom: .75rem;
+            font-size: .875rem;
+        }
+
+        .menuButton{
+            padding: 8px 15px;
+            background: transparent;
+            border:none;
+        }
+
+        .offcanvas-bottom{
+            height: 9vh;
+            backdrop-filter: blur(10px);
+            background: transparent;
+        }
+
+        .outline{
+            width: 100%;
+            height: 4px;
+            background: #ffffff;
+            opacity: 0;
+        }
+
+        .customNavItem{
+            transition: .4s all;
+            font-size: 16px;
+            text-decoration: none;
+            color: #c0bdbd;
+        }
+        .customNavItem.active{
+            font-weight: bolder;
+            color: #ffffff;
+        }
+
+        .customNavItem.active .outline{
+            opacity: 1;
+        }
+
+        .customDropdown{
+            transition: .4s all ease;
+        }
+
+        .customDropdown:hover{
+            border: 1px solid #0c90cb;
+            box-shadow: 5px 3px 13px -4px rgba(240,255,240,0.8);
+        }
+
+        .dropdown-item.active, .dropdown-item:active{
+            color: #0c90cb;
+            font-weight: bold;
+            background: transparent;
+        }
+
+        .dropdown-menu{
+            z-index: 9999;
+        }
+
+        @font-face {
+            font-family: "Billian";
+            src: url("{{ asset('assets/fonts/Billian.ttf') }}") format("truetype") ,
+            url("{{ asset('assets/fonts/Billian.ttf') }}") format("truetype");
+        }
+
+        @font-face {
+            font-family: "Myanmar";
+            src: url("{{ asset('assets/fonts/MyanmarSquare.ttf') }}") format("truetype")  ,
+            url("{{ asset('assets/fonts/MyanmarSquare.ttf') }}") format("truetype") ;
+        }
+
+
+        body{
+            font-family: "Billian","Myanmar","sans-serif" !important;
+        }
+
+        .glass{
+            /* From https://css.glass */
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            z-index: 9999;
+            overflow: hidden;
+            display: none;
+        }
+
+        .glass.active{
+            display: block;
+        }
+
+    </style>
+
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md  shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="icofont icofont-navigation-menu "></span>
-                </button>
+        <div class="container mt-3  d-none d-lg-block ">
+            <nav class="navbar navbar-expand-lg navbar-white shadow-sm rounded-pill rounded px-4  bg-white   ">
+                <div class="container d-flex justify-content-between align-items-center  ">
+                    <a class="navbar-brand fw-bolder " href="{{ route('welcome') }}">C2E</a>
+                    <div >
+                        <ul class="navbar-nav  mb-2 mb-lg-0  ">
+                            @guest
+                                @if (Route::has('login'))
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}  </a>
+                                    </li>
+                                @endif
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
+                                @if (Route::has('register'))
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    </li>
+                                @endif
+                            @endguest
+                        </ul>
 
-                    </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
+        <div class="container d-block d-lg-none p-3 mb-4  ">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <button class="menuButton  " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                        <i class="icofont icofont-navigation-menu icofont-2x "></i>
+                    </button>
 
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
+                    <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+                        <div class="offcanvas-body small">
+                            <div class="d-flex justify-content-around align-items-center">
+                                <a href="{{ route('login') }}" class="customNavItem @yield('home_active')">
+                                    <i class="icofont icofont-lock h1"></i>
+                                    <p class="outline mb-0 mt-1 "></p>
                                 </a>
+                                <a href="{{ route('register') }}" class="customNavItem @yield('blog_active')">
+                                    <i class="icofont icofont-back-pack h1"></i>
+                                    <p class="outline mb-0 mt-1 "></p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <img src="{{ asset('Image/profile.webp') }}" width="40" height="40"  class="customDropdown rounded rounded-circle dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" alt="">
+                    <ul class="dropdown-menu bg-body " aria-labelledby="dropdownMenuButton1">
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
+                        <li>
+                            <a href="{{ route('contact.create') }}" class="dropdown-item  @yield('contact_active')"> Contact Us</a>
+                        </li>
+                        @guest
+                            <li><hr class="dropdown-divider"></li>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
+                            <li>
+                                <a href="{{ route('login') }}" class="dropdown-item">
+                                    <span class="me-2 ">Login</span>
+                                    <i class="icofont icofont-lock h4"></i>
+                                </a>
                             </li>
                         @endguest
+                        @auth
+                            <li>
+                                <a href="{{ route('wallet.index') }}" class=" dropdown-item @yield('wallet_active') "> Wallet </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('profile') }}" class="dropdown-item @yield('profile_active')"> Profile</a>
+                            </li>
+                            @if(\Illuminate\Support\Facades\Auth::user()->role > 0)
+                                <li>
+                                    <a href="{{ route('setting') }}" class="dropdown-item @yield('setting_active')"> Setting</a>
+                                </li>
+                            @endif
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form action="{{ route('logout') }}" id="logout" method="post">
+                                    @csrf
+                                </form>
+                                <button class="dropdown-item text-danger" onclick="document.getElementById('logout').submit()">Logout</button>
+                            </li>
+                        @endauth
                     </ul>
                 </div>
             </div>
-        </nav>
+        </div>
 
         <main class="py-4">
             @yield('content')

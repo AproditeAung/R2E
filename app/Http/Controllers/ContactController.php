@@ -18,7 +18,7 @@ class ContactController extends Controller
         $contacts = Contact::when(isset(request()->search),function ($q){
             return $q->where('email',request()->search);
         })->simplePaginate(4);
-        return view('Backend.Contact.index',compact('contacts'));
+        return view('FrontEnd.Contact.index',compact('contacts'));
     }
 
     /**
@@ -56,7 +56,7 @@ class ContactController extends Controller
      */
     public function show(Contact $contact)
     {
-        return view('Backend.Contact.show',compact('contact'));
+        return view('FrontEnd.Contact.show',compact('contact'));
     }
 
     /**

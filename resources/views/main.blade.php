@@ -17,7 +17,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="{{ asset('Image/earn-money.png') }}">
+    <link rel="icon"  type=“image/png” href="{{ asset('Image/earn-money.png') }}">
 
 
 
@@ -140,7 +140,7 @@
 
 
         body{
-            font-family: "Billian","Myanmar","sans-serif" !important;
+            font-family: "Billian","Myanmar","sans-serif","ui-monospace" !important;
         }
 
          .glass{
@@ -197,6 +197,11 @@
                                 <li class="nav-item">
                                     <a class="nav-link @yield('wallet_active')" href="{{ route('wallet.index') }}">Wallet</a>
                                 </li>
+                               @if(\Illuminate\Support\Facades\Auth::user()->role > 0)
+                                    <li class="nav-item">
+                                        <a class="nav-link @yield('setting_active')" href="{{ route('setting') }}">Setting</a>
+                                    </li>
+                                   @endif
                             @endauth
                             <li class="nav-item">
                                 <a class="nav-link @yield('contact_active')" href="{{ route('contact.create') }}">Contact Us</a>

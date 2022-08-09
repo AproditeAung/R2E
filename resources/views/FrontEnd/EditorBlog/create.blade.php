@@ -58,7 +58,7 @@
                                 <div class="form-group  mb-3 ">
                                     <label class="form-label   h6 ">Picture (16:9)</label>
                                     <div class="">
-                                        <img src="{{ asset('Image/blogPic.png') }}" id="previewImg" onclick="document.getElementById('blogPic').click()" width="100%" alt="">
+                                        <img src="{{ asset('storage/blog_photos/blogPic.png') }}" id="previewImg" onclick="document.getElementById('blogPic').click()" width="100%" alt="">
                                     </div>
                                     <input type="file" class="form-control " hidden   onchange="change()" id="blogPic" name="blogPic">
                                     @error('blogPic')

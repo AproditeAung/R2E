@@ -107,7 +107,7 @@
                                     <form action="{{ route('music.destroy',$song->id) }}" id="songDelete" method="post">
                                         @csrf @method('delete')
                                     </form>
-                                    <button class="btn-outline btn-danger btn " type="button" onclick="confirm()"><i class="icofont icofont-trash"></i></button>
+                                    <button class="btn-outline btn-danger btn " type="button" onclick="confirmBox()"><i class="icofont icofont-trash"></i></button>
                                 @endif
 
                                 <a href="{{ route('music.edit',$song->id) }}" class="btn btn-outline-secondary "><i class="icofont icofont-pen-alt-2"></i></a>
@@ -122,7 +122,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center fw-bolder mt-4  text-danger">NO BLOGS</td>
+                            <td colspan="5" class="text-center fw-bolder mt-4  text-danger">NO SONGS</td>
                         </tr>
                     @endforelse
                     </tbody>
@@ -142,6 +142,23 @@
         let songPic = document.getElementById('songPic');
         let preview = document.getElementById('previewImg');
 
+        function confirmBox()
+        {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#songDelete').submit();
+
+                }
+            })
+        }
 
         function change(){
             let file = document.getElementById('songPic').files[0];
@@ -163,10 +180,7 @@
 
         function play(path){
             let audio = document.getElementById('audioPlay');
-
             audio.src = path;
-
-
             audio.play();
         }
 

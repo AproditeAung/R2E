@@ -40,7 +40,7 @@
             <ul class="dropdown-menu  " aria-labelledby="dropdownMenuButtonForCategory">
                 @foreach($categories as $c)
                     <li>
-                        <a class="p-2 text-decoration-none link-secondary" href="{{ url('allblogs/?select='.$c->id) }}">{{ $c->name }}</a>
+                        <a class="p-2 text-decoration-none link-secondary" href="{{ url('/?select='.$c->id) }}">{{ $c->name }}</a>
                     </li>
                 @endforeach
 
@@ -50,10 +50,10 @@
 {{--    //mobile view show items//--}}
 
     <div class="col-md-9 my-3  mb-md-5 pb-lg-5  ">
-        @foreach($lastestNews as $blog)
+        @forelse($lastestNews as $blog)
                 <a href="{{ route('guest.blog.detail',$blog->slug) }}" class="row align-items-center justify-content-start  mb-3  text-decoration-none link-secondary  ">
                     <div class="col-6 col-md-5 text-center " data-aos="fade-up" data-aos-anchor-placement="bottom-bottom" data-aos-duration="1000">
-                        <img src="{{ asset('Image/'.$blog->ImageRec) }}" width="100%" alt="" style="border-radius: 10px">
+                        <img src="{{ asset('storage/blog_mini_photo/'.$blog->ImageRec) }}" width="100%" alt="" style="border-radius: 10px">
                     </div>
                     <div class="col-6 col-md-7 px-2 px-lg-4  px-md-3  d-flex flex-column justify-content-between  mt-2 mt-lg-4 "
                          data-aos="zoom-in" data-aos-anchor-placement="bottom-bottom" data-aos-duration="1000">
@@ -71,7 +71,17 @@
                         </div>
                     </div>
                 </a>
-        @endforeach
+            @empty
+
+            <div class="card border-0  bg-transparent">
+                <div class="card-body text-center">
+                    <img src="{{ asset('Image/nodata.webp') }}" width="200" alt="">
+                   <div class="">
+                       <a href="{{ route('welcome') }}" class="btn btn-outline-secondary mt-4 ">Back</a>
+                   </div>
+                </div>
+            </div>
+        @endforelse
         {{ $lastestNews->onEachSide(4)->links() }}
     </div>
 @endsection

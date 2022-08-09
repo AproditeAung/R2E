@@ -75,22 +75,20 @@ class HomeController extends Controller
     public function welcome(Request $request)
     {
 
-//        $location_text = new IPinfo(env('IPINFO_SECRET'));
-//        dd($location_text->getDetails('196.247.59.154'));
-//        return view('index', ['location' => $location_text]);
-
         $blogs = Blog::when(isset(request()->search),function ($q){
-            return $q->where('title','LIKE',"%".request()->search."%");
+            $key = request()->search;
+            return $q->where('title','LIKE',"%$key%")
+                    ->orWhere('body',"LIKE","%$key%");
         })->when(isset(request()->select),function ($q){
             return $q->where('category_id',request()->select);
         });
 
+
         $pinBlog = Blog::where('pinBlog','1')->first();
 //        $mostViewBlogs = Blog::orderBy('countUser','DESC')->limit(4)->get();
-        $lastestNews =Blog::orderBy('id','desc')->paginate(6);
+        $lastestNews = $blogs->orderBy('id','desc')->paginate(6);
 
         $categories = Category::all();
-
 
         return view('welcome',compact('blogs','pinBlog','lastestNews','categories'));
     }
@@ -106,8 +104,9 @@ class HomeController extends Controller
         $songs = Music::when(isset($request->search),function ($q) use($request){
             return $q->whereHas('artist',function ($next) use ($request){
                 return $next->where('name',"like","%$request->search%");
-            })->orWhere('name',"like","%$request->search%");
-        })->orderBy('created_at','desc')->paginate(5);
+            })->orWhere('name',"like","%$request->search%")->orWhere('artist_id',$request->search);
+        })->orderBy('created_at','desc')->paginate(10);
+
 
 
 

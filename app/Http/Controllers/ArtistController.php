@@ -8,6 +8,7 @@ use App\Models\MusicCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class ArtistController extends Controller
 {
@@ -51,7 +52,15 @@ class ArtistController extends Controller
                 Storage::makeDirectory($songPicPath);
             }
 
-            Storage::putFileAs($songPicPath,$imageFile,$imageNewName);
+            $img = Image::make($imageFile)->resize(100,  null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $img->save('raw_upload/'.$imageNewName,100);
+
+            if(public_path('raw_upload/'.$imageNewName)){
+
+                rename(public_path('raw_upload/'.$imageNewName),storage_path('app/public/artist_pic/'.$imageNewName));
+            }
 
            $artist = new Artist();
            $artist->name = $request->name;
@@ -85,7 +94,16 @@ class ArtistController extends Controller
                 $imageNewName = uniqid().$imageFile->getClientOriginalName();
                 $songPicPath = 'public/artist_pic/';
 
-                Storage::putFileAs($songPicPath,$imageFile,$imageNewName);
+                $img = Image::make($imageFile)->resize(100,  null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+                $img->save('raw_upload/'.$imageNewName,100);
+
+                if(public_path('raw_upload/'.$imageNewName)){
+
+                    rename(public_path('raw_upload/'.$imageNewName),storage_path('app/public/artist_pic/'.$imageNewName));
+                }
+
                 Storage::delete($songPicPath.$artist->photo);
                 $artist->photo = $imageNewName;
             }

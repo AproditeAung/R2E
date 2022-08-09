@@ -7,6 +7,7 @@ use App\Http\Requests\UserUpdateRequest;
 use App\Models\ReaderWallet;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -22,7 +23,7 @@ class UserController extends Controller
             return $q->where('role',request()->role);
         })->simplePaginate(5);
 
-        return view('Backend.userCRUD.index',compact('users'));
+        return view('FrontEnd.userCRUD.index',compact('users'));
     }
 
     /**
@@ -32,7 +33,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('Backend.userCRUD.create');
+        return view('FrontEnd.userCRUD.create');
     }
 
     /**
@@ -86,7 +87,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('Backend.userCRUD.edit',compact('user'));
+        return view('FrontEnd.userCRUD.edit',compact('user'));
     }
 
     /**
@@ -95,15 +96,9 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(UserUpdateRequest $request,User $user)
+    public function edit(User $user)
     {
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->role = $request->role;
-        $user->is_premium = $request->is_premium;
-        $user->update();
-        return redirect()->route('user.index')->with('message',['icon'=>'success','text'=>'successfully updated']);
+        return view('FrontEnd.userCRUD.edit',compact('user'));
     }
 
     /**
@@ -115,7 +110,15 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        if(Auth::user()->role != '2'){
+            return redirect()->back()->with('message',['icon'=>'error','text'=>'UnAuthorize']);
+        }
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password) ?? $user->getAuthPassword();
+        $user->role = $request->role;
+        $user->update();
+        return redirect()->route('user.index')->with('message',['icon'=>'success','text'=>'successfully updated']);
     }
 
     /**
@@ -132,15 +135,16 @@ class UserController extends Controller
     }
 
     public function upgradeAdmin(Request $request){
+
         $user = User::findOrFail($request->user_id);
         if(isset($request->admin_upgrade)){
-            $user->is_premium = '1';
+            $user->role = '2';
             $user->update();
-            return redirect()->back()->with('message',['icon'=>'success','text'=>'successfully upgraded']);
+            return redirect()->back()->with('message',['icon'=>'success','text'=>'successfully upgraded admin']);
         }else{
-            $user->is_premium = '0';
+            $user->role = '1';
             $user->update();
-            return redirect()->route('user.index')->with('message',['icon'=>'success','text'=>'successfully downgraded']);
+            return redirect()->route('user.index')->with('message',['icon'=>'success','text'=>'successfully downgraded editor']);
 
         }
     }

@@ -11,11 +11,27 @@
             @forelse($blogs as $blog)
                 <div class="col-lg-4 mb-3 " >
                     <a href="{{ route('guest.blog.detail',$blog->slug) }}" class="h6 link-secondary text-decoration-none  ">
-                        {{ $blog->title }}
-                        <p class="text-decoration-none ">{{ $blog->created_at->diffForHumans() }}</p>
 
-                        <p class="mt-3 ">
-                            {{ \Illuminate\Support\Str::limit($blog->body,100) }}
+
+                        <span class="d-flex justify-content-between align-items-center my-2">
+                            <span class="flex-grow-1 small ">
+                                <p class="text-decoration-none ">
+                                    <i class="icofont icofont-time"></i>
+                                    {{ $blog->created_at->diffForHumans() }}</p>
+                                <p class="text-decoration-none ">
+                                    <i class="icofont icofont-owl-look"></i>
+                                    {{ $blog->countUser }} views</p>
+                                <p class="text-decoration-none ">
+                                    <i class="icofont icofont-farmer "></i>
+                                    {{ $blog->user->name }}</p>
+                            </span>
+
+                            <img src="{{ asset('storage/blog_mini_photo/'.$blog->ImageRec) }}" width="50%" alt="">
+
+                        </span>
+
+                        <p class=" ">
+                            {{ $blog->title }}
                         </p>
                     </a>
                 </div>
@@ -34,15 +50,6 @@
 
     <div class="col-md-3">
 
-        <div class="p-4 text-center ">
-            <img src="{{ asset('assets/img/sidebar/sidebar1.png') }}" class="rounded 100% " alt="">
-        </div>
-        <div class="p-4 text-center ">
-            <img src="{{ asset('assets/img/sidebar/sidebar2.png') }}" class="rounded 100% " alt="">
-        </div>
-        <div class="p-4 text-center ">
-            <img src="{{ asset('assets/img/sidebar/sidebar3.png') }}" class="rounded 100% " alt="">
-        </div>
     </div>
 @endsection
 

@@ -24,7 +24,7 @@
             </div>
             <div class="form-group mb-3 ">
                 <label class="form-label " for="descripiton" >Description</label>
-                <textarea type="text" name="description" class="form-control text-white " > </textarea>
+                <textarea type="text" name="description" class="form-control " > </textarea>
                 @error('description')
                 <small>{{ $message }}</small>
                 @enderror

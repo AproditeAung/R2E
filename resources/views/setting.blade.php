@@ -12,8 +12,6 @@
 
 @section('contant')
 
-
-
         <div class="col-lg-8 mb-3 my-md-5  ">
             <div class="card border-secondary bg-transparent  shadow-sm ">
 
@@ -44,15 +42,39 @@
                                 <a href="{{ route('music.create') }}" class="btn btn-outline-secondary">Upload Music</a>
                             </div>
                             <div class="mb-2 ">
-                                <a href="{{ route('music.index') }}" class="btn btn-outline-secondary">Songs</a>
+                                <a href="{{ route('all.music') }}" class="btn btn-outline-secondary">Songs</a>
                             </div>
                         </div>
                         <div class=" col-6 col-lg-4 mb-3  mb-lg-0 ">
-                            <h4 class="mb-3 ">Comming Soon</h4>
-                            <div class="mb-2 ">
-                                <a href="{{ route('welcome') }}" class="btn btn-outline-secondary">.....</a>
+                            <h4 class="mb-3 ">Video Manager</h4>
+                            <div class="mb-2 me-4  ">
+                                <img src="{{ asset('Image/coming-soon.png') }}" width="100" alt="">
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 mb-3 my-md-5  ">
+            <div class="card border-secondary bg-transparent  shadow-sm ">
+
+                <div class="card-body table-responsive ">
+                 <span class="h3 fw-bolder text-center ">
+                    User Manager
+                </span>
+                    <hr>
+                    <div class="mb-2 ">
+                        <a href="{{ route('user.create') }}" class="btn btn-outline-secondary">Create User</a>
+                    </div>
+                    <div class="mb-2 ">
+                        <a href="{{ route('user.index') }}" class="btn btn-outline-secondary">User List</a>
+                    </div>
+                    <div class="mb-2 ">
+                        <a href="{{ route('contact.index') }}" class="btn btn-outline-secondary">Contact List</a>
+                    </div>
+                    <div class="mb-2 ">
+                        <a href="{{ route('requestEditor.index') }}" class="btn btn-outline-secondary">Editor List</a>
                     </div>
                 </div>
             </div>

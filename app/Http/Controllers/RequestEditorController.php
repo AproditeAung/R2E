@@ -14,7 +14,7 @@ class RequestEditorController extends Controller
     {
         $editors = RequestEditor::paginate(10);
 
-        return view('Backend.Editor.index',compact('editors'));
+        return view('FrontEnd.Editor.index',compact('editors'));
     }
     public function store(Request $request)
     {
@@ -34,7 +34,7 @@ class RequestEditorController extends Controller
 
     public function show(RequestEditor $requestEditor)
     {
-        return view('Backend.Editor.show',compact('requestEditor'));
+        return view('FrontEnd.Editor.show',compact('requestEditor'));
     }
     public function destroy(RequestEditor $requestEditor)
     {

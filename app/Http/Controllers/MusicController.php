@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use PHPUnit\Exception;
 use Stevebauman\Location\Facades\Location;
 use wapmorgan\Mp3Info\Mp3Info;
@@ -105,7 +106,9 @@ class MusicController extends Controller
      */
     public function edit(Music $music)
     {
-        //
+        $artists = Artist::all();
+        $categories = MusicCategory::all();
+        return view('FrontEnd.EditorMusic.edit',compact('music','artists','categories'));
     }
 
     /**
@@ -117,7 +120,42 @@ class MusicController extends Controller
      */
     public function update(UpdateMusicRequest $request, Music $music)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+
+            if($request->hasFile('song_file')){
+
+                $file = $request->file('song_file');
+                $mp3file = new Mp3Info($file,true);
+                $songFileName = $request->name.uniqid().'.'.$file->getClientOriginalExtension();
+                $songFilePath = 'public/songs/';
+
+
+                if(!Storage::exists($songFilePath)){
+                    Storage::makeDirectory($songFilePath);
+                }
+
+                unlink(explode('/',$music->path,4)[3]);
+                Storage::putFileAs($songFilePath,$file,$songFileName);
+
+                $music->path = asset('storage/songs/'.$songFileName);
+
+            }
+
+
+            $music->name = $request->name;
+            $music->musicCategory_id = $request->category_id;
+            $music->artist_id = $request->artist_id;
+            $music->duration = $mp3file->duration;
+            $music->update();
+
+            DB::commit();
+            return redirect()->back()->with('message',['icon'=>'success','text'=>'successfully updated!']);
+        }catch (\Exception $err){
+            DB::rollBack();
+            return redirect()->back()->with('message',['icon'=>'error','text'=>$err->getMessage()]);
+        }
     }
 
     /**
@@ -128,7 +166,13 @@ class MusicController extends Controller
      */
     public function destroy(Music $music)
     {
-        //
+        if(unlink(explode('/',$music->path,4)[3])){
+            $music->delete();
+
+            return redirect()->back()->with('message',['icon'=>'success','text'=>'deleted!']);
+        }
+
+        return redirect()->back()->with('message',['icon'=>'error','text'=>'Something was wrong!']);
     }
 
 
@@ -228,6 +272,5 @@ class MusicController extends Controller
 
         return response()->json(['status'=>'success','message'=>$message,'detail' => $position]);
 
-        return Music::where('id',rand(1,Music::all()->count()))->first();
     }
 }

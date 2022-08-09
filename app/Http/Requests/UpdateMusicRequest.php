@@ -13,7 +13,7 @@ class UpdateMusicRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class UpdateMusicRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required',
+            'artist_id' => 'required',
+            'category_id' => 'required',
+            'song_file' => 'mimes:audio/mpeg,mpga,mp3,wav'
         ];
     }
 }

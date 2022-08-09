@@ -26,23 +26,18 @@
                         <p class="small"> <i class="icofont icofont-user me-2 "></i> {{ $blog->user->name }} </p>
                     </div>
                     <div class="my-3 text-center">
-                        <img src="{{ asset('storage/blog_photos/'.$blog->ImageRec) }}"  width="50%" alt="">
+                        <img src="{{ asset('storage/blog_photos/'.$blog->ImageRec) }}"  width="90%" class="rounded " alt="">
                     </div>
                     <p  class=" h5 "  style="text-align: justify; line-height: 2rem;" data-aos="fade-up" data-aos-duration="1000">
                         {!! $blog->body !!}
                     </p>
-
-
-                    <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ \Illuminate\Support\Facades\URL::full() }}">Facebook</a>
                 </div>
 
             </div>
-             <span class="position-absolute top-30 p-2  bg-transparent border rounded   " style="right: 10px;top:100px">
+             <span class="position-absolute top-30 p-2 text-primary bg-transparent  border rounded  " style="right: 10px;top:100px">
                 <span id="minute"> 00 </span> : <span id="second"> 00 </span>
             </span>
-            <div class="text-end">
-                <button onclick="showMessage()" class="btn btn-outline-warning">GO HOME</button>
-            </div>
+
 
 
     </div>
@@ -55,7 +50,7 @@
 
                     <div class="mt-4 mt-md-0 ">
                         <div class="my-3 d-flex align-items-center justify-content-between  ">
-                            <img src="{{ asset('Image/'.$relatedNew->ImageRec) }}" data-aos="zoom-in" data-aos-duration="1000" class="rounded " width="50%" alt="">
+                            <img src="{{ asset('storage/blog_photos/'.$relatedNew->ImageRec) }}" data-aos="zoom-in" data-aos-duration="1000" class="rounded " width="50%" alt="">
                             <div >
                                 <p class="small mb-2   "> <i class="icofont icofont-calendar me-2 "></i> {{ $relatedNew->created_at->format('d M Y') }}</p>
                                 <p class="small mb-2   "> <i class="icofont icofont-ui-user-group me-2 "></i> {{ $relatedNew->countUser }} views</p>
@@ -82,7 +77,7 @@
 
                     <div class="mt-4 mt-md-0 ">
                         <div class="my-3 d-flex align-items-center justify-content-between  ">
-                            <img src="{{ asset('assets/img/sidebar/sidebar2.png') }}" data-aos="zoom-in" data-aos-duration="1000" class="rounded " width="50%" alt="">
+                            <img src="{{ asset('storage/blog_mini_photo') }}" data-aos="zoom-in" data-aos-duration="1000" class="rounded " width="50%" alt="">
                             <div >
                                 <p class="small mb-2   "> <i class="icofont icofont-calendar me-2 "></i> 12 May 22</p>
                                 <p class="small mb-2   "> <i class="icofont icofont-ui-user-group me-2 "></i> 132 views</p>

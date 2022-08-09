@@ -1,20 +1,39 @@
 @extends('main')
 @section('music_active','active')
 @section('style')
-
+    <style>
+        .nav-scrollerforArtist{
+            position: relative;
+            z-index: 2;
+            height: 80px;
+            overflow-y: hidden;
+        }
+    </style>
 @endsection
 @section('contant')
-    @include('components.categorybar')
+
+    <div class="container  position-sticky sticky-top">
+        <div class="nav-scrollerforArtist bg-transparent text-white p-3   py-1 mb-2">
+            <nav class="nav d-flex justify-content-between">
+                @foreach(\App\Models\Artist::all() as $c)
+                    <a class="p-2 link-secondary" href="{{ url('allsongs/?search='.$c->id) }}">
+                        <img src="{{ asset('storage/artist_pic/'.$c->photo) }}" width="50"  class="rounded rounded-circle" alt="">
+                    </a>
+                @endforeach
+            </nav>
+        </div>
+    </div>
 
     <div class="col-md-9 my-3 ">
         <form action="{{ route('all.music')  }}" method="get" class="d-flex ">
             <input class="form-control border-secondary   me-2" name="search" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-secondary  " type="submit">Search</button>
         </form>
-        <audio src="" hidden id="sourceAudio" preload="auto" autoplay  controls></audio>
+        <audio src=""  id="sourceAudio" preload="auto" autoplay  controls></audio>
 
 
-            @forelse($songs as $key=>$song)
+
+           @if($songs->count() > 0)
             <table class="table-borderless table">
                 <thead>
                 <tr>
@@ -28,27 +47,36 @@
                 </thead>
 
                 <tbody>
-                <tr>
-                    <td>{{ $key+1 }}</td>
-                    <td>{{ $song->name }}</td>
-                    <td>{{ $song->artist->name }}</td>
-                    <td>{{ $song->category->name }}</td>
-                    <td> {{ (floor($song->duration / 60 )) .':'. ($song->duration % 60) }}</td>
-                    <td>
-                        <button class="btn btn-outline-info" onclick="playMusic('{{ $song->path }}','{{ $song->duration }}','{{ $song->id }}')">
-                            <i class="icofont icofont-play " id="play"></i>
-                            <i class="icofont icofont-pause  d-none" id="pause"></i>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-            @empty
-                <div class="my-5 text-center text-danger">
-                    <h2>NO DATA FOUND <i class="icon icofont-emo-sad"></i></h2>
-                    <a href="{{ route('welcome') }}" class="btn btn-primary "> Back Home </a>
-                </div>
-            @endforelse
+                @forelse($songs as $key=>$song)
+                    <tr>
+                        <td>{{ $key+1 }}</td>
+                        <td>{{ $song->name }}</td>
+                        <td>{{ $song->artist->name }}</td>
+                        <td>{{ $song->category->name }}</td>
+                        <td> {{ (floor($song->duration / 60 )) .':'. ($song->duration % 60) }}</td>
+                        <td>
+                            <button class="btn btn-outline-info" onclick="playMusic('{{ $song->path }}','{{ $song->duration }}','{{ $song->id }}')">
+                                <i class="icofont icofont-play " id="play{{ $song->id }}"></i>
+                                <i class="icofont icofont-pause  d-none" id="pause{{ $song->id }}"></i>
+                            </button>
+                        </td>
+                    </tr>
+                @empty
+                    <div class="my-5 text-center text-danger">
+                        <h2>NO DATA FOUND <i class="icon icofont-emo-sad"></i></h2>
+                        <a href="{{ route('welcome') }}" class="btn btn-primary "> Back Home </a>
+                    </div>
+                @endforelse
+                </tbody>
+            </table>
+               @else
+            <div class="my-5 text-center text-danger">
+                <h2>NO DATA FOUND <i class="icon icofont-emo-sad"></i></h2>
+                <a href="{{ route('welcome') }}" class="btn btn-primary "> Back Home </a>
+            </div>
+               @endif
+
+
 
 
         <div class="d-flex justify-content-center mt-4  ">
@@ -78,8 +106,13 @@
         }
 
         function playMusic(path,duration,id){
-           document.getElementById('pause').classList.remove('d-none');
-           document.getElementById('play').classList.add('d-none');
+
+            $('.icofont-play').toArray().map(el=>{
+                el.nextElementSibling.classList.add('d-none');
+                el.classList.remove('d-none');
+            })
+           document.getElementById('pause'+id).classList.remove('d-none');
+           document.getElementById('play'+id).classList.add('d-none');
             sourceAudio.src = path;
             sourceAudio.play();
 
@@ -111,7 +144,7 @@
                     }
                 })
 
-            },1000) //duration*
+            },duration * 1000) //duration*
         }
 
 

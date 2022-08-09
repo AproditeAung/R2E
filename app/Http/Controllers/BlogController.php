@@ -11,6 +11,7 @@ use App\Models\ReaderWallet;
 use App\Models\ReportBlog;
 use App\Models\Withdraw;
 use App\Notifications\EarnMoney;
+use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -73,11 +74,21 @@ class BlogController extends Controller
         $file = $request->file('blogPic');
         $path = 'public/blog_photos/';
         $newName = now().uniqid().$file->getClientOriginalName();
-
+        $minisizePath = 'public/blog_mini_photo/';
         $img = Image::make($file)->resize(800,  null, function ($constraint) {
             $constraint->aspectRatio();
         });
-        $img->save('Image/'.$newName,100);
+        $img->save('raw_upload/'.$newName,100);
+
+        if(!Storage::exists($minisizePath)){
+            Storage::makeDirectory($minisizePath);
+        }
+
+        if(public_path('raw_upload/'.$newName)){
+
+           rename(public_path('raw_upload/'.$newName),storage_path('app/public/blog_mini_photo/'.$newName));
+        }
+
 
         Storage::putFileAs($path,$file,$newName);
 
@@ -149,7 +160,12 @@ class BlogController extends Controller
                 $constraint->aspectRatio();
             });
 
-            $img->save('Image/'.$newName,100);
+            $img->save('Image/'.$newName,80);
+
+            $minisizePath = 'public/blog_mini_photo/';
+
+            Storage::move('Image/'.$newName,$minisizePath.$newName);
+
             Storage::delete($path.$blog->ImageRec);
 
             Storage::putFileAs($path,$file,$newName);
@@ -217,7 +233,7 @@ class BlogController extends Controller
             return $q->where('title','LIKE',"%".request()->search."%");
         })->when(isset(request()->select),function ($q){
             return $q->where('category_id',request()->select);
-        })->orderBy('created_at','desc')->paginate(16);
+        })->orderBy('created_at','desc')->paginate(9);
 
         $categories = Category::all();
 
@@ -244,19 +260,27 @@ class BlogController extends Controller
 
     public function profile()
     {
-        if(Auth::user()->role === '2'){
-            return redirect()->route('home');
+//        if(Auth::user()->role === '2'){
+//            return redirect()->route('home');
+//        }
+
+
+//        $blogs = Blog::where('user_id',Auth::id())->paginate(4);
+//        $categories = Category::where('user_id',Auth::id())->paginate(4);
+        $user = \App\Models\User::where('id',Auth::id())->with('reader')->first();
+
+        if($user->reader == null){
+            $reader = new Reader();
+            $reader->user_id = $user->id;
+            $reader->readBlog = 0;
+            $reader->todayRead = 0;
+            $reader->save();
         }
 
+        $user = \App\Models\User::where('id',Auth::id())->with('reader')->first();
 
-        $blogs = Blog::where('user_id',Auth::id())->paginate(4);
-        $categories = Category::where('user_id',Auth::id())->paginate(4);
-        $user = Auth::user();
-        $wallet = ReaderWallet::where('user_id',Auth::id())->first();
 
-        $withdraws = Withdraw::where('user_id',Auth::id())->paginate(5);
-
-        return view('profile',compact('blogs','categories','wallet','withdraws','user'));
+        return view('profile',compact('user'));
     }
 
     public function feedBack(Request $request)
@@ -321,8 +345,8 @@ class BlogController extends Controller
                     // Successfully retrieved position.
                     if(in_array($position->countryCode,array("US","UK","AU","SG","CA"))){
 
-                        $money = 10;
-                        $message = 'you get 10 Ks for US,UK,AU,SG,CA VPN';
+                        $money = 5;
+                        $message = 'you get 5 Ks for US,UK,AU,SG,CA VPN';
 
                     }else{
                         $money = 2;
@@ -330,8 +354,8 @@ class BlogController extends Controller
                     }
                 } else {
                     // Failed retrieving position.
-                    $money = 3;
-                    $message = 'you get 3 Ks for IP IP Failed!';
+                    $money = 2;
+                    $message = 'you get 2 Ks for IP IP Failed!';
 
 
                 }
@@ -359,7 +383,7 @@ class BlogController extends Controller
         }
 
         if($reader->readBlog < 300){
-            return response()->json(['status'=>'success','message'=>'you will earn money after read 300 blogs !']);
+            return response()->json(['status'=>'success','message'=>'Earn Money After Show Google Adsense!']);
         }
 
         return response()->json(['status'=>'success','message'=>$message,'detail' => $position]);

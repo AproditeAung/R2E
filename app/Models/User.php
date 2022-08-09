@@ -54,4 +54,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserDetail::class);
     }
+
+    public function reader()
+    {
+        return $this->hasOne(Reader::class);
+    }
+
 }
