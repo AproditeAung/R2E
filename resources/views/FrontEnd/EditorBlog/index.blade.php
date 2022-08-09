@@ -3,13 +3,13 @@
 @section('blog_index_active','mm-active')
 @section('contant')
 
-    <div class="row mt-5 ">
+    <div class=" mt-5 ">
         <div class="col-12">
             <div class="card bg-transparent border-secondary ">
 
                 <div class="card-body table-responsive">
                      <span class="h3 fw-bolder mb-0 p-3  ">
-                    Setting
+                        Your Blogs
                     </span>
                     <hr>
 

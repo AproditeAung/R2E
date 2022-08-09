@@ -86,13 +86,13 @@ class HomeController extends Controller
         });
 
         $pinBlog = Blog::where('pinBlog','1')->first();
-        $mostViewBlogs = Blog::orderBy('countUser','DESC')->limit(4)->get();
-        $lastestNews =Blog::orderBy('id','desc')->limit(6)->get();
+//        $mostViewBlogs = Blog::orderBy('countUser','DESC')->limit(4)->get();
+        $lastestNews =Blog::orderBy('id','desc')->paginate(6);
 
         $categories = Category::all();
 
 
-        return view('welcome',compact('blogs','pinBlog','mostViewBlogs','lastestNews','categories'));
+        return view('welcome',compact('blogs','pinBlog','lastestNews','categories'));
     }
 
     public function AllMusic(Request $request)
@@ -107,7 +107,7 @@ class HomeController extends Controller
             return $q->whereHas('artist',function ($next) use ($request){
                 return $next->where('name',"like","%$request->search%");
             })->orWhere('name',"like","%$request->search%");
-        })->paginate(5);
+        })->orderBy('created_at','desc')->paginate(5);
 
 
 

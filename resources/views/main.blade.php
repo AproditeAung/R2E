@@ -17,6 +17,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{{ asset('Image/earn-money.png') }}">
 
 
 
@@ -26,7 +27,7 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/icofont.css') }}">
     <link rel="stylesheet" href="{{ asset('summernote-lite.min.css') }}">
-    <title>Big News</title>
+    <title>{{ env('app_name','R2E') }}</title>
 
     <style>
         ::-webkit-scrollbar {
@@ -119,6 +120,10 @@
             color: #0c90cb;
             font-weight: bold;
             background: transparent;
+        }
+
+        .dropdown-menu{
+            z-index: 9999;
         }
 
         @font-face {
@@ -242,14 +247,15 @@
                     </div>
                 </div>
                 <div class="dropdown">
-                    <img src="{{ asset('assets/img/portfolio/portfolio1.png') }}" width="40" height="40"  class="customDropdown rounded rounded-circle dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" alt="">
+                    <img src="{{ asset('Image/profile.webp') }}" width="40" height="40"  class="customDropdown rounded rounded-circle dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" alt="">
                     <ul class="dropdown-menu bg-body " aria-labelledby="dropdownMenuButton1">
 
                         <li>
                             <a href="{{ route('contact.create') }}" class="dropdown-item  @yield('contact_active')"> Contact Us</a>
                         </li>
-                        <li><hr class="dropdown-divider"></li>
                         @guest
+                            <li><hr class="dropdown-divider"></li>
+
                             <li>
                                 <a href="{{ route('login') }}" class="dropdown-item">
                                     <span class="me-2 ">Login</span>
@@ -264,6 +270,12 @@
                             <li>
                                 <a href="{{ route('profile') }}" class="dropdown-item @yield('profile_active')"> Profile</a>
                             </li>
+                            @if(\Illuminate\Support\Facades\Auth::user()->role > 0)
+                                <li>
+                                    <a href="{{ route('setting') }}" class="dropdown-item @yield('setting_active')"> Setting</a>
+                                </li>
+                                @endif
+                            <li><hr class="dropdown-divider"></li>
                             <li>
                                 <form action="{{ route('logout') }}" id="logout" method="post">
                                     @csrf

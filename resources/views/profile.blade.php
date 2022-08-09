@@ -12,57 +12,12 @@
 
 @section('contant')
 
-
-    <div class="col-lg-8 mb-3 my-md-5  ">
-        <div class="card border-secondary bg-transparent  shadow-sm ">
-
-            <div class="card-body table-responsive ">
-                 <span class="h3 fw-bolder text-center ">
-                    Setting
-                </span>
-                <hr>
-                <div class="row ">
-                    <div class=" col-6 col-lg-4 mb-3  mb-lg-0 ">
-                        <h4 class="mb-3 ">BLog Manager</h4>
-                        <div class="mb-2 ">
-                            <a href="{{ route('blog.create') }}" class="btn btn-outline-secondary">Create Blog</a>
-                        </div>
-                        <div class="mb-2 ">
-                            <a href="{{ route('blog.index') }}" class="btn btn-outline-secondary">Blogs</a>
-                        </div>
-                        <div class="mb-2 ">
-                            <a href="{{ route('category.create') }}" class="btn btn-outline-secondary">Create Category</a>
-                        </div>
-                    </div>
-                    <div class=" col-6 col-lg-4 mb-3  mb-lg-0 ">
-                        <h4 class="mb-3 ">Music Manager</h4>
-                        <div class="mb-2 ">
-                            <a href="{{ route('artist.create') }}" class="btn btn-outline-secondary">Upload Artist</a>
-                        </div>
-                        <div class="mb-2 ">
-                            <a href="{{ route('music.create') }}" class="btn btn-outline-secondary">Upload Music</a>
-                        </div>
-                        <div class="mb-2 ">
-                            <a href="{{ route('all.music') }}" class="btn btn-outline-secondary">Songs</a>
-                        </div>
-                    </div>
-                    <div class=" col-6 col-lg-4 mb-3  mb-lg-0 ">
-                        <h4 class="mb-3 ">Comming Soon</h4>
-                        <div class="mb-2 ">
-                            <a href="{{ route('welcome') }}" class="btn btn-outline-secondary">.....</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="col-lg-4 my-md-5  ">
         <div class="card border-secondary shadow-sm bg-transparent ">
             <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center   ">
-{{--                    <img  src="https://cdn-icons-png.flaticon.com/128/4128/4128176.png" width="40" alt="">--}}
-                    <span class="fw-bold h3 mb-0  ">Profile</span>
+                <div class="d-flex justify-content-between align-items-center flex-column ">
+                    <img  src="{{ asset('Image/profile.webp') }}" width="150" class="rounded-circle rounded " alt="">
+                    <span class="fw-bold h3 mb-0 mt-3  ">Profile</span>
                 </div>
                 <hr >
 

@@ -217,7 +217,7 @@ class BlogController extends Controller
             return $q->where('title','LIKE',"%".request()->search."%");
         })->when(isset(request()->select),function ($q){
             return $q->where('category_id',request()->select);
-        })->paginate(16);
+        })->orderBy('created_at','desc')->paginate(16);
 
         $categories = Category::all();
 
@@ -363,5 +363,10 @@ class BlogController extends Controller
         }
 
         return response()->json(['status'=>'success','message'=>$message,'detail' => $position]);
+    }
+
+    public function setting()
+    {
+        return view('setting');
     }
 }

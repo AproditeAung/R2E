@@ -58,15 +58,6 @@
 
     <div class="col-md-3">
 
-        <div class="p-4 text-center ">
-            <img src="{{ asset('assets/img/sidebar/sidebar1.png') }}" class="rounded 100% " alt="">
-        </div>
-        <div class="p-4 text-center ">
-            <img src="{{ asset('assets/img/sidebar/sidebar2.png') }}" class="rounded 100% " alt="">
-        </div>
-        <div class="p-4 text-center ">
-            <img src="{{ asset('assets/img/sidebar/sidebar3.png') }}" class="rounded 100% " alt="">
-        </div>
     </div>
 @endsection
 

@@ -72,6 +72,7 @@
                     </div>
                 </a>
         @endforeach
+        {{ $lastestNews->onEachSide(4)->links() }}
     </div>
 @endsection
 

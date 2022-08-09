@@ -26,10 +26,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 Route::group(['middleware' => 'auth'], function(){
-        Route::resource('/category',\App\Http\Controllers\CategoryController::class);
-        Route::get('/pinpost/{blog}',[BlogController::class,'PinPost'])->name('pin.post');
         Route::resource('/contact',ContactController::class);
-        Route::resource('/blog', BlogController::class);
         Route::get('/profile',[BlogController::class,'profile'])->name('profile');
         Route::resource('/wallet', ReaderWalletController::class)->only(['store','update']);
         Route::resource('/withdraw',\App\Http\Controllers\WithdrawController::class)->only(['store','index']);
@@ -37,12 +34,17 @@ Route::group(['middleware' => 'auth'], function(){
         Route::resource('/wallet',ReaderWalletController::class);
 
         Route::group(['middleware' => 'AdminAndEditor'],function (){
+            Route::resource('/blog', BlogController::class);
+            Route::resource('/category',\App\Http\Controllers\CategoryController::class);
+            Route::get('setting',[BlogController::class,'setting'])->name('setting');
             Route::resource('/music', MusicController::class);
             Route::resource('/artist',\App\Http\Controllers\ArtistController::class);
             Route::resource('/music_category',\App\Http\Controllers\MusicCategoryController::class);
         });
 
         Route::group(['middleware' => 'isAdmin'],function (){
+            Route::get('/pinpost/{blog}',[BlogController::class,'PinPost'])->name('pin.post');
+
             Route::resource('/user',\App\Http\Controllers\UserController::class);
             Route::get('/upgradeadmin',[\App\Http\Controllers\UserController::class,'upgradeAdmin'])->name('user.upgradeAdmin');
             Route::get('/generateuser',[\App\Http\Controllers\UserController::class,'generateUser'])->name('user.generateUser');

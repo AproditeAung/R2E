@@ -19,8 +19,8 @@ class RequestEditorController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|min:3|max:255',
-            'description' => 'required|min:1',
+            'title' => 'required|min:3|max:255|string',
+            'description' => 'required|min:1|string',
         ]);
 
         $RequestEditor = new RequestEditor();
