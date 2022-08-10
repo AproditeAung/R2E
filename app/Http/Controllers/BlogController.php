@@ -6,6 +6,7 @@ use App\Http\Requests\StoreBlogRequest;
 use App\Http\Requests\UpdateBlogRequest;
 use App\Models\Blog;
 use App\Models\Category;
+use App\Models\Contact;
 use App\Models\Reader;
 use App\Models\ReaderWallet;
 use App\Models\ReportBlog;
@@ -13,6 +14,7 @@ use App\Models\Withdraw;
 use App\Notifications\EarnMoney;
 use http\Client\Curl\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
@@ -26,7 +28,6 @@ use function PHPUnit\Framework\isNull;
 class BlogController extends Controller
 {
 
-
     /**
      * Display a listing of the resource.
      *
@@ -39,10 +40,7 @@ class BlogController extends Controller
         })->paginate(4);
 
         $categories = Category::all();
-        if(Auth::user()->role === '2'){
-            return  view('Backend.Blog.index',compact('blogs','categories'));
 
-        }
         return  view('FrontEnd.EditorBlog.index',compact('blogs','categories'));
 
     }
@@ -55,9 +53,7 @@ class BlogController extends Controller
     public function create()
     {
         $categories = Category::all();
-        if(Auth::user()->role === '2'){
-            return view('Backend.Blog.create',compact('categories'));
-        }
+
         return  view('FrontEnd.EditorBlog.create',compact('categories'));
 
     }
@@ -118,10 +114,7 @@ class BlogController extends Controller
      */
     public function show(Blog $blog)
     {
-        if(Auth::user()->role == '2'){
 
-            return  view('Backend.Blog.show',compact('blog'));
-        }
         return view('FrontEnd.EditorBlog.show',compact('blog'));
 
     }
@@ -135,9 +128,7 @@ class BlogController extends Controller
     public function edit(Blog $blog)
     {
         $categories = Category::all();
-        if(Auth::user()->role === '2'){
-            return view('Backend.Blog.edit',compact('blog','categories'));
-        }
+
         return  view('FrontEnd.EditorBlog.edit',compact('blog','categories'));
     }
 
@@ -164,9 +155,11 @@ class BlogController extends Controller
 
             $minisizePath = 'public/blog_mini_photo/';
 
-            Storage::move('Image/'.$newName,$minisizePath.$newName);
 
-            Storage::delete($path.$blog->ImageRec);
+            if($blog->ImageRec != 'blogPic.png'){
+                Storage::move('Image/'.$newName,$minisizePath.$newName);
+                Storage::delete($path.$blog->ImageRec);
+            }
 
             Storage::putFileAs($path,$file,$newName);
 
@@ -392,5 +385,46 @@ class BlogController extends Controller
     public function setting()
     {
         return view('setting');
+    }
+
+    public function dashboard()
+    {
+        $weeklyViewers = [];
+
+        for ($i=0; $i<7; $i++){
+            if(isset(request()->StartDate)){
+                $date = Carbon::parse(request()->StartDate)->addDays($i) ;
+            }else{
+                $date = now()->subDays(6)->addDays($i);
+            }
+            $viewers = ReportBlog::whereDate('created_at',$date)->get()->sum('viewers');
+
+            array_push($weeklyViewers,['date' => $date->format('d M') , 'viewers' => $viewers ?? 0]);
+        }
+
+        $monthlyViewers = [];
+
+        for ($i=0; $i<12; $i++){
+            $month = Carbon::parse(now()->format('Y').'-1-1')->addMonths($i) ;
+            $viewers = ReportBlog::whereMonth('created_at',$month)->get()->sum('viewers');
+
+            array_push($monthlyViewers,['month' => $month->format('M') , 'viewers' => $viewers ?? 0]);
+        }
+
+
+        $ALlTimeViewers = 0;
+        $TotalBlogs = Blog::all()->count();
+        $Contacts = Contact::all()->count();
+
+        foreach ($monthlyViewers as $m){
+            $ALlTimeViewers += $m['viewers'];
+        }
+
+        $widget = [
+            'AllTimeViewers' => $ALlTimeViewers,
+            'TotalBLogs' => $TotalBlogs,
+            'Contacts' => $Contacts
+        ];
+        return view('FrontEnd.Dashboard',compact('weeklyViewers','monthlyViewers','widget'));
     }
 }

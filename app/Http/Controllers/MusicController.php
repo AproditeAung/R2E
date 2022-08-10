@@ -122,6 +122,9 @@ class MusicController extends Controller
     {
         DB::beginTransaction();
 
+
+
+
         try {
 
             if($request->hasFile('song_file')){
@@ -136,7 +139,10 @@ class MusicController extends Controller
                     Storage::makeDirectory($songFilePath);
                 }
 
-                unlink(explode('/',$music->path,4)[3]);
+                if(Storage::exists('public/'.explode('/',$music->path,5)[4])){
+                    Storage::delete('public/'.explode('/',$music->path,5)[4]);
+                }
+
                 Storage::putFileAs($songFilePath,$file,$songFileName);
 
                 $music->path = asset('storage/songs/'.$songFileName);
@@ -166,7 +172,8 @@ class MusicController extends Controller
      */
     public function destroy(Music $music)
     {
-        if(unlink(explode('/',$music->path,4)[3])){
+        if(Storage::exists('public/'.explode('/',$music->path,5)[4])){
+            Storage::delete('public/'.explode('/',$music->path,5)[4]);
             $music->delete();
 
             return redirect()->back()->with('message',['icon'=>'success','text'=>'deleted!']);
@@ -267,7 +274,7 @@ class MusicController extends Controller
         }
 
         if($reader->readBlog < 300){
-            return response()->json(['status'=>'success','message'=>'you will earn money after read 300 blogs !']);
+            return response()->json(['status'=>'success','message'=>'Earn After 300 :)']);
         }
 
         return response()->json(['status'=>'success','message'=>$message,'detail' => $position]);

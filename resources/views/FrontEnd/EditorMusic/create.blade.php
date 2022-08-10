@@ -82,9 +82,9 @@
                    </div>
                 <hr>
 
-                <table class="table table-borderless  table-hover ">
+                <table class="table table-borderless ">
                     <thead>
-                    <tr class="icon-gradient bg-happy-fisher  ">
+                    <tr class="  ">
                         <td>No</td>
                         <td>Name</td>
                         <td>Artist</td>
@@ -122,7 +122,9 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center fw-bolder mt-4  text-danger">NO SONGS</td>
+                            <td colspan="6" class="text-center fw-bolder mt-4  text-danger">
+                                <img src="{{ asset('Image/nodata.webp') }}" width="150" alt="">
+                            </td>
                         </tr>
                     @endforelse
                     </tbody>

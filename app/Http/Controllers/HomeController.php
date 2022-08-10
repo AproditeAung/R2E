@@ -26,51 +26,7 @@ class HomeController extends Controller
         $this->middleware('isAdmin')->except('welcome','AllMusic');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index()
-    {
-        $weeklyViewers = [];
 
-        for ($i=0; $i<7; $i++){
-            if(isset(request()->StartDate)){
-                $date = Carbon::parse(request()->StartDate)->addDays($i) ;
-            }else{
-                $date = now()->subDays(6)->addDays($i);
-            }
-            $viewers = ReportBlog::whereDate('created_at',$date)->get()->sum('viewers');
-
-            array_push($weeklyViewers,['date' => $date->format('d M') , 'viewers' => $viewers ?? 0]);
-        }
-
-        $monthlyViewers = [];
-
-        for ($i=0; $i<12; $i++){
-            $month = Carbon::parse(now()->format('Y').'-1-1')->addMonths($i) ;
-            $viewers = ReportBlog::whereMonth('created_at',$month)->get()->sum('viewers');
-
-            array_push($monthlyViewers,['month' => $month->format('M') , 'viewers' => $viewers ?? 0]);
-        }
-
-
-        $ALlTimeViewers = 0;
-        $TotalBlogs = Blog::all()->count();
-        $Contacts = Contact::all()->count();
-
-        foreach ($monthlyViewers as $m){
-             $ALlTimeViewers += $m['viewers'];
-        }
-
-        $widget = [
-            'AllTimeViewers' => $ALlTimeViewers,
-            'TotalBLogs' => $TotalBlogs,
-            'Contacts' => $Contacts
-        ];
-        return view('Backend.home',compact('weeklyViewers','monthlyViewers','widget'));
-    }
 
     public function welcome(Request $request)
     {

@@ -9,18 +9,18 @@
 @endsection
 @section('title') profile @endsection
 @section('wallet_active','fw-bold active')
-
+@section('image','https://cdn3d.iconscout.com/3d/premium/thumb/bitcoin-pot-5168164-4323637.png')
 @section('contant')
 
 
     <div class="col-lg-4 my-lg-5 mb-3 mb-lg-0   ">
         <div class="card border-secondary shadow-sm bg-transparent mb-3 ">
-            <div class="card-body">
+            <div class="card-body" >
                 <div class="d-flex justify-content-between align-items-center">
-                    <img src="{{ asset('Image/earn-money.png') }}" width="50" alt="">
+                    <img src="{{ asset('Image/earn-money.png') }}" class="mb-3" width="50" alt="">
                     <span class="fw-bold h4 ">Wallet</span>
                 </div>
-                <div class="d-flex justify-content-between align-items-center mt-3   ">
+                <div class="d-flex justify-content-between align-items-center   ">
                     <span class="fw-bold h4 ">Amount</span>
                     <span class="fw-bold h4 ">{{ $wallet->amount }} MMK</span>
                 </div>

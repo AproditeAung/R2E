@@ -13,10 +13,9 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link rel="stylesheet" href="{{ asset('assets/css/icofont.css') }}">
 
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link rel="icon" href="{{ asset('Image/earn-money.png') }}">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -159,7 +158,7 @@
         <div class="container mt-3  d-none d-lg-block ">
             <nav class="navbar navbar-expand-lg navbar-white shadow-sm rounded-pill rounded px-4  bg-white   ">
                 <div class="container d-flex justify-content-between align-items-center  ">
-                    <a class="navbar-brand fw-bolder " href="{{ route('welcome') }}">C2E</a>
+                    <a class="navbar-brand fw-bolder " href="{{ route('welcome') }}">H2E</a>
                     <div >
                         <ul class="navbar-nav  mb-2 mb-lg-0  ">
                             @guest
@@ -186,18 +185,18 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <button class="menuButton  " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
-                        <i class="icofont icofont-navigation-menu icofont-2x "></i>
+                        <i class="icofont icofont-social-dotcms icofont-2x "></i>
                     </button>
 
                     <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
                         <div class="offcanvas-body small">
                             <div class="d-flex justify-content-around align-items-center">
                                 <a href="{{ route('login') }}" class="customNavItem @yield('home_active')">
-                                    <i class="icofont icofont-lock h1"></i>
+                                    <i class="icofont icofont-ui-lock h1"></i>
                                     <p class="outline mb-0 mt-1 "></p>
                                 </a>
                                 <a href="{{ route('register') }}" class="customNavItem @yield('blog_active')">
-                                    <i class="icofont icofont-back-pack h1"></i>
+                                    <i class="icofont icofont-sub-listing h1"></i>
                                     <p class="outline mb-0 mt-1 "></p>
                                 </a>
                             </div>

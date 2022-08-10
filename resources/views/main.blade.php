@@ -17,21 +17,21 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon"  type=“image/png” href="{{ asset('Image/earn-money.png') }}">
 
 
 
     @yield('meta')
 
+    <link rel="icon"  type="image/png" href="{{ asset('Image/earn-money.png') }}">
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/icofont.css') }}">
     <link rel="stylesheet" href="{{ asset('summernote-lite.min.css') }}">
-    <title>{{ env('app_name','R2E') }}</title>
+    <title>{{ env('app_name','H2E') }}</title>
 
     <style>
         ::-webkit-scrollbar {
-            width: 0.1rem;
+            width: 0.1px;
         }
 
         ::-webkit-scrollbar-track {
@@ -176,7 +176,7 @@
         <div class="container mt-3  d-none d-lg-block ">
             <nav class="navbar navbar-expand-lg navbar-white shadow-sm rounded-pill rounded px-4  bg-white   ">
                 <div class="container d-flex justify-content-between align-items-center  ">
-                    <a class="navbar-brand fw-bolder " href="{{ route('welcome') }}">C2E</a>
+                    <a class="navbar-brand fw-bolder " href="{{ route('welcome') }}">H2E</a>
 
                     <div >
                         <ul class="navbar-nav  mb-2 mb-lg-0  ">
@@ -293,7 +293,9 @@
             </div>
         </div>
 
-        <div class="container ">
+        <div class="min-vh-100 min-vw-100 " style="background-image: url(@yield('image'));background-size: cover;background-repeat: no-repeat;opacity: 10%;z-index:-1;position: fixed"></div>
+
+        <div class="container  " >
             <div class="row  ">
                 @yield('contant')
             </div>

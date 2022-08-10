@@ -10,6 +10,7 @@
         }
     </style>
 @endsection
+@section('image','https://cdn3d.iconscout.com/3d/premium/thumb/music-note-5385109-4503429.png')
 @section('contant')
 
     <div class="container  position-sticky sticky-top">
@@ -29,7 +30,7 @@
             <input class="form-control border-secondary   me-2" name="search" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-secondary  " type="submit">Search</button>
         </form>
-        <audio src=""  id="sourceAudio" preload="auto" autoplay  controls></audio>
+        <audio src="" hidden id="sourceAudio" preload="auto" autoplay  controls></audio>
 
 
 
@@ -70,13 +71,13 @@
                 </tbody>
             </table>
                @else
-            <div class="my-5 text-center text-danger">
-                <h2>NO DATA FOUND <i class="icon icofont-emo-sad"></i></h2>
-                <a href="{{ route('welcome') }}" class="btn btn-primary "> Back Home </a>
-            </div>
+                <div class="my-5 text-center text-danger">
+                    <img src="{{ asset('Image/nodata.webp') }}" width="200" alt="">
+                    <div class="">
+                        <a href="{{ route('welcome') }}" class="btn btn-outline-primary "> Back Home </a>
+                    </div>
+                </div>
                @endif
-
-
 
 
         <div class="d-flex justify-content-center mt-4  ">

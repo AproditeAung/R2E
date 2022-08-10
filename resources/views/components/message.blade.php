@@ -2,7 +2,7 @@
 
     <script>
     let data = {{ \Illuminate\Support\Js::from(session('message')) }}
-
+    console.log(data);
         Swal.fire({
             position: 'top-end',
             icon: data['icon'],

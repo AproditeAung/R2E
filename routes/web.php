@@ -22,9 +22,6 @@ Route::get('/',[App\Http\Controllers\HomeController::class, 'welcome'])->name('w
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-
 Route::group(['middleware' => 'auth'], function(){
         Route::resource('/contact',ContactController::class);
         Route::get('/profile',[BlogController::class,'profile'])->name('profile');
@@ -43,7 +40,9 @@ Route::group(['middleware' => 'auth'], function(){
         });
 
         Route::group(['middleware' => 'isAdmin'],function (){
+
             Route::get('/pinpost/{blog}',[BlogController::class,'PinPost'])->name('pin.post');
+            Route::get('/dashboard}',[BlogController::class,'dashboard'])->name('dashboard');
             Route::resource('/user',\App\Http\Controllers\UserController::class);
             Route::post('/upgradeadmin',[\App\Http\Controllers\UserController::class,'upgradeAdmin'])->name('user.upgradeAdmin');
             Route::get('/generateuser',[\App\Http\Controllers\UserController::class,'generateUser'])->name('user.generateUser');

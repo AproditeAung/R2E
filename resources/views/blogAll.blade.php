@@ -1,5 +1,6 @@
 @extends('main')
 @section('blog_active','active')
+@section('image','https://cdn3d.iconscout.com/3d/premium/thumb/businesswoman-reading-book-3733399-3121157.png')
 @section('contant')
     @include('components.categorybar')
     <div class="col-md-9 my-3 ">
