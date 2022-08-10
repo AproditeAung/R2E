@@ -30,12 +30,12 @@
                                     <td class="  ">{{\Illuminate\Support\Str::limit($blog->title,40) }}</td>
                                     <td class="  ">{{ \Illuminate\Support\Str::limit($blog->sample,50) }}</td>
                                     <td>
-                                        @if($blog->user->role == 2)
+                                        @if(\Illuminate\Support\Facades\Auth::user()->role == 2)
                                             <form action="{{ route('blog.destroy',$blog->id) }}" id="blogDelete" method="post">
                                                 @csrf @method('delete')
                                             </form>
-                                            <button class="btn-outline btn-danger " type="button" onclick="confirm()"><i class="icofont icofont-trash"></i></button>
-                                            <a href="{{ route('pin.post',$blog->id) }}" class="btn btn-outline-{{ $blog->pinBlog == '1' ? 'success' : 'outline-success' }}"><i class="pe-7s-pin"></i></a>
+                                            <button class="btn-outline btn-danger btn " type="button" onclick="confirm()"><i class="icofont icofont-trash"></i></button>
+                                            <a href="{{ route('pin.post',$blog->id) }}" class="btn btn-outline-{{ $blog->pinBlog == '1' ? 'success' : 'secondary' }}"><i class="icofont icofont-pin"></i></a>
                                         @endif
 
                                         <a href="{{ route('blog.edit',$blog->id) }}" class="btn btn-outline-secondary "><i class="icofont icofont-pen-alt-2"></i></a>
@@ -51,7 +51,7 @@
                         </tbody>
                     </table>
 
-                    {{ $blogs->links() }}
+                    {{ $blogs->onEachSide(2)->links() }}
                 </div>
             </div>
 

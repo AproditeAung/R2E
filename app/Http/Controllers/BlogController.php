@@ -37,7 +37,7 @@ class BlogController extends Controller
     {
         $blogs = Blog::when(Auth::user()->role < '2',function ($q){
             return $q->where('user_id',Auth::id());
-        })->paginate(4);
+        })->orderBY('created_at','desc')->paginate(5);
 
         $categories = Category::all();
 
@@ -81,7 +81,6 @@ class BlogController extends Controller
         }
 
         if(public_path('raw_upload/'.$newName)){
-
            rename(public_path('raw_upload/'.$newName),storage_path('app/public/blog_mini_photo/'.$newName));
         }
 
@@ -155,9 +154,9 @@ class BlogController extends Controller
 
             $minisizePath = 'public/blog_mini_photo/';
 
+            Storage::move('Image/'.$newName,$minisizePath.$newName);
 
             if($blog->ImageRec != 'blogPic.png'){
-                Storage::move('Image/'.$newName,$minisizePath.$newName);
                 Storage::delete($path.$blog->ImageRec);
             }
 
@@ -196,24 +195,6 @@ class BlogController extends Controller
     public function viewBlogDetail($slug)
     {
         $blog = Blog::where('slug', $slug)->first();
-
-
-        $checkDate = ReportBlog::where('blog_id',$blog->id)->whereDate('created_at',now()->format('Y-m-d'));
-
-
-        if($checkDate->exists()){
-
-            $LoopingBlogs = $checkDate->first();
-            $LoopingBlogs->increment('viewers',1);
-            $LoopingBlogs->update();
-
-        }else{
-
-            $ReportBlog = new ReportBlog();
-            $ReportBlog->blog_id = $blog->id;
-            $ReportBlog->viewers = 1;
-            $ReportBlog->save();
-        }
 
 
         $relatedNews = Blog::where('category_id', $blog->category_id)->where('id', '<>', $blog->id)->limit(3)->get();
@@ -289,7 +270,24 @@ class BlogController extends Controller
         DB::beginTransaction();
         try {
 
+            $checkDate = ReportBlog::where('blog_id',$blog->id)->whereDate('created_at',now()->format('Y-m-d'));
 
+
+            if($checkDate->exists()){
+
+                $LoopingBlogs = $checkDate->first();
+                $LoopingBlogs->increment('viewers',1);
+                $LoopingBlogs->update();
+
+            }else{
+
+                $ReportBlog = new ReportBlog();
+                $ReportBlog->blog_id = $blog->id;
+                $ReportBlog->viewers = 1;
+                $ReportBlog->save();
+            }
+
+            //create reader if does not have //
            if(!Reader::where('user_id',Auth::id())->exists()){
                $reader = new Reader();
                $reader->user_id = Auth::id();
@@ -303,7 +301,7 @@ class BlogController extends Controller
            }
 
 
-
+            //update blog viewers
             if($request->isLike == 'ok'){
                 $blog->increment('like',1);
             }else{
@@ -327,7 +325,7 @@ class BlogController extends Controller
 
             if($reader->todayRead >= 51){
 
-                return response()->json(['status'=>'success','message'=>'Your Mission is Complete Today']);
+                return response()->json(['status'=>'success','message'=>'Today Mission is Completed!']);
             }
 
 

@@ -82,7 +82,7 @@
                 </div>
             </div>
         @endforelse
-        {{ $lastestNews->onEachSide(4)->links() }}
+        {{ $lastestNews->onEachSide(3)->links() }}
     </div>
 @endsection
 

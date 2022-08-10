@@ -22,7 +22,7 @@
 
     @yield('meta')
 
-    <link rel="icon"  type="image/png" href="{{ asset('Image/earn-money.png') }}">
+    <link rel="shortcut icon"  href="{{ asset('Image/earn-money.png') }}">
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/icofont.css') }}">

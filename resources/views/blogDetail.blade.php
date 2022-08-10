@@ -28,9 +28,13 @@
                     <div class="my-3 text-center">
                         <img src="{{ asset('storage/blog_photos/'.$blog->ImageRec) }}"  width="90%" class="rounded " alt="">
                     </div>
-                    <p  class=" h5 "  style="text-align: justify; line-height: 2rem;" data-aos="fade-up" data-aos-duration="1000">
-                        {!! $blog->body !!}
-                    </p>
+
+                    <div class="card bg-transparent border-0 ">
+                        <div class="card-body ">
+                            {!! $blog->body !!}
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
