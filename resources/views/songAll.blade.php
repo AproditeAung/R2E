@@ -25,7 +25,7 @@
         </div>
     </div>
 
-    <div class="col-md-9 my-3 ">
+    <div class="col-md-12 my-3 ">
         <form action="{{ route('all.music')  }}" method="get" class="d-flex ">
             <input class="form-control border-secondary   me-2" name="search" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-secondary  " type="submit">Search</button>
@@ -64,8 +64,10 @@
                     </tr>
                 @empty
                     <div class="my-5 text-center text-danger">
-                        <h2>NO DATA FOUND <i class="icon icofont-emo-sad"></i></h2>
-                        <a href="{{ route('welcome') }}" class="btn btn-primary "> Back Home </a>
+                        <img src="{{ asset('Image/nodata.webp') }}" width="200" alt="">
+                        <div class="">
+                            <a href="{{ route('welcome') }}" class="btn btn-primary "> Back Home </a>
+                        </div>
                     </div>
                 @endforelse
                 </tbody>

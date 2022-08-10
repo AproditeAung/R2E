@@ -12,7 +12,7 @@
                             Sharing is Caring !
                         </span>
                         <hr>
-                        <form class="row mt-2 " action="{{ route('blog.store') }}" method="POST" enctype="multipart/form-data">
+                        <form class="row mt-2 " action="{{ route('blog.store') }}" id="creatBlog" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="col-lg-9  ">
                                 <div class="form-group  mb-3 ">
@@ -69,7 +69,7 @@
 
 
                                 <div class="form-group mb-0  text-end  ">
-                                    <button type="submit" class="btn btn-dark  mt-2  w-100  ">Create</button>
+                                    <button type="button" onclick="LoadingShow('creatBlog')" class="btn btn-dark  mt-2  w-100  ">Create</button>
                                 </div>
                             </div>
                         </form>
@@ -85,6 +85,7 @@
     <script>
         let blogPic = document.getElementById('blogPic');
         let preview = document.getElementById('previewImg');
+
 
 
         function change(){

@@ -154,6 +154,7 @@
              z-index: 9999;
              overflow: hidden;
              display: none;
+             height: 100%;
          }
 
          .glass.active{
@@ -167,9 +168,9 @@
 <body >
 
         <div id="glass" class=" glass min-vw-100  position-absolute top-0 " style="left: 0">
-            <div class="d-flex flex-column justify-content-center align-items-center  min-vh-100 " >
+            <div class="d-flex flex-column justify-content-center align-items-center " style="min-height: 100%" >
                 <img src="{{ asset('Image/loading.svg') }}" width="30%"  alt="">
-                <h3>Plase Wait! Take Your Money</h3></div>
+                <h3>We Must Win!</h3></div>
              </div>
         </div>
 
@@ -365,6 +366,16 @@
         })
     })
 
+            function LoadingShow(id){
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+                $("#"+id).submit();
+                console.log('sdaf');
+                glass.classList.add('active');
+
+            }
 </script>
 </body>
 </html>

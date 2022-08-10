@@ -163,6 +163,7 @@
                 reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
+                    glass.classList.add('active');
                     let url = '{{ route('user.feedback') }}';
                     let data = {
                         '_token' : '{{ csrf_token() }}',
@@ -174,6 +175,8 @@
                         url : url,
                         data : data,
                         success : function (res){
+                            glass.classList.remove('active');
+
                             console.log(res)
 
                             if(res.status == 'success'){
@@ -199,12 +202,16 @@
                         'blog_id' : {{ $blog->id }}
                     };
 
+                    glass.classList.add('active');
+
                     $.ajax({
                         type : "POST",
                         url : url,
                         data : data,
                         success : function (res){
                             console.log(res);
+                            glass.classList.remove('active');
+
                             if(res.status == 'success'){
 
                                 swalWithBootstrapButtons.fire(

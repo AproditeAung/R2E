@@ -13,7 +13,7 @@
                             Relaxing With Song!
                         </span>
                 <hr>
-                <form class="row mt-2 " action="{{ route('music.store') }}" method="POST" enctype="multipart/form-data">
+                <form class="row mt-2 " id="createMusic" action="{{ route('music.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group  mb-3 ">
                         <label class="form-label   h6">Song Name</label>
@@ -60,7 +60,7 @@
                     </div>
 
                     <div class="form-group mb-0  text-end  ">
-                        <button type="submit" class="btn btn-dark  mt-2  w-100  ">Upload</button>
+                        <button type="button" onclick="LoadingShow('createMusic')" class="btn btn-dark  mt-2  w-100  ">Upload</button>
                     </div>
                 </form>
 

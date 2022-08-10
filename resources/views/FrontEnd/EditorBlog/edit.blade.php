@@ -12,7 +12,7 @@
                             Sharing is Caring !
                         </span>
                 <hr>
-                <form class="row mt-2 " action="{{ route('blog.update',$blog->id) }}" method="POST" enctype="multipart/form-data">
+                <form class="row mt-2 " action="{{ route('blog.update',$blog->id) }}" id="editBlog" method="POST" enctype="multipart/form-data">
                     @csrf @method('PATCH')
                     <div class="col-lg-9  ">
                         <div class="form-group  mb-3 ">
@@ -69,7 +69,7 @@
 
 
                         <div class="form-group mb-0  text-end  ">
-                            <button type="submit" class="btn btn-dark  mt-2  w-100  ">Update</button>
+                            <button type="button" onclick="LoadingShow('editBlog')" class="btn btn-dark  mt-2  w-100  ">Update</button>
                         </div>
                     </div>
                 </form>

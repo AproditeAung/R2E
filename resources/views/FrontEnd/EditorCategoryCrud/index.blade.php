@@ -11,10 +11,10 @@
                 <div class="card bg-transparent border-secondary ">
                     <div class="card-body">
                         <h3 class="fw-bold h4 mb-4 "><i class="icofont icofont-social-blogger text-primary me-3 "></i>Create BLog Category </h3>
-                        <form action="{{ route('category.store') }}" method="post" class="">
+                        <form action="{{ route('category.store') }}" method="post" id="createBlogCategory" class="">
                             @csrf
                             <input type="text" name="title" class="form-control bg-transparent text-secondary ">
-                            <input type="submit" class="btn btn-primary mt-2 w-100  ">
+                            <button type="button" onclick="LoadingShow('createBlogCategory')" class="btn btn-primary mt-2 w-100 text-white  "> Create </button>
                         </form>
 
                         @error('title')
@@ -28,10 +28,10 @@
                 <div class="card bg-transparent border-secondary mt-3  ">
                     <div class="card-body">
                         <h3 class="fw-bold h4 mb-4 "> <i class="icofont icofont-music-notes text-primary me-3  "></i> Create Music Category </h3>
-                        <form action="{{ route('music_category.store') }}" method="post" class="">
+                        <form action="{{ route('music_category.store') }}" id="createMusicCategory" method="post" class="">
                             @csrf
                             <input type="text" name="name" class="form-control bg-transparent text-secondary ">
-                            <input type="submit" class="btn btn-secondary mt-2 w-100  ">
+                            <button type="button" onclick="LoadingShow('createMusicCategory')" class="btn btn-secondary mt-2 w-100  "> Create </button>
                         </form>
 
                         @error('name')
