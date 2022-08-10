@@ -150,11 +150,16 @@ class BlogController extends Controller
                 $constraint->aspectRatio();
             });
 
-            $img->save('Image/'.$newName,80);
-
             $minisizePath = 'public/blog_mini_photo/';
+            $img->save('raw_upload/'.$newName,100);
 
-            Storage::move('Image/'.$newName,$minisizePath.$newName);
+            if(!Storage::exists($minisizePath)){
+                Storage::makeDirectory($minisizePath);
+            }
+
+            if(public_path('raw_upload/'.$newName)){
+                rename(public_path('raw_upload/'.$newName),storage_path('app/public/blog_mini_photo/'.$newName));
+            }
 
             if($blog->ImageRec != 'blogPic.png'){
                 Storage::delete($path.$blog->ImageRec);
