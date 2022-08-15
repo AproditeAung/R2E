@@ -84,10 +84,11 @@
                 -moz-filter: blur(5px);
                 -o-filter: blur(5px);
                 -ms-filter: blur(5px);
+                opacity: 50%;
             }
 
             .course-info{
-                color: #c4c4c4;
+                color: #1e1d1d;
             }
 
 
@@ -105,6 +106,8 @@
             </form>
                 @forelse($blogs as $blog)
                     <div class="col-lg-6  ">
+                        <a href="{{ route('guest.blog.detail',$blog->slug) }}" class="text-decoration-none link-secondary  ">
+
                         <div class="courses-container ">
                             <div class="course position-relative overflow-hidden">
                                 <div class="course-preview ">
@@ -112,17 +115,20 @@
                                 </div>
                                 <div class="course-info">
 
-                                    <h6 class="mb-3  ">{{ \Illuminate\Support\Str::limit($blog->title,30) }}</h6>
+                                    <h5 class="mb-3  ">{{ \Illuminate\Support\Str::limit($blog->title,30) }}</h5>
                                     <small style="text-align: justify">{{ \Illuminate\Support\Str::limit($blog->sample,110) }}</small>
 
                                     <div class="d-flex justify-content-between align-items-center mt-2  ">
-                                        <p class="small mb-0   "> <i class="icofont icofont-heart me-1 me-md-2 text-danger"></i> {{ $blog->countUser }} </p>
-                                        <p class="small mb-0 mx-3  "> <i class="icofont icofont-layers me-1 me-md-2 text-secondary"></i> {{ $blog->categoryName->name }} </p>
-                                        <p class="small mb-0 d-none d-lg-block"> <i class="icofont icofont-user me-1 me-md-2 text-secondary"></i> {{ $blog->user->name }} </p>
+                                        <p class="small mb-0  "> <i class="icofont icofont-heart me-1 me-md-2 text-danger"></i> {{ $blog->countUser }} </p>
+                                        <p class="small mb-0   "> <i class="icofont icofont-layers me-1 me-md-2 text-secondary"></i> {{ $blog->categoryName->name }} </p>
+                                        <p class="small mb-0 "> <i class="icofont icofont-user me-1 me-md-2 text-secondary"></i> {{ $blog->user->name }} </p>
+                                        <p class="small mb-0  d-md-none  "> <i class="icofont icofont-time me-1 me-md-2 text-secondary"></i> {{ $blog->created_at->format('d M Y') }} </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        </a>
                     </div>
                 @empty
 

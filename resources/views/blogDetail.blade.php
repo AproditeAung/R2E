@@ -16,7 +16,7 @@
 
 
     <div class="col-md-9  mb-5  position-relative">
-            <div class="   px-md-3   d-flex flex-column justify-content-between" >
+            <div class="  mt-lg-5  px-md-3   d-flex flex-column justify-content-between" >
                 <div class="mt-4 mt-md-0  " data-aos="zoom-in" data-aos-duration="1000">
                     <h3 class="fw-bolder h2 text-capitalize text-center mb-3 " > {{ $blog->title }}  </h3>
                     <div class="d-flex align-content-center justify-content-center  ">
@@ -122,7 +122,7 @@
                     }
                 }
                 showSecond.innerText = second < 10 ? '0'+second : second;
-            },100);
+            },1000);
         });
 
 

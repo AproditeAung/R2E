@@ -13,7 +13,7 @@
             margin-bottom: 20px;
         }
 
-        .course .artist_img{
+      .artist_img{
             min-width: 100px;
             min-height: 100px;
         }
@@ -59,28 +59,31 @@
     @if($songs->count() > 0)
         @foreach($songs as $song)
             <div class="col-lg-4 mb-3  ">
-                <div class="card border-0 rounded-3 overflow-hidden  " style="border-radius: 30px">
+                <div class="card border-0 rounded-3 overflow-hidden position-relative bg-transparent shadow-sm " style="border-radius: 30px">
                     <div class="card-body p-0 " >
-                        <div class="row">
-                           <div class="col-4 ">
+                        <div class="row ">
+                           <div class="col-4 artist_img">
                                <img src="{{ asset('storage/artist_pic/'.$song->artist->photo) }}" width="100%" height="100%" alt="">
                            </div>
-                            <div class="col-8">
+                            <div class="col-8 ">
 
-                                    <div class=" d-flex justify-content-between   align-items-center  p-2">
 
-                                        <div class="">
-                                            <p class="small mb-0    "> <i class="icofont icofont-listening h5   me-1 me-md-2  text-secondary"></i> {{ $song->countPlay }} LISTEN</p>
-                                            <p class="small my-3 "> <i class="icofont icofont-music  h5   me-1 me-md-2 text-secondary"></i> {{ \Illuminate\Support\Str::upper($song->category->name) }} </p>
-                                            <p class="small mb-0  "> <i class="icofont icofont-microphone  h5  me-1 me-md-2 text-secondary"></i> {{ \Illuminate\Support\Str::upper($song->artist->name) }} </p>
+                                        <div class="py-2 pe-2 ">
+                                            <p class=" mb-0  fw-bolder h5 text-uppercase  "> {{ $song->name }} </p>
+                                            <div class="d-flex justify-content-between align-items-center w-100 my-3 ">
+                                                <p class="small mb-0    "> <i class="icofont icofont-listening h5   me-1 me-md-2  text-secondary"></i> {{ $song->countPlay }} Listen</p>
+                                                <p class="small mb-0 "> <i class="icofont icofont-music  h5   me-1 me-md-2 text-secondary"></i> {{ \Illuminate\Support\Str::upper($song->category->name) }} </p>
+                                            </div>
+                                            <div class="d-flex justify-content-between align-items-center ">
+                                                <p class="small mb-0  "> <i class="icofont icofont-microphone  h5  me-1 me-md-2 text-secondary"></i> {{ \Illuminate\Support\Str::upper($song->artist->name) }} </p>
+
+                                            </div>
                                         </div>
-                                        <div class="align-self-end ">
-                                            <button class="btn btn-outline-info" onclick="playMusic('{{ $song->path }}','{{ $song->duration }}','{{ $song->id }}')">
-                                                <i class="icofont icofont-play " id="play{{ $song->id }}"></i>
-                                                <i class="icofont icofont-pause  d-none" id="pause{{ $song->id }}"></i>
-                                            </button>
-                                        </div>
-                                    </div>
+
+                                <button class="btn btn-outline-info position-absolute bottom-0 " style="right: 0" onclick="playMusic('{{ $song->path }}','{{ $song->duration }}','{{ $song->id }}')">
+                                    <i class="icofont icofont-play " id="play{{ $song->id }}"></i>
+                                    <i class="icofont icofont-pause  d-none" id="pause{{ $song->id }}"></i>
+                                </button>
 
                             </div>
                         </div>
