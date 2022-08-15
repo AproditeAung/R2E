@@ -73,8 +73,8 @@
                     <div class="card bg-transparent border-secondary ">
                         <div class="card-body">
                             <h3 class="fw-bold h4 mb-4 ">Edit Category</h3>
-                            <form action="{{ route('category.store') }}" method="post" class="">
-                                @csrf
+                            <form action="{{ route('category.update',$category->id) }}" method="post" class="">
+                                @csrf @method('put')
                                 <input type="text" name="title" value="{{ $category->name }}" class="form-control bg-transparent text-secondary ">
                                 <input type="submit" class="btn btn-success mt-2 w-100  ">
                             </form>

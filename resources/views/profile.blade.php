@@ -28,7 +28,10 @@
 
                 <div class="d-flex justify-content-between align-items-center mt-3   ">
                     <span class="fw-bold h6 ">Gmail</span>
-                    <span class="fw-bold h6 ">{{ $user->email }}</span>
+                    <span class="fw-bold h6 ">
+                        {{ $user->email }}
+{{--                        {{ \Illuminate\Support\Str::of($user->email)->mask('*',-19,5)}}--}}
+                    </span>
                 </div>
                 <div class="d-flex justify-content-between align-items-baseline  mt-3   ">
                     <span class="fw-bold h6 ">Referral Id</span>

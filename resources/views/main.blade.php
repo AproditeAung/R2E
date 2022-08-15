@@ -270,6 +270,7 @@
                             </li>
                         @endguest
                        @auth
+
                             <li>
                                 <a href="{{ route('wallet.index') }}" class=" dropdown-item @yield('wallet_active') "> Wallet </a>
                             </li>
@@ -277,6 +278,9 @@
                                 <a href="{{ route('profile') }}" class="dropdown-item @yield('profile_active')"> Profile</a>
                             </li>
                             @if(\Illuminate\Support\Facades\Auth::user()->role > 0)
+                                <li>
+                                    <a href="{{ route('dashboard') }}" class="dropdown-item @yield('dashboard_active')"> Dashboard</a>
+                                </li>
                                 <li>
                                     <a href="{{ route('setting') }}" class="dropdown-item @yield('setting_active')"> Setting</a>
                                 </li>

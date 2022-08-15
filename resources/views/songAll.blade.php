@@ -2,6 +2,27 @@
 @section('music_active','active')
 @section('style')
     <style>
+
+        .course {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            max-width: 100%;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .course .artist_img{
+            min-width: 100px;
+            min-height: 100px;
+        }
+
+        @media screen and (max-width: 480px) {
+
+
+        }
+
         .nav-scrollerforArtist{
             position: relative;
             z-index: 2;
@@ -16,7 +37,7 @@
     <div class="container  position-sticky sticky-top">
         <div class="nav-scrollerforArtist bg-transparent text-white p-3   py-1 mb-2">
             <nav class="nav d-flex justify-content-between">
-                @foreach(\App\Models\Artist::all() as $c)
+                @foreach($artists as $c)
                     <a class="p-2 link-secondary" href="{{ url('allsongs/?search='.$c->id) }}">
                         <img src="{{ asset('storage/artist_pic/'.$c->photo) }}" width="50"  class="rounded rounded-circle" alt="">
                     </a>
@@ -33,53 +54,49 @@
         <audio src="" hidden id="sourceAudio" preload="auto" autoplay  controls></audio>
 
 
+<div class="row">
 
-           @if($songs->count() > 0)
-            <table class="table-borderless table">
-                <thead>
-                <tr>
-                    <td>No</td>
-                    <td>Name</td>
-                    <td>Artis</td>
-                    <td>Genres</td>
-                    <td>Duration</td>
-                    <td>Play</td>
-                </tr>
-                </thead>
+    @if($songs->count() > 0)
+        @foreach($songs as $song)
+            <div class="col-lg-4 mb-3  ">
+                <div class="card border-0 rounded-3 overflow-hidden  " style="border-radius: 30px">
+                    <div class="card-body p-0 " >
+                        <div class="row">
+                           <div class="col-4 ">
+                               <img src="{{ asset('storage/artist_pic/'.$song->artist->photo) }}" width="100%" height="100%" alt="">
+                           </div>
+                            <div class="col-8">
 
-                <tbody>
-                @forelse($songs as $key=>$song)
-                    <tr>
-                        <td>{{ $key+1 }}</td>
-                        <td>{{ $song->name }}</td>
-                        <td>{{ $song->artist->name }}</td>
-                        <td>{{ $song->category->name }}</td>
-                        <td> {{ (floor($song->duration / 60 )) .':'. ($song->duration % 60) }}</td>
-                        <td>
-                            <button class="btn btn-outline-info" onclick="playMusic('{{ $song->path }}','{{ $song->duration }}','{{ $song->id }}')">
-                                <i class="icofont icofont-play " id="play{{ $song->id }}"></i>
-                                <i class="icofont icofont-pause  d-none" id="pause{{ $song->id }}"></i>
-                            </button>
-                        </td>
-                    </tr>
-                @empty
-                    <div class="my-5 text-center text-danger">
-                        <img src="{{ asset('Image/nodata.webp') }}" width="200" alt="">
-                        <div class="">
-                            <a href="{{ route('welcome') }}" class="btn btn-primary "> Back Home </a>
+                                    <div class=" d-flex justify-content-between   align-items-center  p-2">
+
+                                        <div class="">
+                                            <p class="small mb-0    "> <i class="icofont icofont-listening h5   me-1 me-md-2  text-secondary"></i> {{ $song->countPlay }} LISTEN</p>
+                                            <p class="small my-3 "> <i class="icofont icofont-music  h5   me-1 me-md-2 text-secondary"></i> {{ \Illuminate\Support\Str::upper($song->category->name) }} </p>
+                                            <p class="small mb-0  "> <i class="icofont icofont-microphone  h5  me-1 me-md-2 text-secondary"></i> {{ \Illuminate\Support\Str::upper($song->artist->name) }} </p>
+                                        </div>
+                                        <div class="align-self-end ">
+                                            <button class="btn btn-outline-info" onclick="playMusic('{{ $song->path }}','{{ $song->duration }}','{{ $song->id }}')">
+                                                <i class="icofont icofont-play " id="play{{ $song->id }}"></i>
+                                                <i class="icofont icofont-pause  d-none" id="pause{{ $song->id }}"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                            </div>
                         </div>
                     </div>
-                @endforelse
-                </tbody>
-            </table>
-               @else
-                <div class="my-5 text-center text-danger">
-                    <img src="{{ asset('Image/nodata.webp') }}" width="200" alt="">
-                    <div class="">
-                        <a href="{{ route('welcome') }}" class="btn btn-outline-primary "> Back Home </a>
-                    </div>
                 </div>
-               @endif
+            </div>
+        @endforeach
+    @else
+        <div class="my-5 text-center text-danger">
+            <img src="{{ asset('Image/nodata.webp') }}" width="200" alt="">
+            <div class="">
+                <a href="{{ route('welcome') }}" class="btn btn-outline-primary "> Back Home </a>
+            </div>
+        </div>
+    @endif
+</div>
 
 
         <div class="d-flex justify-content-center mt-4  ">
@@ -126,7 +143,13 @@
                     'music_id' : id
                 }
                 glass.classList.add('active');
-
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-outline-success mx-3',
+                        cancelButton: 'btn btn-outline-danger mx-3'
+                    },
+                    buttonsStyling: false
+                })
                 $.ajax({
                     type : "POST",
                     url : url,
@@ -137,19 +160,58 @@
                         localStorage.setItem('id',res.id);
                         glass.classList.remove('active');
 
-                        Swal.fire({
-                            position: 'top-end',
+                        swalWithBootstrapButtons.fire({
                             icon: res.status,
                             title: res.message,
                             showConfirmButton: true,
-                            timer: 2000
                         })
                     }
                 })
 
-            },duration * 1000) //duration*
+            }, (duration * 1000) - 5000) //duration*
         }
 
 
     </script>
 @endsection
+
+
+{{--<table class="table-borderless table">--}}
+{{--    <thead>--}}
+{{--    <tr>--}}
+{{--        <td>No</td>--}}
+{{--        <td>Name</td>--}}
+{{--        <td>Artis</td>--}}
+{{--        <td>Type</td>--}}
+{{--        <td>Duration</td>--}}
+{{--        <td>Listen</td>--}}
+{{--        <td>Play</td>--}}
+{{--    </tr>--}}
+{{--    </thead>--}}
+
+{{--    <tbody>--}}
+{{--    @forelse($songs as $key=>$song)--}}
+{{--        <tr>--}}
+{{--            <td>{{ $key+1 }}</td>--}}
+{{--            <td>{{ $song->name }}</td>--}}
+{{--            <td>{{ $song->artist->name }}</td>--}}
+{{--            <td>{{ $song->category->name }}</td>--}}
+{{--            <td> {{ (floor($song->duration / 60 )) .':'. ($song->duration % 60) }}</td>--}}
+{{--            <td> {{ $song->countPlay  }}</td>--}}
+{{--            <td>--}}
+{{--                <button class="btn btn-outline-info" onclick="playMusic('{{ $song->path }}','{{ $song->duration }}','{{ $song->id }}')">--}}
+{{--                    <i class="icofont icofont-play " id="play{{ $song->id }}"></i>--}}
+{{--                    <i class="icofont icofont-pause  d-none" id="pause{{ $song->id }}"></i>--}}
+{{--                </button>--}}
+{{--            </td>--}}
+{{--        </tr>--}}
+{{--    @empty--}}
+{{--        <div class="my-5 text-center text-danger">--}}
+{{--            <img src="{{ asset('Image/nodata.webp') }}" width="200" alt="">--}}
+{{--            <div class="">--}}
+{{--                <a href="{{ route('welcome') }}" class="btn btn-primary "> Back Home </a>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    @endforelse--}}
+{{--    </tbody>--}}
+{{--</table>--}}

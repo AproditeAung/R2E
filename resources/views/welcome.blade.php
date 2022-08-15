@@ -66,7 +66,7 @@
                                 <p class="small mb-0 d-none d-lg-block"> <i class="icofont icofont-user me-1 me-md-2 text-secondary"></i> {{ $blog->user->name }} </p>
                             </div>
                             <p style="text-align: justify" class="mt-3 d-none d-lg-block ">
-                                {{ \Illuminate\Support\Str::words( $blog->sample,45)  }}
+                                {{ \Illuminate\Support\Str::limit( $blog->sample,145)  }}
                             </p>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                 </div>
             </div>
         @endforelse
-        {{ $lastestNews->onEachSide(3)->links() }}
+        {{ $lastestNews->onEachSide(5)->links() }}
     </div>
 @endsection
 

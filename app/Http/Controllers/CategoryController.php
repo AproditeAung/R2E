@@ -21,11 +21,15 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $Genres = Category::where('user_id',Auth::id())->get();
-        if(Auth::user()->role == '2'){
-            return view('Backend.Category.index',compact('Genres'));
-        }
-        return view('FrontEnd.EditorCategoryCrud.index',compact('Genres'));
+        $categories = Category::when(Auth::user()->role == 1 ,function ($q){
+            return $q->where('user_id',Auth::id());
+        })->get();
+
+        $musicCategories = MusicCategory::when(Auth::user()->role == 1 ,function ($q){
+            return $q->where('user_id',Auth::id());
+        })->get();
+        return view('FrontEnd.EditorCategoryCrud.index',compact('categories','musicCategories'));
+
 
     }
 
@@ -95,12 +99,15 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $genre
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateGenreRequest $request, Category $genre)
+    public function update(UpdateGenreRequest $request,$genre)
     {
 
-        $genre->name = $request->genre;
-        $genre->update();
-        return redirect()->route('genre.index')->with('message',['icon'=>'success','text'=>'Successfully updated']);
+        $updateCategory = Category::where('id',$genre)->first();
+        $updateCategory->name = $request->title;
+        $updateCategory->slug = Str::slug($request->title);
+        $updateCategory->update();
+
+        return redirect()->route('category.index')->with('message',['icon'=>'success','text'=>'Successfully updated']);
 
     }
 
@@ -112,7 +119,6 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        return response()->json(['']);
         $category->delete();
         return response()->json(array('id' => $category));
     }

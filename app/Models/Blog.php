@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Blog extends Model
 {
-    protected $with = ['categoryName','user'];
     use HasFactory;
 
     protected $fillable = ['title','category_id','created_at','dislike','body','like','pinBlog'];

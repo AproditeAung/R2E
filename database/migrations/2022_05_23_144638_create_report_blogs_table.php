@@ -15,7 +15,7 @@ class CreateReportBlogsTable extends Migration
     {
         Schema::create('report_blogs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('blog_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('blog_id')->constrained('blogs','id')->cascadeOnDelete()->cascadeOnUpdate();
             $table->unsignedBigInteger('viewers')->default(0);
             $table->timestamps();
         });

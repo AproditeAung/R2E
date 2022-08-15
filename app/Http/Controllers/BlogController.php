@@ -14,6 +14,7 @@ use App\Models\Withdraw;
 use App\Notifications\EarnMoney;
 use http\Client\Curl\User;
 use Illuminate\Http\Request;
+use Illuminate\Log\Logger;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -37,11 +38,10 @@ class BlogController extends Controller
     {
         $blogs = Blog::when(Auth::user()->role < '2',function ($q){
             return $q->where('user_id',Auth::id());
-        })->orderBY('created_at','desc')->paginate(5);
+        })->orderBY('created_at','desc')->with('user:id,name','categoryName')->paginate(10);
 
-        $categories = Category::all();
 
-        return  view('FrontEnd.EditorBlog.index',compact('blogs','categories'));
+        return  view('FrontEnd.EditorBlog.index',compact('blogs'));
 
     }
 
@@ -52,9 +52,8 @@ class BlogController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
 
-        return  view('FrontEnd.EditorBlog.create',compact('categories'));
+        return  view('FrontEnd.EditorBlog.create');
 
     }
 
@@ -71,9 +70,8 @@ class BlogController extends Controller
         $path = 'public/blog_photos/';
         $newName = now().uniqid().$file->getClientOriginalName();
         $minisizePath = 'public/blog_mini_photo/';
-        $img = Image::make($file)->resize(800,  null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
+        $img = Image::make($file)->fit(600, 338,null,'top-left');
+
         $img->save('raw_upload/'.$newName,100);
 
         if(!Storage::exists($minisizePath)){
@@ -126,9 +124,7 @@ class BlogController extends Controller
      */
     public function edit(Blog $blog)
     {
-        $categories = Category::all();
-
-        return  view('FrontEnd.EditorBlog.edit',compact('blog','categories'));
+        return  view('FrontEnd.EditorBlog.edit',compact('blog'));
     }
 
     /**
@@ -146,9 +142,7 @@ class BlogController extends Controller
             $newName = now().uniqid().$file->getClientOriginalName();
             $path = 'public/blog_photos/';
 
-            $img = Image::make($file)->resize(800,  null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
+            $img = Image::make($file)->fit(600, 338,null,'top-left');
 
             $minisizePath = 'public/blog_mini_photo/';
             $img->save('raw_upload/'.$newName,100);
@@ -190,8 +184,12 @@ class BlogController extends Controller
     public function destroy(Blog $blog)
     {
         $blog->delete();
-        Storage::delete('public/blog_photos/'.$blog->ImageRec);
-        unlink(public_path('Image/'.$blog->ImageRec));
+
+        if(Storage::exists('public/blog_photos/'.$blog->ImageRec) && $blog->ImageRec != "blogPic.png"){
+            Storage::delete('public/blog_photos/'.$blog->ImageRec);
+            Storage::delete('public/blog_mini_photo/'.$blog->ImageRec);
+        }
+
         return  redirect()->back()->with('message',['icon'=>'success' , 'text' => 'successfully deleted' ]);
 
     }
@@ -199,10 +197,9 @@ class BlogController extends Controller
 
     public function viewBlogDetail($slug)
     {
-        $blog = Blog::where('slug', $slug)->first();
+        $blog = Blog::with('categoryName','user')->where('slug', $slug)->first();
 
-
-        $relatedNews = Blog::where('category_id', $blog->category_id)->where('id', '<>', $blog->id)->limit(3)->get();
+        $relatedNews = Blog::where('category_id', $blog->category_id)->where('id', '<>', $blog->id)->with('categoryName')->limit(3)->get();
         return view('blogDetail', compact('blog', 'relatedNews'));
     }
 
@@ -212,12 +209,11 @@ class BlogController extends Controller
             return $q->where('title','LIKE',"%".request()->search."%");
         })->when(isset(request()->select),function ($q){
             return $q->where('category_id',request()->select);
-        })->orderBy('created_at','desc')->paginate(9);
-
-        $categories = Category::all();
+        })->with('user:name,id','categoryName')->latest('id')->paginate(10);
 
 
-        return view('blogAll',compact('blogs','categories'));
+
+        return view('blogAll',compact('blogs'));
     }
 
     public function PinPost(Blog $blog)
@@ -246,7 +242,7 @@ class BlogController extends Controller
 
 //        $blogs = Blog::where('user_id',Auth::id())->paginate(4);
 //        $categories = Category::where('user_id',Auth::id())->paginate(4);
-        $user = \App\Models\User::where('id',Auth::id())->with('reader')->first();
+        $user = \App\Models\User::where('id',Auth::id())->with('reader','detail')->first();
 
         if($user->reader == null){
             $reader = new Reader();
@@ -256,7 +252,8 @@ class BlogController extends Controller
             $reader->save();
         }
 
-        $user = \App\Models\User::where('id',Auth::id())->with('reader')->first();
+        $user = \App\Models\User::where('id',Auth::id())->with('reader','detail')->first();
+
 
 
         return view('profile',compact('user'));
@@ -392,6 +389,8 @@ class BlogController extends Controller
 
     public function dashboard()
     {
+
+
         $weeklyViewers = [];
 
         for ($i=0; $i<7; $i++){
@@ -400,10 +399,19 @@ class BlogController extends Controller
             }else{
                 $date = now()->subDays(6)->addDays($i);
             }
-            $viewers = ReportBlog::whereDate('created_at',$date)->get()->sum('viewers');
 
-            array_push($weeklyViewers,['date' => $date->format('d M') , 'viewers' => $viewers ?? 0]);
+           if(Auth::user()->role == '2'){
+               $viewers = ReportBlog::whereDate('created_at',$date)->get()->sum('viewers');
+
+           }else{
+               $viewers = ReportBlog::whereIn('blog_id',Blog::where('user_id',Auth::id())->pluck('id'))->whereDate('created_at',$date)->get();
+           }
+
+
+
+            array_push($weeklyViewers,['date' => $date->format('d-m-y') , 'viewers' => $viewers ?? 0]);
         }
+
 
         $monthlyViewers = [];
 

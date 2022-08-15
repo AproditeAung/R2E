@@ -28,8 +28,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
 
-//        $categories = Category::all();
-//
-//        View::share('categories',$categories);
+        $categories = Category::all();
+
+        View::share('categories',$categories);
     }
 }

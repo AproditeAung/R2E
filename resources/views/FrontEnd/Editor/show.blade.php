@@ -12,11 +12,11 @@
 @section('contant')
 
 
-            <div class="col-12 m-auto ">
+            <div class="col-12">
                 <div class="card mb-2 mb-md-5 bg-transparent border-secondary">
                     <div class="card-body">
-                        <h4 class="fw-bolder h5 "> <i class="pe-7s-user"></i> : {{ $requestEditor->user->name }} </h4>
-                        <h5 class="fw-bolder h5 my-4 "> <i class="pe-7s-edit"></i>  : {{ $requestEditor->title }} </h5>
+                        <h4 class="fw-bolder h5 "> <i class="icofont icofont-user"></i> : {{ $requestEditor->user->name }} </h4>
+                        <h5 class="fw-bolder h5 my-4 "> <i class="icofont icofont-header"></i>  : {{ $requestEditor->title }} </h5>
 
                         <p class="h6" style="text-align: justify;line-height: 1.5rem">
                             {{ $requestEditor->description }}

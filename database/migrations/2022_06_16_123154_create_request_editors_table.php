@@ -15,7 +15,7 @@ class CreateRequestEditorsTable extends Migration
     {
         Schema::create('request_editors', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users','id');
+            $table->foreignId('user_id')->constrained('users','id')->cascadeOnDelete()->cascadeOnUpdate();
             $table->longText('description');
             $table->string('title');
             $table->timestamps();

@@ -6,8 +6,10 @@ use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\ReaderWallet;
 use App\Models\User;
+use App\Models\UserDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -21,7 +23,7 @@ class UserController extends Controller
     {
         $users = User::when(isset(request()->role) && request()->role != 3,function ($q){
             return $q->where('role',request()->role);
-        })->simplePaginate(5);
+        })->with('detail')->simplePaginate(5);
 
         return view('FrontEnd.userCRUD.index',compact('users'));
     }
@@ -44,38 +46,38 @@ class UserController extends Controller
      */
     public function store(UserCreateRequest $request)
     {
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->role = $request->role;
-        $user->reference_id = uniqid();
-        $user->save();
+        DB::beginTransaction();
 
-        $wallet = new ReaderWallet();
-        $wallet->user_id  = $user->id;
-        $wallet->wallet_no = uniqid();
-        $wallet->amount = 0;
-        $wallet->save();
-        return redirect()->route('user.index')->with('message',['icon'=>'success','text'=>'successfully created']);
+        try {
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->role = $request->role;
+            $user->reference_id = uniqid();
+            $this->DetailUserGenerate($user, $request);
+
+            DB::commit();
+            return redirect()->route('user.index')->with('message',['icon'=>'success','text'=>'successfully created']);
+
+        }catch (\Exception $err){
+            DB::rollBack();
+            return redirect()->route('user.index')->with('message',['icon'=>'error','text'=>$err->getMessage()]);
+
+        }
     }
 
 
-    public function generateUser()
+    public function generateUser(Request $request)
     {
-        $name ='kndf'.User::orderBy('id','desc')->first()->id;
-        $email ='kndf'.User::orderBy('id','desc')->first()->id.'@kndf.com';
+        $name ='H2E'.User::orderBy('id','desc')->first()->id;
+        $email ='H2E'.User::orderBy('id','desc')->first()->id.'@H2E.com';
         $user = new User();
         $user->name =$name;
         $user->email =$email;
         $user->password = Hash::make('mustbewin'); // mustbewin
-        $user->save();
+        $this->DetailUserGenerate($user, $request);
 
-        $wallet = new ReaderWallet();
-        $wallet->user_id  = $user->id;
-        $wallet->wallet_no = uniqid();
-        $wallet->amount = 0;
-        $wallet->save();
         return redirect()->route('user.create')->with('message',['icon'=>'success','text'=>'successfully created','user'=>$user]);
     }
 
@@ -147,5 +149,26 @@ class UserController extends Controller
             return redirect()->route('user.index')->with('message',['icon'=>'success','text'=>'successfully downgraded editor']);
 
         }
+    }
+
+    /**
+     * @param User $user
+     * @param Request $request
+     */
+    public function DetailUserGenerate(User $user, Request $request): void
+    {
+        $user->save();
+
+        $wallet = new ReaderWallet();
+        $wallet->user_id = $user->id;
+        $wallet->wallet_no = uniqid();
+        $wallet->amount = 0;
+        $wallet->save();
+
+        $userDetail = new UserDetail();
+        $userDetail->reference_id = uniqid();
+        $userDetail->ip = $request->getClientIp();
+        $userDetail->user_id = $user->id;
+        $userDetail->save();
     }
 }

@@ -3,7 +3,7 @@
 
     <!-- Facebook and Twitter integration -->
     <meta property="og:title" content="{{ $blog->title }}"/>
-    <meta property="og:image" content="{{ asset('Image/'.$blog->ImageRec) }}"/>
+    <meta property="og:image" content="{{ asset('storage/blog_photos/'.$blog->ImageRec) }}"/>
     <meta property="og:url" content="{{ \Illuminate\Support\Facades\URL::full() }}"/>
     <meta property="og:site_name" content="{{ $blog->title }}"/>
     <meta property="og:description" content="{{ $blog->sample }}"/>
@@ -15,10 +15,10 @@
 @section('contant')
 
 
-    <div class="col-md-9 mt-3  mb-5  position-relative">
+    <div class="col-md-9  mb-5  position-relative">
             <div class="   px-md-3   d-flex flex-column justify-content-between" >
                 <div class="mt-4 mt-md-0  " data-aos="zoom-in" data-aos-duration="1000">
-                    <h3 class="fw-bolder h2 text-capitalize text-center" > {{ $blog->title }}  </h3>
+                    <h3 class="fw-bolder h2 text-capitalize text-center mb-3 " > {{ $blog->title }}  </h3>
                     <div class="d-flex align-content-center justify-content-center  ">
                         <p class="small me-2  me-md-4 "> <i class="icofont icofont-calendar me-2 "></i> {{ $blog->created_at->diffForHumans() }}</p>
                         <p class="small me-2  me-md-4 "> <i class="icofont icofont-heart me-2 "></i> {{ $blog->countUser }} like</p>
@@ -63,7 +63,7 @@
                         </div>
 
                         <p style="text-align: justify" class="mt-3  fw-lighter ">
-                            {{ \Illuminate\Support\Str::words($relatedNew->body,20) }}
+                            {{ \Illuminate\Support\Str::limit($relatedNew->body,120) }}
 
                         </p>
                     </div>
@@ -81,7 +81,7 @@
 
                     <div class="mt-4 mt-md-0 ">
                         <div class="my-3 d-flex align-items-center justify-content-between  ">
-                            <img src="{{ asset('storage/blog_mini_photo') }}" data-aos="zoom-in" data-aos-duration="1000" class="rounded " width="50%" alt="">
+                            <img src="{{ asset('storage/blog_mini_photo/blogPic.png') }}" data-aos="zoom-in" data-aos-duration="1000" class="rounded " width="50%" alt="">
                             <div >
                                 <p class="small mb-2   "> <i class="icofont icofont-calendar me-2 "></i> 12 May 22</p>
                                 <p class="small mb-2   "> <i class="icofont icofont-ui-user-group me-2 "></i> 132 views</p>
@@ -122,7 +122,7 @@
                     }
                 }
                 showSecond.innerText = second < 10 ? '0'+second : second;
-            },1000);
+            },100);
         });
 
 
@@ -147,8 +147,8 @@
         function giveFeedBack(){
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
-                    confirmButton: 'btn btn-success',
-                    cancelButton: 'btn btn-danger'
+                    confirmButton: 'btn btn-outline-success mx-3',
+                    cancelButton: 'btn btn-outline-danger mx-3'
                 },
                 buttonsStyling: false
             })

@@ -25,7 +25,7 @@ class UpdateGenreRequest extends FormRequest
     public function rules(Category $genre)
     {
         return [
-            'genre' => 'required|min:|max:30|unique:App\Models\Genre,name'
+            'title' => 'required|min:|max:30|unique:App\Models\Category,name,'.$genre->id,
         ];
     }
 }

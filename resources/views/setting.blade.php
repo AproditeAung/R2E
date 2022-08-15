@@ -20,7 +20,7 @@
                         <div class="h3 fw-bolder text-center ">
                             Setting
                         </div>
-                       @if(\Illuminate\Support\Facades\Auth::user()->role == '2')
+                       @if(\Illuminate\Support\Facades\Auth::user()->role != '0')
                             <div class="h3 fw-bolder text-center ">
                                 <a href="{{ route('dashboard') }}" class=" btn btn-outline-secondary ">Dashboard</a>
                             </div>
@@ -67,23 +67,35 @@
            <div class="col-lg-4 mb-3 my-md-5  ">
                <div class="card border-secondary bg-transparent  shadow-sm ">
 
-                   <div class="card-body table-responsive ">
-                 <span class="h3 fw-bolder text-center ">
-                    User Manager
-                </span>
-                       <hr>
-                       <div class="mb-2 ">
-                           <a href="{{ route('user.create') }}" class="btn btn-outline-secondary">Create User</a>
-                       </div>
-                       <div class="mb-2 ">
-                           <a href="{{ route('user.index') }}" class="btn btn-outline-secondary">User List</a>
-                       </div>
-                       <div class="mb-2 ">
-                           <a href="{{ route('contact.index') }}" class="btn btn-outline-secondary">Contact List</a>
-                       </div>
-                       <div class="mb-2 ">
-                           <a href="{{ route('requestEditor.index') }}" class="btn btn-outline-secondary">Editor List</a>
-                       </div>
+                   <div class="card-body ">
+                        <div class="mb-3 ">
+                              <span class="h3 fw-bolder text-center ">
+                            User Manager
+                            </span>
+                            <hr>
+                            <div class="d-flex flex-wrap justify-content-between ">
+                                <div class="mb-2 me-2 ">
+                                    <a href="{{ route('user.index') }}" class="btn btn-outline-secondary">User List</a>
+                                </div>
+                                <div class="mb-2 me-2 ">
+                                    <a href="{{ route('contact.index') }}" class="btn btn-outline-secondary">Contact List</a>
+                                </div>
+                                <div class="mb-2 me-2 ">
+                                    <a href="{{ route('requestEditor.index') }}" class="btn btn-outline-secondary">Editor List</a>
+                                </div>
+                            </div>
+                        </div>
+
+                      <div class="">
+                           <span class="h3 fw-bolder text-center  ">
+                               Contact Manager
+                        </span>
+                          <hr>
+                          <div class="mb-2 me-2 ">
+                              <a href="{{ route('user.create') }}" class="btn btn-outline-secondary">Create User</a>
+                          </div>
+                      </div>
+
                    </div>
                </div>
            </div>
