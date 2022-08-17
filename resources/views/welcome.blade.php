@@ -1,5 +1,23 @@
 @extends('main')
+@section('meta')
+
+    <!-- Primary Meta Tags -->
+    <title>H2E</title>
+    <meta name="title" content="Happy To Earn">
+    <meta name="description" content="Earn money in your free time with funny article, education, motivation and video.">
+
+    <!-- Facebook and Twitter integration -->
+    <meta property="og:image" content="{{ asset('Image/profile.webp') }}"/>
+    <meta property="og:url" content=""/>
+    <meta property="og:description" content=" Earn money in your free time with funny article, education, motivation and video. "/>
+    <meta property="og:type"   content="website" />
+
+    <link rel="icon" href="{{ asset('Image/profile.webp') }}">
+
+
+@endsection
 @section('home_active','active fw-bolder')
+
 @section('style')
     <style>
 
@@ -22,8 +40,7 @@
 
           @media screen and (max-width: 480px){
               .title{
-                  font-size: 14px;
-                  font-weight: normal;
+                  font-size: 16px;
               }
           }
     </style>
@@ -58,8 +75,8 @@
                     <div class="col-6 col-md-7 px-2 px-lg-4  px-md-3  d-flex flex-column justify-content-between  mt-2 mt-lg-4 "
                          data-aos="zoom-in" data-aos-anchor-placement="bottom-bottom" data-aos-duration="1000">
                         <div class="">
-                            <h6 class="font-weight-lighter text-secondary   d-block d-lg-none "> {{ $blog->created_at->diffForHumans() }}  </h6>
-                            <h6 class="  my-2 my-lg-0  title "> {{ \Illuminate\Support\Str::words($blog->title,20) }}</h6>
+                            <h6 class="font-weight-lighter text-secondary   d-block d-lg-none "> {{ $blog->created_at->format('d M Y') }}  </h6>
+                            <h6 class="  my-2 my-lg-0  title "> {{ \Illuminate\Support\Str::limit($blog->title,30) }}</h6>
                             <div class="d-flex align-content-center justify-content-start  mt-0 mt-lg-2  ">
                                 <p class="small mb-0   "> <i class="icofont icofont-heart me-1 me-md-2 text-danger"></i> {{ $blog->countUser }} </p>
                                 <p class="small mb-0 mx-3  "> <i class="icofont icofont-layers me-1 me-md-2 text-secondary"></i> {{ $blog->categoryName->name }} </p>

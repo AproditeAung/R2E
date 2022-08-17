@@ -78,7 +78,9 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center fw-bolder text-danger">NO WITHDRAW </td>
+                            <td colspan="6" class="text-center fw-bolder text-danger">
+                                <img src="{{ asset('Image/nodata.webp') }}" alt="" width="100">
+                            </td>
                         </tr>
                     @endforelse
                     </tbody>

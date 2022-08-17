@@ -1,6 +1,9 @@
 @extends('main')
 @section('contact_active','active fw-bolder')
 @section('image','https://cdn3d.iconscout.com/3d/premium/thumb/contact-4856447-4047551.png')
+@section('meta')
+    <link rel="icon" href="{{ asset('Image/profile.webp') }}">
+@endsection
 @section('contant')
 
 

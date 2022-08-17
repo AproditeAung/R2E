@@ -1,5 +1,8 @@
 @extends('main')
 @section('blog_active','active')
+@section('meta')
+    <link rel="icon" href="{{ asset('Image/profile.webp') }}">
+@endsection
 @section('style')
     <style>
 
@@ -105,7 +108,7 @@
                 <button class="btn btn-outline-secondary  " type="submit">Search</button>
             </form>
                 @forelse($blogs as $blog)
-                    <div class="col-lg-6  ">
+                    <div class="col-lg-6 mt-3  ">
                         <a href="{{ route('guest.blog.detail',$blog->slug) }}" class="text-decoration-none link-secondary  ">
 
                         <div class="courses-container ">

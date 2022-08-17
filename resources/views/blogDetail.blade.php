@@ -1,15 +1,29 @@
 @extends('main')
 @section('meta')
 
+    <!-- Primary Meta Tags -->
+    <title>{{ $blog->title }}</title>
+    <meta name="title" content="{{ $blog->title }}">
+    <meta name="description" content="{{ $blog->sample }}">
+
     <!-- Facebook and Twitter integration -->
     <meta property="og:title" content="{{ $blog->title }}"/>
     <meta property="og:image" content="{{ asset('storage/blog_photos/'.$blog->ImageRec) }}"/>
     <meta property="og:url" content="{{ \Illuminate\Support\Facades\URL::full() }}"/>
     <meta property="og:site_name" content="{{ $blog->title }}"/>
     <meta property="og:description" content="{{ $blog->sample }}"/>
-    <meta property="og:type"          content="website" />
+    <meta property="og:type"   content="website" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
+    <!-- Twitter -->
+    <meta property="twitter:card" content="{{ $blog->title }}">
+    <meta property="twitter:url" content="{{ \Illuminate\Support\Facades\URL::full() }}">
+    <meta property="twitter:title" content="{{ $blog->title }}">
+    <meta property="twitter:description" content="{{ $blog->sample }}">
+    <meta property="twitter:image" content="{{ asset('storage/blog_photos/'.$blog->ImageRec) }}">
 
+    <link rel="icon" href="{{ asset('Image/profile.webp') }}">
 @endsection
 @section('blog_active','active')
 @section('contant')
@@ -63,7 +77,7 @@
                         </div>
 
                         <p style="text-align: justify" class="mt-3  fw-lighter ">
-                            {{ \Illuminate\Support\Str::limit($relatedNew->body,120) }}
+                            {{ \Illuminate\Support\Str::limit($relatedNew->sample,120) }}
 
                         </p>
                     </div>

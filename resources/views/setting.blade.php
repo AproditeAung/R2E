@@ -1,8 +1,11 @@
 @extends('main')
 @section('meta')
+    <link rel="icon" href="{{ asset('Image/profile.webp') }}">
+@endsection
+@section('style')
     <style>
         .page-link{
-            background-color: #494848 !important;
+            background-color: #494848 !important;   
             border: 1px solid #303031 !important;
         }
     </style>

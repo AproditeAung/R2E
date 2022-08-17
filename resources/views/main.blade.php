@@ -1,4 +1,13 @@
-<div id="loader" style=" width: 100%;
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    @yield('meta')
+
+    <div id="loader" style=" width: 100%;
             height: 100%;
             display: flex;
             justify-content: center;
@@ -8,21 +17,9 @@
             z-index: 9999;
             background: #fcfcfc;
             transition: 1s all ease-in;" class="loader">
-    <img src="{{ asset('Image/loading.svg') }}" width="50%" alt="">
-</div>
+        <img src="{{ asset('Image/loading.svg') }}" width="50%" alt="">
+    </div>
 
-
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-
-    @yield('meta')
-
-    <link rel="shortcut icon"  href="{{ asset('Image/earn-money.png') }}">
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/icofont.css') }}">
@@ -162,6 +159,9 @@
          }
 
     </style>
+
+    <link rel="icon" href="{{ asset('Image/profile.webp') }}">
+
 
     @yield('style')
 </head>
