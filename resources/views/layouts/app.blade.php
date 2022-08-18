@@ -13,12 +13,13 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
-    <link rel="stylesheet" href="{{ asset('assets/css/icofont.css') }}">
 
     <link rel="icon" href="{{ asset('Image/earn-money.png') }}">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/css/icofont.css') }}">
+
     <style>
         ::-webkit-scrollbar {
             width: 0.1rem;
@@ -185,14 +186,14 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <button class="menuButton  " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
-                        <i class="icofont icofont-social-dotcms icofont-2x "></i>
+                        <i class="icofont icofont-navigation-menu  icofont-2x "></i>
                     </button>
 
                     <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
                         <div class="offcanvas-body small">
                             <div class="d-flex justify-content-around align-items-center">
                                 <a href="{{ route('login') }}" class="customNavItem @yield('home_active')">
-                                    <i class="icofont icofont-ui-lock h1"></i>
+                                    <i class="icofont icofont-lock  h1"></i>
                                     <p class="outline mb-0 mt-1 "></p>
                                 </a>
                                 <a href="{{ route('register') }}" class="customNavItem @yield('blog_active')">

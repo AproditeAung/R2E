@@ -27,7 +27,6 @@ class StoreMusicRequest extends FormRequest
             'name' => 'required',
             'artist_id' => 'required',
             'category_id' => 'required',
-            'song_file' => 'required|mimes:audio/mpeg,mpga,mp3,wav'
         ];
     }
 }

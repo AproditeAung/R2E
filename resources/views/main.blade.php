@@ -253,7 +253,7 @@
                     </div>
                 </div>
                 <div class="dropdown">
-                    <img src="{{ asset('Image/profile.webp') }}" width="40" height="40"  class="customDropdown rounded rounded-circle dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" alt="">
+                    <img src="{{ \Illuminate\Support\Facades\Auth::check() == true ? asset('Image/'.\Illuminate\Support\Facades\Auth::user()->photo) : asset('Image/profile.webp') }}" width="40" height="40"  class="customDropdown rounded rounded-circle dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" alt="">
                     <ul class="dropdown-menu bg-body " aria-labelledby="dropdownMenuButton1">
 
                         <li>
@@ -350,15 +350,17 @@
 
     let loader = document.getElementById('loader');
 
-    window.addEventListener("load",function (){
-        loader.setAttribute('data-aos','fade-out');
-        loader.setAttribute('data-aos-duration','1000');
+    // window.addEventListener("load",function (){
+    //
+    //
+    // });
 
-        setTimeout(()=>{
-            loader.classList.add('d-none');
-        },1500)
+            loader.setAttribute('data-aos','fade-out');
+            loader.setAttribute('data-aos-duration','1000');
 
-    });
+            setTimeout(()=>{
+                loader.classList.add('d-none');
+            },1500)
 
     let allNavItems = $('.customNavItem').toArray();
 

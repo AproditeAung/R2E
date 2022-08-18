@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->enum('role', ['0', '1', '2'])->default('0')->comment('o is user , 1 is editor , 2 is admin');
+            $table->string('photo')->default('profile.webp');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });

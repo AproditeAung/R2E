@@ -78,7 +78,7 @@
             <input class="form-control border-secondary   me-2" name="search" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-secondary  " type="submit">Search</button>
         </form>
-        <audio src="" hidden id="sourceAudio" preload="auto" autoplay  controls></audio>
+        <audio src="" hidden id="sourceAudio" autoplay ></audio>
 
 
     <div class="row">
@@ -135,7 +135,7 @@
     </div>
 
            <div class="position-fixed bottom-0 " style="width: 400px; ">
-               <nav class="px-5 d-none music-box shadow-sm rounded-pill  rounded p-3  bg-transparent  ">
+               <nav class="px-5 d-none music-box shadow-sm rounded-pill  rounded p-3 bg-body   ">
                    <div class="controller">
                        <div class="control d-flex justify-content-between align-items-center mb-3 ">
                            <div class="">
@@ -172,22 +172,14 @@
 
         },true);
 
-        function pauseMusic()
-        {
-            sourceAudio.pause();
-            document.getElementById('pause').classList.add('d-none');
-            document.getElementById('play').classList.remove('d-none');
-        }
 
         isPlaying = false;
         songIndex = 0;
         function playMusic(path,duration,id){
 
-               toggleMusicBox();
-
-                sourceAudio.src = path;
+                sourceAudio.src = '{{ \Illuminate\Support\Facades\URL::route('welcome') }}'+path;
+                console.log('{{ \Illuminate\Support\Facades\URL::route('welcome') }}'+path)
                 sourceAudio.play();
-
                 sourceAudio.addEventListener('ended',function (){
                     let url = '{{ route('music.payment') }}';
                     let data = {
@@ -234,6 +226,9 @@
             songIndex = songs.data.findIndex( el => el.id == id );
             document.getElementById('pause'+id).classList.remove('d-none');
             document.getElementById('play'+id).classList.add('d-none');
+
+            toggleMusicBox();
+
         }
 
         function toggleMusicBox(){
@@ -255,9 +250,9 @@
         sourceAudio.addEventListener('timeupdate',function (a){
             currentTime = (300/duration) * this.currentTime;
 
-           inlineProgress.style.width = currentTime+'px';
+            inlineProgress.style.width = currentTime+'px';
 
-           currentTimeSongUi.innerHTML = updateMinuteAndSeconde(Math.floor(this.currentTime));
+            currentTimeSongUi.innerHTML = updateMinuteAndSeconde(Math.floor(this.currentTime));
         })
 
         function updateMinuteAndSeconde(duration){
@@ -281,7 +276,21 @@
             $('#play').removeClass('d-none');
             $('#pause').addClass('d-none');
 
-            sourceAudio.pause();
+            let playPromise =  sourceAudio.pause();
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    // Automatic playback started!
+                    // Show playing UI.
+                    // We can now safely pause video...
+                    video.pause();
+                })
+                    .catch(error => {
+                        // Auto-play was prevented
+                        // Show paused UI.
+                        console.log(error);
+                    });
+            }
+
 
             toggleMusicBox()
 
@@ -310,7 +319,7 @@
             isPlaying = false;
             if(index == -1){
                 if(songIndex == 0) {
-                   return  Swal.fire({
+                    return  Swal.fire({
                         icon: 'error',
                         title: text,
                         showConfirmButton: true,
@@ -319,7 +328,7 @@
                 console.log('songindex equal 0');
             }else{
                 if(songIndex == (songs.data.length-1)) {
-                   return  Swal.fire({
+                    return  Swal.fire({
                         icon: 'error',
                         title: text,
                         showConfirmButton: true,

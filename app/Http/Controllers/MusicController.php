@@ -59,7 +59,6 @@ class MusicController extends Controller
         try {
 
                 $file = $request->file('song_file');
-                $mp3file = new Mp3Info($file,true);
                 $songFileName = $request->name.uniqid().'.'.$file->getClientOriginalExtension();
                 $songFilePath = 'public/songs/';
 
@@ -75,14 +74,15 @@ class MusicController extends Controller
                 $music->name = $request->name;
                 $music->musicCategory_id = $request->category_id;
                 $music->artist_id = $request->artist_id;
-                $music->duration = $mp3file->duration;
-                $music->path = asset('storage/songs/'.$songFileName);
+                $music->duration = 288;
+                $music->path = '/storage/songs/'.$songFileName;
                 $music->save();
 
             DB::commit();
             return redirect()->back()->with('message',['icon'=>'success','text'=>'successfully uploaded!']);
         }catch (\Exception $err){
             DB::rollBack();
+            return $err;
             return redirect()->back()->with('message',['icon'=>'error','text'=>$err->getMessage()]);
         }
     }
@@ -122,15 +122,11 @@ class MusicController extends Controller
     {
         DB::beginTransaction();
 
-
-
-
         try {
 
-            if($request->hasFile('song_file')){
+            if($request->has('song_file')){
 
                 $file = $request->file('song_file');
-                $mp3file = new Mp3Info($file,true);
                 $songFileName = $request->name.uniqid().'.'.$file->getClientOriginalExtension();
                 $songFilePath = 'public/songs/';
 
@@ -139,13 +135,15 @@ class MusicController extends Controller
                     Storage::makeDirectory($songFilePath);
                 }
 
-                if(Storage::exists('public/'.explode('/',$music->path,5)[4])){
-                    Storage::delete('public/'.explode('/',$music->path,5)[4]);
+
+                if(Storage::exists('public/'.explode('/',$music->path,3)[2])){
+
+                    Storage::delete('public/'.explode('/',$music->path,3)[2]);
                 }
 
                 Storage::putFileAs($songFilePath,$file,$songFileName);
 
-                $music->path = asset('storage/songs/'.$songFileName);
+                $music->path = '/storage/songs/'.$songFileName;
 
             }
 
@@ -153,13 +151,15 @@ class MusicController extends Controller
             $music->name = $request->name;
             $music->musicCategory_id = $request->category_id;
             $music->artist_id = $request->artist_id;
-            $music->duration = $mp3file->duration;
+            $music->duration = 288;
             $music->update();
 
             DB::commit();
             return redirect()->back()->with('message',['icon'=>'success','text'=>'successfully updated!']);
         }catch (\Exception $err){
             DB::rollBack();
+
+            return $err;
             return redirect()->back()->with('message',['icon'=>'error','text'=>$err->getMessage()]);
         }
     }
@@ -172,8 +172,8 @@ class MusicController extends Controller
      */
     public function destroy(Music $music)
     {
-        if(Storage::exists('public/'.explode('/',$music->path,5)[4])){
-            Storage::delete('public/'.explode('/',$music->path,5)[4]);
+        if(Storage::exists('public/'.explode('/',$music->path,3)[2])){
+            Storage::delete('public/'.explode('/',$music->path,3)[2]);
             $music->delete();
 
             return redirect()->back()->with('message',['icon'=>'success','text'=>'deleted!']);

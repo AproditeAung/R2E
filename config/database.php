@@ -61,6 +61,11 @@ return [
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
+            'dump' => [
+                'use_single_transaction',
+                'timeout' => 60 * 5, // 5 minute timeout
+                'add_extra_option' => '--column_statistics=0', // for example '--column_statistics=0'
+            ]
         ],
 
         'pgsql' => [

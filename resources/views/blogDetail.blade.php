@@ -23,7 +23,7 @@
     <meta property="twitter:description" content="{{ $blog->sample }}">
     <meta property="twitter:image" content="{{ asset('storage/blog_photos/'.$blog->ImageRec) }}">
 
-    <link rel="icon" href="{{ asset('Image/profile.webp') }}">
+    <link rel="icon" href="{{ asset('Image/'.$blog->user->photo) }}">
 @endsection
 @section('blog_active','active')
 @section('contant')

@@ -60,3 +60,6 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('allblogs', [BlogController::class,'AllBlogs'])->name('all.blogs');
     Route::get('allsongs', [HomeController::class,'AllMusic'])->name('all.music');
     Route::post('musicpayment', [MusicController::class,'MusicPayment'])->name('music.payment');
+
+
+    Route::get('changProfile',[HomeController::class,'changeProfile'])->name('change.profile');

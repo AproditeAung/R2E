@@ -14,6 +14,8 @@ use App\Models\ReportBlog;
 use DebugBar\DebugBar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use ipinfo\ipinfo\IPinfo;
 
 class HomeController extends Controller
@@ -67,5 +69,19 @@ class HomeController extends Controller
 //return $songs;
 
         return view('songAll',compact('songs','artists'));
+    }
+
+    public function changeProfile(Request $request)
+    {
+        $request->validate([
+            'profile' => 'required|string',
+        ]);
+
+
+        DB::table('users')->where('id',Auth::id())->update([
+            'photo' => $request->profile,
+        ]);
+
+        return redirect()->back()->with('message',['icon'=>'success','text'=>'Profile Updated!']);
     }
 }

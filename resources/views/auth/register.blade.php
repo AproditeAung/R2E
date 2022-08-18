@@ -96,7 +96,7 @@
 
                                 <div class="col-md-8">
                                     <input id="reference_id" type="text" class="form-control  border-secondary"
-                                           name="reference_id" >
+                                           name="reference_id" value="{{ request()->referral_id ?? '' }}">
                                 </div>
                             </div>
 
