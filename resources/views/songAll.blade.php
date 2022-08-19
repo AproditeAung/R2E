@@ -71,6 +71,14 @@
         .music_buttons span:hover{
             cursor:pointer;
         }
+
+        .blur{
+            background: rgb(179 177 177 / 15%);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+        }
     </style>
 @endsection
 @section('image','https://cdn3d.iconscout.com/3d/premium/thumb/music-note-5385109-4503429.png')
@@ -100,37 +108,23 @@
 
         @if($songs->count() > 0)
             @foreach($songs as $song)
-                <div class="col-lg-4 mb-3  ">
-                    <div class="card border-0 rounded-3 overflow-hidden position-relative bg-transparent shadow-sm " style="border-radius: 30px">
+                <div class="col-6 col-lg-3 mb-3  ">
+                    <div class="card border-0 rounded-3 overflow-hidden position-relative shadow-sm blur overflow-hidden " style="border-radius: 30px;">
                         <div class="card-body p-0 " >
-                            <div class="row ">
-                               <div class="col-4 artist_img">
-                                   <img src="{{ asset('storage/artist_pic/'.$song->artist->photo) }}" width="100%" height="100%" class="rounded-circle rounded " alt="">
-                               </div>
-                                <div class="col-8  ">
-
-
-                                            <div class="py-2 pe-2 position-relative ">
-                                                <span class="  position-absolute " style="right: 5px; top: 5px" >
-                                                    <i class="icofont icofont-play btn btn-outline-info btn-sm " id="play{{ $song->id }}" onclick="playMusic('{{ $song->path }}','{{ $song->duration }}','{{ $song->id }}')"></i>
-                                                    <i class="icofont icofont-pause btn btn-outline-info btn-sm  d-none" id="pause{{ $song->id }}" onclick="pauseMusic()"></i>
+                               <div class=" artist_img d-flex justify-content-center align-items-center flex-column  ">
+                                   <div class="position-relative ">
+                                          <span class="  position-absolute " style="width: 50px;height: 50px;text-align: center;line-height: 50px" >
+                                                    <i class="icofont icofont-play btn btn-info btn-sm " id="play{{ $song->id }}" onclick="playMusic('{{ $song->path }}','{{ $song->duration }}','{{ $song->id }}')"></i>
+                                                    <i class="icofont icofont-pause btn btn-info btn-sm  d-none" id="pause{{ $song->id }}" onclick="pauseMusic()"></i>
                                                 </span>
-                                                <p class=" mb-0  fw-bolder h5 text-uppercase  "> {{ $song->name }} </p>
-                                                <div class="d-flex justify-content-between align-items-center w-100 my-3 ">
-                                                    <p class="small mb-0    "> <i class="icofont icofont-listening h5   me-1 me-md-2  text-secondary"></i> {{ $song->countPlay }} Listen</p>
-                                                    <p class="small mb-0 "> <i class="icofont icofont-music  h5   me-1 me-md-2 text-secondary"></i> {{ $song->category->name }} </p>
-                                                </div>
-                                                <div class="d-flex justify-content-between align-items-center ">
-                                                    <p class="small mb-0  "> <i class="icofont icofont-microphone  h5  me-1 me-md-2 text-secondary"></i> {{ $song->artist->name }} </p>
-                                                    <p class="small mb-0  "> <i class="icofont icofont-users-alt-4 h5  me-1 me-md-2 text-secondary"></i> {{ $song->countPlay }} </p>
+                                       <img src="{{ asset('storage/artist_pic/'.$song->artist->photo) }}" width="50" height="50" class="rounded-circle rounded " alt="">
+                                   </div>
+                                   <marquee scrollamount="10" >
+                                       <p class=" mb-0 mt-2   fw-bolder h5 text-uppercase  "> {{ $song->name }} </p>
+                                   </marquee>
 
-                                                </div>
-                                            </div>
+                               </div>
 
-
-
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

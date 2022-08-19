@@ -10,7 +10,7 @@
             <div class="col-md-4 mb-4 mb-md-0 ">
                 <div class="card bg-transparent border-secondary ">
                     <div class="card-body">
-                        <h3 class="fw-bold h4 mb-4 "><i class="icofont icofont-social-blogger text-primary me-3 "></i>Create BLog Category </h3>
+                        <h3 class="fw-bold h4 mb-4 "><i class="icofont icofont-blogger text-primary me-3 "></i>Create BLog Category </h3>
                         <form action="{{ route('category.store') }}" method="post" id="createBlogCategory" class="">
                             @csrf
                             <input type="text" name="title" class="form-control bg-transparent text-secondary ">

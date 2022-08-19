@@ -28,12 +28,13 @@ body.dark .page-item.active .page-link{
 
 body.dark .course-info,.course,.loader{
     background: transparent !important;
+    color: whitesmoke;
 
 }
 
-body.dark .dropdown-menu,.customInput,.dropdown-item {
+body.dark .dropdown-menu,.customInput {
     background-color: #212121;
-    color: #cecccc;
+    color: #bbbaba;
 }
 
 body.dark .form-control{
@@ -42,6 +43,10 @@ body.dark .form-control{
 }
 
 body.dark .note-editable{
+    color: #cecccc !important;
+}
+
+body.dark .dropdown-item{
     color: #cecccc !important;
 }
 

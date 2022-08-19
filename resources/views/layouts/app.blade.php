@@ -19,7 +19,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('assets/css/icofont.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/icofont (6)/icofont/icofont.css') }}">
+
 
     <style>
         ::-webkit-scrollbar {

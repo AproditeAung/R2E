@@ -90,7 +90,7 @@
             }
 
             .course-info{
-                color: #1e1d1d;
+                color: #312f2f;
             }
 
 

@@ -33,7 +33,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dark.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/icofont.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/icofont (6)/icofont/icofont.css') }}">
     <link rel="stylesheet" href="{{ asset('summernote-lite.min.css') }}">
     <title>{{ env('app_name','H2E') }}</title>
 
@@ -247,7 +247,7 @@
                                     <p class="outline mb-0 mt-1 "></p>
                                 </a>
                                 <a href="{{ route('all.blogs') }}" class="customNavItem @yield('blog_active')">
-                                    <i class="icofont icofont-social-blogger h1"></i>
+                                    <i class="icofont icofont-blogger  h1"></i>
                                     <p class="outline mb-0 mt-1 "></p>
                                 </a>
                                 <a href="{{ route('all.music') }}" class="customNavItem @yield('music_active')">
