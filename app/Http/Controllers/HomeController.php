@@ -27,7 +27,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('isAdmin')->except('welcome','AllMusic');
+        $this->middleware('isAdmin')->except('welcome','AllMusic','changeProfile');
     }
 
 

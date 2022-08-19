@@ -54,7 +54,6 @@ class UserController extends Controller
             $user->email = $request->email;
             $user->password = Hash::make($request->password);
             $user->role = $request->role;
-            $user->reference_id = uniqid();
             $this->DetailUserGenerate($user, $request);
 
             DB::commit();
@@ -169,6 +168,8 @@ class UserController extends Controller
         $userDetail->reference_id = uniqid();
         $userDetail->ip = $request->getClientIp();
         $userDetail->user_id = $user->id;
+        $user->reference_id = uniqid();
+
         $userDetail->save();
     }
 }

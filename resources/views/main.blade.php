@@ -4,24 +4,35 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
     @yield('meta')
 
+
     <div id="loader" style=" width: 100%;
+            transition: .5s all;
             height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
             position: absolute;
+            flex-direction: column;
             top: 0; left: 0;
             z-index: 9999;
             background: #fcfcfc;
             transition: 1s all ease-in;" class="loader">
-        <img src="{{ asset('Image/loading.svg') }}" width="50%" alt="">
+        <img src="{{ asset('Image/loading.svg') }}" width="30%" alt="">
+        <span style="text-align: center">{{ \Illuminate\Foundation\Inspiring::quote() }}</span>
     </div>
+
+    <style>
+        body.dark .loader{
+            background: transparent !important;
+
+        }
+    </style>
 
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/dark.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/icofont.css') }}">
     <link rel="stylesheet" href="{{ asset('summernote-lite.min.css') }}">
     <title>{{ env('app_name','H2E') }}</title>
@@ -165,7 +176,7 @@
 
     @yield('style')
 </head>
-<body >
+<body class="" >
 
         <div id="glass" class=" glass min-vw-100  position-absolute top-0 " style="left: 0">
             <div class="d-flex flex-column justify-content-center align-items-center " style="min-height: 100%" >
@@ -175,7 +186,7 @@
         </div>
 
         <div class="container mt-3  d-none d-lg-block ">
-            <nav class="navbar navbar-expand-lg navbar-white shadow-sm rounded-pill rounded px-4  bg-white   ">
+            <nav class="navbar navbar-expand-lg navbar-white shadow-sm rounded-pill rounded px-4  bg-transparent   ">
                 <div class="container d-flex justify-content-between align-items-center  ">
                     <a class="navbar-brand fw-bolder " href="{{ route('welcome') }}">H2E</a>
 
@@ -228,7 +239,6 @@
                     <button class="menuButton  " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
                         <i class="icofont icofont-navigation-menu icofont-2x "></i>
                     </button>
-
                     <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
                         <div class="offcanvas-body small">
                             <div class="d-flex justify-content-between align-items-center">
@@ -252,9 +262,13 @@
                         </div>
                     </div>
                 </div>
+                <div class="">
+                    <i class="icofont icofont-sun-rise text-warning icofont-2x d-none " id="lightMode" onclick="lightMode()" style="cursor: pointer;"></i>
+                    <i class="icofont icofont-night text-secondary icofont-2x " id="darkMode" onclick="darkMode()"  style="cursor: pointer;"></i>
+                </div>
                 <div class="dropdown">
                     <img src="{{ \Illuminate\Support\Facades\Auth::check() == true ? asset('Image/'.\Illuminate\Support\Facades\Auth::user()->photo) : asset('Image/profile.webp') }}" width="40" height="40"  class="customDropdown rounded rounded-circle dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" alt="">
-                    <ul class="dropdown-menu bg-body " aria-labelledby="dropdownMenuButton1">
+                    <ul class="dropdown-menu  " aria-labelledby="dropdownMenuButton1">
 
                         <li>
                             <a href="{{ route('contact.create') }}" class="dropdown-item  @yield('contact_active')"> Contact Us</a>
@@ -350,17 +364,17 @@
 
     let loader = document.getElementById('loader');
 
-    // window.addEventListener("load",function (){
-    //
-    //
-    // });
+    window.addEventListener("load",function (){
+        loader.setAttribute('data-aos','fade-out');
+        loader.setAttribute('data-aos-duration','1000');
 
-            loader.setAttribute('data-aos','fade-out');
-            loader.setAttribute('data-aos-duration','1000');
+        setTimeout(()=>{
+            loader.classList.add('d-none');
+        },1500)
 
-            setTimeout(()=>{
-                loader.classList.add('d-none');
-            },1500)
+    });
+
+
 
     let allNavItems = $('.customNavItem').toArray();
 
@@ -382,6 +396,33 @@
                 glass.classList.add('active');
 
             }
+
+            function darkMode(){
+                let body = document.querySelector('body');
+                $('#darkMode').addClass('d-none');
+                $('#lightMode').removeClass('d-none');
+                body.classList.add('dark');
+
+                localStorage.setItem('mode','dark');
+            }
+
+
+
+            function lightMode(){
+                let body = document.querySelector('body');
+                $('#darkMode').removeClass('d-none');
+                $('#lightMode').addClass('d-none');
+                body.classList.remove('dark');
+
+                localStorage.setItem('mode','');
+            }
+
+
+            window.addEventListener('load',function (){
+                if(localStorage.getItem('mode') == 'dark'){
+                    darkMode();
+                }
+            })
 </script>
 </body>
 </html>

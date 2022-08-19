@@ -76,7 +76,6 @@
 
         @media screen and (max-width: 480px) {
             .course-preview {
-                background-color: #0c90cb;
                 overflow: hidden;
 
             }

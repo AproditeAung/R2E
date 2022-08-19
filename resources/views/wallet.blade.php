@@ -121,7 +121,9 @@
                     </div>
                 @empty
                     <tr>
-                        <td colspan="4" class="text-center fw-bolder text-danger">NO WITHDRAW </td>
+                        <td colspan="4" class="text-center fw-bolder text-danger">
+                            <img src="{{ asset('Image/nodata.webp') }}" alt="" width="100">
+                        </td>
                     </tr>
                 @endforelse
                 <div class="bg-transparent mt-3 float-end  ">
@@ -166,7 +168,9 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center fw-bolder text-danger">NO WITHDRAW </td>
+                            <td colspan="5" class="text-center fw-bolder text-danger">
+                                <img src="{{ asset('Image/nodata.webp') }}" alt="" width="100">
+                            </td>
                         </tr>
                     @endforelse
                     </tbody>

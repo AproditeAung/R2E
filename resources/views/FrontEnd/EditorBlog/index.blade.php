@@ -15,7 +15,7 @@
 
                     <table class="table table-borderless  table-hover ">
                         <thead>
-                        <tr class="icon-gradient bg-happy-fisher  ">
+                        <tr class="  ">
                             <td>No</td>
                             <td>Titile</td>
                             <td>Sample</td>

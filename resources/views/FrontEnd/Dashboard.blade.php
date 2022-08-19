@@ -11,7 +11,7 @@
     </style>
 @endsection
 @section('title') setting @endsection
-@section('setting_active','active fw-bold')
+@section('dashboard_active','active fw-bold')
 
 @section('contant')
 

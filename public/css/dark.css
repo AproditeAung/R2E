@@ -1,0 +1,55 @@
+body{
+    transition: .8s background-color;
+}
+body.dark{
+    background-color: #212121;
+    color: #cecccc;
+}
+
+body.dark .icofont-navigation-menu {
+    color: #cecccc;
+}
+
+body.dark .box{
+    background-color: #2e2e2d;
+}
+
+body.dark .page-item .page-link{
+    color: #6c757d;
+    background-color: #2e2e2d;
+    border-color: grey;
+}
+
+
+body.dark .page-item.active .page-link{
+    color: #a8a9a9;
+    background-color: #1c1c1b;
+}
+
+body.dark .course-info,.course,.loader{
+    background: transparent !important;
+
+}
+
+body.dark .dropdown-menu,.customInput,.dropdown-item {
+    background-color: #212121;
+    color: #cecccc;
+}
+
+body.dark .form-control{
+    background-color: #212121;
+    color: #cecccc;
+}
+
+body.dark .note-editable,.table{
+    color: #cecccc ;
+}
+
+body.dark .navbar{
+    background-color: #2c2b2b !important;
+}
+
+body.dark .navbar .nav-link{
+    color: #797777;
+}
+

@@ -61,7 +61,7 @@ class MusicController extends Controller
                 $file = $request->file('song_file');
                 $songFileName = $request->name.uniqid().'.'.$file->getClientOriginalExtension();
                 $songFilePath = 'public/songs/';
-
+                $mp3file =  new Mp3Info($file, true);
 
                 if(!Storage::exists($songFilePath)){
                     Storage::makeDirectory($songFilePath);
@@ -74,7 +74,7 @@ class MusicController extends Controller
                 $music->name = $request->name;
                 $music->musicCategory_id = $request->category_id;
                 $music->artist_id = $request->artist_id;
-                $music->duration = 288;
+                $music->duration = $mp3file->duration;
                 $music->path = '/storage/songs/'.$songFileName;
                 $music->save();
 
@@ -129,6 +129,7 @@ class MusicController extends Controller
                 $file = $request->file('song_file');
                 $songFileName = $request->name.uniqid().'.'.$file->getClientOriginalExtension();
                 $songFilePath = 'public/songs/';
+                $mp3file =  new Mp3Info($file, true);
 
 
                 if(!Storage::exists($songFilePath)){
@@ -144,6 +145,7 @@ class MusicController extends Controller
                 Storage::putFileAs($songFilePath,$file,$songFileName);
 
                 $music->path = '/storage/songs/'.$songFileName;
+                $music->duration = $mp3file->duration;
 
             }
 
@@ -151,7 +153,6 @@ class MusicController extends Controller
             $music->name = $request->name;
             $music->musicCategory_id = $request->category_id;
             $music->artist_id = $request->artist_id;
-            $music->duration = 288;
             $music->update();
 
             DB::commit();
@@ -159,7 +160,6 @@ class MusicController extends Controller
         }catch (\Exception $err){
             DB::rollBack();
 
-            return $err;
             return redirect()->back()->with('message',['icon'=>'error','text'=>$err->getMessage()]);
         }
     }
@@ -174,12 +174,12 @@ class MusicController extends Controller
     {
         if(Storage::exists('public/'.explode('/',$music->path,3)[2])){
             Storage::delete('public/'.explode('/',$music->path,3)[2]);
-            $music->delete();
 
-            return redirect()->back()->with('message',['icon'=>'success','text'=>'deleted!']);
         }
 
-        return redirect()->back()->with('message',['icon'=>'error','text'=>'Something was wrong!']);
+        $music->delete();
+
+        return redirect()->back()->with('message',['icon'=>'success','text'=>'deleted!']);
     }
 
 

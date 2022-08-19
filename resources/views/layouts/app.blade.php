@@ -15,6 +15,7 @@
     <!-- Fonts -->
 
     <link rel="icon" href="{{ asset('Image/earn-money.png') }}">
+    <link rel="stylesheet" href="{{ asset('css/dark.css') }}">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
