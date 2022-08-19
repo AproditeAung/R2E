@@ -9,6 +9,12 @@
 
     <div id="loader" style=" width: 100%;
             transition: .5s all;
+            background: rgba(255, 255, 255, 0.15);
+             border-radius: 16px;
+             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+             backdrop-filter: blur(3px);
+             -webkit-backdrop-filter: blur(3px);
+             border: 1px solid rgba(255, 255, 255, 0.06);
             height: 100%;
             display: flex;
             justify-content: center;
@@ -17,18 +23,12 @@
             flex-direction: column;
             top: 0; left: 0;
             z-index: 9999;
-            background: #fcfcfc;
             transition: 1s all ease-in;" class="loader">
         <img src="{{ asset('Image/loading.svg') }}" width="30%" alt="">
         <span style="text-align: center">{{ \Illuminate\Foundation\Inspiring::quote() }}</span>
     </div>
 
-    <style>
-        body.dark .loader{
-            background: transparent !important;
 
-        }
-    </style>
 
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
@@ -366,11 +366,11 @@
 
     window.addEventListener("load",function (){
         loader.setAttribute('data-aos','fade-out');
-        loader.setAttribute('data-aos-duration','1000');
+        loader.setAttribute('data-aos-duration','500');
 
         setTimeout(()=>{
             loader.classList.add('d-none');
-        },1500)
+        },1000)
 
     });
 
@@ -423,6 +423,9 @@
                     darkMode();
                 }
             })
+            if(localStorage.getItem('mode') == 'dark'){
+                loader.style.background = 'black';
+            }
 </script>
 </body>
 </html>

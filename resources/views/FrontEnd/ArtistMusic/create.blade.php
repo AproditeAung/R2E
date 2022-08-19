@@ -80,9 +80,9 @@
                    </div>
                 <hr>
 
-                <table class="table table-borderless  table-hover ">
+                <table class="table table-borderless text-black  ">
                     <thead>
-                    <tr class="icon-gradient bg-happy-fisher  ">
+                    <tr class="  ">
                         <td>No</td>
                         <td>Name</td>
                         <td>Birthday</td>

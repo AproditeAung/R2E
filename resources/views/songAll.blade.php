@@ -42,6 +42,17 @@
             overflow-y: hidden;
         }
 
+        .nav-scrollerforArtist .nav {
+            display: flex;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+
         .progressBar{
             width: 300px;
             height: 8px;
@@ -55,6 +66,10 @@
             border-radius: 10px;
             background-color: #0a73a2;
             transition: .3s all;
+        }
+
+        .music_buttons span:hover{
+            cursor:pointer;
         }
     </style>
 @endsection
@@ -90,7 +105,7 @@
                         <div class="card-body p-0 " >
                             <div class="row ">
                                <div class="col-4 artist_img">
-                                   <img src="{{ asset('storage/artist_pic/'.$song->artist->photo) }}" width="100%" height="100%" alt="">
+                                   <img src="{{ asset('storage/artist_pic/'.$song->artist->photo) }}" width="100%" height="100%" class="rounded-circle rounded " alt="">
                                </div>
                                 <div class="col-8  ">
 
@@ -107,6 +122,7 @@
                                                 </div>
                                                 <div class="d-flex justify-content-between align-items-center ">
                                                     <p class="small mb-0  "> <i class="icofont icofont-microphone  h5  me-1 me-md-2 text-secondary"></i> {{ $song->artist->name }} </p>
+                                                    <p class="small mb-0  "> <i class="icofont icofont-users-alt-4 h5  me-1 me-md-2 text-secondary"></i> {{ $song->countPlay }} </p>
 
                                                 </div>
                                             </div>
@@ -134,11 +150,11 @@
         </div>
     </div>
 
-           <div class="position-fixed bottom-0 " style="width: 400px; ">
-               <nav class="px-5 d-none music-box shadow-sm rounded-pill  rounded p-3 bg-body   ">
+           <div class="position-fixed  " style="width: 400px;bottom: 5px; ">
+               <nav class="px-5 d-none music-box shadow-sm rounded-pill  rounded p-3  ">
                    <div class="controller">
                        <div class="control d-flex justify-content-between align-items-center mb-3 ">
-                           <div class="">
+                           <div class="music_buttons">
                                <span><i class="icofont  icofont-ui-previous  " id="previous" ></i></span>
                                <span><i class="icofont mx-3  icofont-ui-play" id="play"></i></span>
                                <span><i class="icofont mx-3  icofont-ui-play-stop d-none" id="pause"></i></span>
@@ -234,9 +250,6 @@
         function toggleMusicBox(){
             $('.music-box').removeClass('d-none');
 
-            setTimeout(()=>{
-                $('.music-box').addClass('d-none');
-            },10000);
         }
 
         let duration;

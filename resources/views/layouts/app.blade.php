@@ -257,6 +257,34 @@
 
     @include('components.message')
     <script>
+
+        function darkMode(){
+            let body = document.querySelector('body');
+            $('#darkMode').addClass('d-none');
+            $('#lightMode').removeClass('d-none');
+            body.classList.add('dark');
+
+            localStorage.setItem('mode','dark');
+        }
+
+
+
+        function lightMode(){
+            let body = document.querySelector('body');
+            $('#darkMode').removeClass('d-none');
+            $('#lightMode').addClass('d-none');
+            body.classList.remove('dark');
+
+            localStorage.setItem('mode','');
+        }
+
+        window.addEventListener('load',function (){
+            console.log(localStorage.getItem('mode'));
+            if(localStorage.getItem('mode') == 'dark'){
+                darkMode();
+            }
+        })
+
         $(document).ready(function() {
             $('#summernote').summernote({
                 dialogsFade: true,
@@ -282,6 +310,8 @@
 
             });
         });
+
+
     </script>
 </body>
 </html>
