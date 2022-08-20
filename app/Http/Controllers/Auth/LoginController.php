@@ -46,5 +46,7 @@ class LoginController extends Controller
         $userDeatail = UserDetail::where('user_id',$user->id)->first();
         $userDeatail->ip = $request->getClientIp();
         $userDeatail->update();
+
+        return redirect()->route('welcome');
     }
 }

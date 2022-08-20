@@ -46,6 +46,7 @@
             padding: 15px ;
             position: relative;
             width: 100%;
+            color: #414040;
         }
 
 
@@ -123,7 +124,7 @@
                                     <div class="d-flex justify-content-between align-items-center mt-2  ">
                                         <p class="small mb-0  "> <i class="icofont icofont-heart me-1 me-md-2 text-danger"></i> {{ $blog->countUser }} </p>
                                         <p class="small mb-0   "> <i class="icofont icofont-layers me-1 me-md-2 text-secondary"></i> {{ $blog->categoryName->name }} </p>
-                                        <p class="small mb-0 "> <i class="icofont icofont-user me-1 me-md-2 text-secondary"></i> {{ $blog->user->name }} </p>
+                                        <p class="small mb-0 "> <i class="icofont icofont-ui-user   me-1 me-md-2 text-secondary"></i> {{ $blog->user->name }} </p>
                                         <p class="small mb-0  d-md-none  "> <i class="icofont icofont-time me-1 me-md-2 text-secondary"></i> {{ $blog->created_at->format('d M Y') }} </p>
                                     </div>
                                 </div>

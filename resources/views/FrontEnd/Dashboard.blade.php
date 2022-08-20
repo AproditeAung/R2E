@@ -21,7 +21,7 @@
 
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
-                            <div class="h6 fw-bold "> Weekly Blog Views Graph </div>
+                            <div class="h6 fw-bold "> <i class="icofont icofont-chart-line-alt me-3 "></i>  Weekly Blog Views Graph </div>
                             <div class="align-self-end ">
                                 <form action="{{ route('dashboard') }}" method="get">
                                     <input type="date" value="{{ request()->StartDate ?? now()->subDays(6)->format('Y-m-d') }}" class="form-control-sm form-control " name="StartDate" onchange="this.form.submit()">
@@ -78,6 +78,7 @@
                 <div class="card bg-transparent border-secondary">
                     <div class="card-body">
                         <div class="fw-bolder ">
+                            <i class="icofont icofont-chart-line-alt me-3 "></i>
                             Monthly Blog Views Graph
                         </div>
                         <hr>

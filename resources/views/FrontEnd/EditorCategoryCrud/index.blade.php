@@ -63,7 +63,7 @@
                                   <td>{{ $key+1 }}</td>
                                   <td class="text-uppercase">{{ $category->name }}</td>
                                   <td class="">
-                                      <a href="{{ route('category.edit',$category->id) }}" class="icofont icofont-pencil text-decoration-none btn  btn-outline-warning  "></a>
+                                      <a href="{{ route('category.edit',$category->id) }}" class="icofont icofont-edit text-decoration-none btn  btn-outline-warning  "></a>
                                       @if(\Illuminate\Support\Facades\Auth::user()->role == 2)
                                           <form id="deleteGenre" action="{{ route('category.destroy',$category->id) }}" method="post" class="mx-2  d-inline-block  ">
                                               @csrf @method('DELETE')
@@ -101,7 +101,7 @@
                                   <td>{{ $key+1 }}</td>
                                   <td class="text-uppercase">{{ $musicCategory->name }}</td>
                                   <td class="">
-                                      <a href="{{ route('music_category.edit',$musicCategory->id) }}" class="icofont icofont-pencil text-decoration-none btn  btn-outline-warning  "></a>
+                                      <a href="{{ route('music_category.edit',$musicCategory->id) }}" class="icofont icofont-edit text-decoration-none btn  btn-outline-warning  "></a>
                                       @if(\Illuminate\Support\Facades\Auth::user()->role == 2)
                                           <form id="deleteGenre" action="{{ route('category.destroy',$musicCategory->id) }}" method="post" class="mx-2  d-inline-block  ">
                                               @csrf @method('DELETE')

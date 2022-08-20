@@ -35,10 +35,10 @@
                                                 @csrf @method('delete')
                                             </form>
                                             <button class="btn-outline btn-danger btn " type="button" onclick="confirm()"><i class="icofont icofont-trash"></i></button>
-                                            <a href="{{ route('pin.post',$blog->id) }}" class="btn btn-outline-{{ $blog->pinBlog == '1' ? 'success' : 'secondary' }}"><i class="icofont icofont-pin"></i></a>
+                                            <a href="{{ route('pin.post',$blog->id) }}" class="btn btn-outline-{{ $blog->pinBlog == '1' ? 'success' : 'secondary' }}"><i class="icofont icofont-tack-pin"></i></a>
                                         @endif
 
-                                        <a href="{{ route('blog.edit',$blog->id) }}" class="btn btn-outline-secondary "><i class="icofont icofont-pen-alt-2"></i></a>
+                                        <a href="{{ route('blog.edit',$blog->id) }}" class="btn btn-outline-secondary "><i class="icofont icofont-edit"></i></a>
                                         <a href="{{ route('blog.show',$blog->id) }}" class="btn btn-outline-info "><i class="icofont icofont-info"></i></a>
 
                                     </td>

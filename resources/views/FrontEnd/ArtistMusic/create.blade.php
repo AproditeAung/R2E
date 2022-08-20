@@ -2,7 +2,7 @@
 
 @section('title') Upload Artis @endsection
 
-@section('profile_active','fw-bold')
+@section('setting_active','fw-bold')
 
 @section('contant')
 
@@ -107,7 +107,7 @@
                                     <button class="btn-outline btn-danger btn " type="button" onclick="confirm()"><i class="icofont icofont-trash"></i></button>
                                 @endif
 
-                                <a href="{{ route('artist.edit',$artist->id) }}" class="btn btn-outline-secondary "><i class="icofont icofont-pen-alt-2"></i></a>
+                                <a href="{{ route('artist.edit',$artist->id) }}" class="btn btn-outline-warning "><i class="icofont icofont-edit"></i></a>
                                 <a href="{{ route('artist.show',$artist->id) }}" class="btn btn-outline-info "><i class="icofont icofont-info"></i></a>
                             </td>
 

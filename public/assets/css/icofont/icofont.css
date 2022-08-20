@@ -1,14 +1,14 @@
-/*!
-* @package IcoFont
-* @version 1.0.1
-* @author IcoFont https://icofont.com
-* @copyright Copyright (c) 2015 - 2022 IcoFont
+/*! 
+* @package IcoFont 
+* @version 1.0.1 
+* @author IcoFont https://icofont.com 
+* @copyright Copyright (c) 2015 - 2022 IcoFont 
 * @license - https://icofont.com/license/
 */
 
 @font-face
 {
-
+ 
   font-family: "IcoFont";
 font-weight: normal;
 font-style: "Regular";
@@ -33,9 +33,39 @@ url("./fonts/icofont.woff") format("woff");
   -webkit-font-smoothing: antialiased;
 }
 
-.icofont-download:before
+.icofont-heart:before
 {
-  content: "\ef08";
+  content: "\ef45";
+}
+
+.icofont-home:before
+{
+  content: "\ef47";
+}
+
+.icofont-info:before
+{
+  content: "\ef50";
+}
+
+.icofont-readernaut:before
+{
+  content: "\ed61";
+}
+
+.icofont-bootstrap:before
+{
+  content: "\ed24";
+}
+
+.icofont-blogger:before
+{
+  content: "\ed23";
+}
+
+.icofont-bebo:before
+{
+  content: "\ed21";
 }
 
 .icofont-edit:before
@@ -43,29 +73,14 @@ url("./fonts/icofont.woff") format("woff");
   content: "\ef10";
 }
 
+.icofont-download:before
+{
+  content: "\ef08";
+}
+
 .icofont-eraser:before
 {
   content: "\ef15";
-}
-
-.icofont-exit:before
-{
-  content: "\ef1d";
-}
-
-.icofont-listening:before
-{
-  content: "\ef73";
-}
-
-.icofont-link-alt:before
-{
-  content: "\ef70";
-}
-
-.icofont-logout:before
-{
-  content: "\ef7c";
 }
 
 .icofont-login:before
@@ -73,9 +88,29 @@ url("./fonts/icofont.woff") format("woff");
   content: "\ef7b";
 }
 
+.icofont-logout:before
+{
+  content: "\ef7c";
+}
+
 .icofont-navigation-menu:before
 {
   content: "\efa2";
+}
+
+.icofont-moon:before
+{
+  content: "\ef9e";
+}
+
+.icofont-options:before
+{
+  content: "\efb0";
+}
+
+.icofont-penguin-linux:before
+{
+  content: "\efb8";
 }
 
 .icofont-qr-code:before
@@ -83,14 +118,19 @@ url("./fonts/icofont.woff") format("woff");
   content: "\efc8";
 }
 
-.icofont-question:before
+.icofont-settings:before
 {
-  content: "\efcc";
+  content: "\efe2";
 }
 
-.icofont-tack-pin:before
+.icofont-share-alt:before
 {
-  content: "\f003";
+  content: "\efe3";
+}
+
+.icofont-share:before
+{
+  content: "\efe5";
 }
 
 .icofont-tags:before
@@ -103,166 +143,29 @@ url("./fonts/icofont.woff") format("woff");
   content: "\ed37";
 }
 
-.icofont-ui-user:before
+.icofont-ui-edit:before
 {
-  content: "\ec8e";
+  content: "\ec55";
 }
 
-.icofont-full-night:before
+.icofont-ui-delete:before
 {
-  content: "\ee57";
+  content: "\ec53";
 }
 
-.icofont-full-sunny:before
+.icofont-ui-home:before
 {
-  content: "\ee58";
-}
-
-.icofont-music:before {
-    content: "\f07d";
-}
-
-.icofont-social-blogger:before {
-    content: "\edf6";
-}
-
-.icofont-hail-night:before
-{
-  content: "\ee59";
-}
-
-.icofont-sun-set:before
-{
-  content: "\ee80";
-}
-
-.icofont-sun-rise:before
-{
-  content: "\ee7f";
-}
-
-.icofont-ipod-nano:before
-{
-  content: "\ea3c";
-}
-
-.icofont-trash:before
-{
-  content: "\ee09";
-}
-
-.icofont-people:before
-{
-  content: "\ecf9";
-}
-
-.icofont-users-alt-5:before
-{
-  content: "\ed0a";
-}
-
-.icofont-phone:before {
-    content: "\f09c";
-}
-
-.icofont-boy:before
-{
-  content: "\eceb";
-}
-
-.icofont-pause:before
-{
-  content: "\eca5";
-}
-
-.icofont-play-alt-1:before
-{
-  content: "\eca6";
-}
-
-.icofont-forward:before
-{
-  content: "\ec9b";
-}
-
-.icofont-rewind:before
-{
-  content: "\ecad";
-}
-
-.icofont-play:before
-{
-  content: "\ecaa";
-}
-
-.icofont-stop:before
-{
-  content: "\ecb1";
-}
-
-.icofont-chart-line-alt:before
-{
-  content: "\e980";
-}
-
-.icofont-search-2:before
-{
-  content: "\ed12";
-}
-
-.icofont-search:before
-{
-  content: "\ed1b";
-}
-
-.icofont-home:before
-{
-  content: "\ef47";
-}
-
-.icofont-heart:before
-{
-  content: "\ef45";
-}
-
-.icofont-settings:before
-{
-  content: "\efe2";
-}
-
-.icofont-layers:before
-{
-  content: "\ef5c";
-}
-
-.icofont-ui-calendar:before
-{
-  content: "\ec45";
-}
-
-.icofont-ui-user-group:before
-{
-  content: "\ec8d";
-}
-
-.icofont-info:before
-{
-  content: "\ef50";
-}
-
-.icofont-like:before
-{
-  content: "\ef6e";
-}
-
-.icofont-ui-play:before
-{
-  content: "\ec74";
+  content: "\ec5e";
 }
 
 .icofont-ui-pause:before
 {
   content: "\ec72";
+}
+
+.icofont-ui-play:before
+{
+  content: "\ec74";
 }
 
 .icofont-ui-play-stop:before
@@ -280,9 +183,154 @@ url("./fonts/icofont.woff") format("woff");
   content: "\ec6e";
 }
 
+.icofont-ui-user:before
+{
+  content: "\ec8e";
+}
+
+.icofont-hail-night:before
+{
+  content: "\ee59";
+}
+
+.icofont-snowy-night-hail:before
+{
+  content: "\ee70";
+}
+
+.icofont-sun-rise:before
+{
+  content: "\ee7f";
+}
+
+.icofont-trash:before
+{
+  content: "\ee09";
+}
+
+.icofont-users-social:before
+{
+  content: "\ed0c";
+}
+
+.icofont-business-man-alt-2:before
+{
+  content: "\eced";
+}
+
+.icofont-pause:before
+{
+  content: "\eca5";
+}
+
+.icofont-play-alt-1:before
+{
+  content: "\eca6";
+}
+
+.icofont-play-alt-2:before
+{
+  content: "\eca7";
+}
+
+.icofont-rewind:before
+{
+  content: "\ecad";
+}
+
+.icofont-play:before
+{
+  content: "\ecaa";
+}
+
+.icofont-play-pause:before
+{
+  content: "\eca9";
+}
+
+.icofont-music-note:before
+{
+  content: "\eca1";
+}
+
+.icofont-forward:before
+{
+  content: "\ec9b";
+}
+
 .icofont-sound-wave-alt:before
 {
   content: "\ecaf";
+}
+
+.icofont-stop:before
+{
+  content: "\ecb1";
+}
+
+.icofont-cassette-player:before
+{
+  content: "\ec99";
+}
+
+.icofont-cassette:before
+{
+  content: "\ec9a";
+}
+
+.icofont-guiter:before
+{
+  content: "\ec9c";
+}
+
+.icofont-movie:before
+{
+  content: "\ec9d";
+}
+
+.icofont-multimedia:before
+{
+  content: "\ec9e";
+}
+
+.icofont-music-alt:before
+{
+  content: "\ec9f";
+}
+
+.icofont-music-disk:before
+{
+  content: "\eca0";
+}
+
+.icofont-music-notes:before
+{
+  content: "\eca2";
+}
+
+.icofont-music:before
+{
+  content: "\eca3";
+}
+
+.icofont-mute-volume:before
+{
+  content: "\eca4";
+}
+
+.icofont-play-alt-3:before
+{
+  content: "\eca8";
+}
+
+.icofont-record:before
+{
+  content: "\ecab";
+}
+
+.icofont-retro-music-disk:before
+{
+  content: "\ecac";
 }
 
 .icofont-song-notes:before
@@ -290,9 +338,124 @@ url("./fonts/icofont.woff") format("woff");
   content: "\ecae";
 }
 
-.icofont-retro-music-disk:before
+.icofont-sound-wave:before
 {
-  content: "\ecac";
+  content: "\ecb0";
+}
+
+.icofont-video-alt:before
+{
+  content: "\ecb2";
+}
+
+.icofont-video-cam:before
+{
+  content: "\ecb3";
+}
+
+.icofont-video-clapper:before
+{
+  content: "\ecb4";
+}
+
+.icofont-video:before
+{
+  content: "\ecb5";
+}
+
+.icofont-volume-bar:before
+{
+  content: "\ecb6";
+}
+
+.icofont-volume-down:before
+{
+  content: "\ecb7";
+}
+
+.icofont-volume-mute:before
+{
+  content: "\ecb8";
+}
+
+.icofont-volume-off:before
+{
+  content: "\ecb9";
+}
+
+.icofont-volume-up:before
+{
+  content: "\ecba";
+}
+
+.icofont-youtube-play:before
+{
+  content: "\ecbb";
+}
+
+.icofont-chart-line-alt:before
+{
+  content: "\e980";
+}
+
+.icofont-lock:before
+{
+  content: "\ef7a";
+}
+
+.icofont-ui-calendar:before
+{
+  content: "\ec45";
+}
+
+.icofont-layers:before
+{
+  content: "\ef5c";
+}
+
+.icofont-label:before
+{
+  content: "\ef5a";
+}
+
+.icofont-live-support:before
+{
+  content: "\ef77";
+}
+
+.icofont-full-night:before
+{
+  content: "\ee57";
+}
+
+.icofont-tack-pin:before
+{
+  content: "\f003";
+}
+
+.icofont-edit-alt:before
+{
+  content: "\eded";
+}
+
+.icofont-eraser-alt:before
+{
+  content: "\edee";
+}
+
+.icofont-ui-call:before
+{
+  content: "\ec46";
+}
+
+.icofont-ui-contact-list:before
+{
+  content: "\ec50";
+}
+
+.icofont-ui-password:before
+{
+  content: "\ec71";
 }
 
 .icofont-xs
@@ -541,3 +704,4 @@ url("./fonts/icofont.woff") format("woff");
   position: static;
   width: auto;
 }
+	

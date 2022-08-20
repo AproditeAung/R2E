@@ -28,12 +28,9 @@
         <span style="text-align: center">{{ \Illuminate\Foundation\Inspiring::quote() }}</span>
     </div>
 
-
-
-
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dark.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/icofont (6)/icofont/icofont.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/icofont/icofont.css') }}">
     <link rel="stylesheet" href="{{ asset('summernote-lite.min.css') }}">
     <title>{{ env('app_name','H2E') }}</title>
 
@@ -222,7 +219,7 @@
                             @guest
                                 <li class="nav-item">
                                     <a class="nav-link " href="{{ route('login') }}">
-                                        <i class="icofont icofont-lock h4 "></i>
+                                        <i class="icofont icofont-login  h4 "></i>
                                     </a>
                                 </li>
                                 @endguest
@@ -255,7 +252,7 @@
                                     <p class="outline mb-0 mt-1 "></p>
                                 </a>
                                 <a href="{{ route('contact.create') }}" class="customNavItem @yield('contact_active')">
-                                    <i class="icofont icofont-phone  h1"></i>
+                                    <i class="icofont icofont-ui-contact-list   h1"></i>
                                     <p class="outline mb-0 mt-1 "></p>
                                 </a>
                             </div>
@@ -264,7 +261,7 @@
                 </div>
                 <div class="">
                     <i class="icofont icofont-sun-rise text-warning icofont-2x d-none " id="lightMode" onclick="lightMode()" style="cursor: pointer;"></i>
-                    <i class="icofont icofont-night text-secondary icofont-2x " id="darkMode" onclick="darkMode()"  style="cursor: pointer;"></i>
+                    <i class="icofont icofont-full-night text-secondary icofont-2x " id="darkMode" onclick="darkMode()"  style="cursor: pointer;"></i>
                 </div>
                 <div class="dropdown">
                     <img src="{{ \Illuminate\Support\Facades\Auth::check() == true ? asset('Image/'.\Illuminate\Support\Facades\Auth::user()->photo) : asset('Image/profile.webp') }}" width="40" height="40"  class="customDropdown rounded rounded-circle dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" alt="">
@@ -304,7 +301,7 @@
                                 <form action="{{ route('logout') }}" id="logout" method="post">
                                     @csrf
                                 </form>
-                                <button class="dropdown-item text-danger" onclick="document.getElementById('logout').submit()">Logout</button>
+                                <button class="dropdown-item text-danger" onclick="document.getElementById('logout').submit()">Logout <i class="mx-3 icofont icofont-logout"></i></button>
                             </li>
                         @endauth
                     </ul>
@@ -327,7 +324,7 @@
         <script src="{{ asset('summernote-lite.min.js') }}"></script>
 @include('components.message')
 @yield('script')
-
+@include('components.countryDisable')
 <script>
             var gArrayFonts = ["Billian","Myanmar"];
             $(document).ready(function() {

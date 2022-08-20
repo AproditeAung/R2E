@@ -17,6 +17,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use ipinfo\ipinfo\IPinfo;
+use Stevebauman\Location\Facades\Location;
 
 class HomeController extends Controller
 {
@@ -34,6 +35,27 @@ class HomeController extends Controller
 
     public function welcome(Request $request)
     {
+        if ($position = Location::get(Location::get($request->getClientIp()))) {
+            //Location::get($request->getClientIp())
+            // Successfully retrieved position.
+            if(in_array($position->countryCode,array("US","UK","AU","SG","CA"))){
+
+                $country = $position->countryCode;
+
+            }else{
+                $country = $position->countryCode;
+            }
+            return view('FrontEnd.disableCountry',compact('country'));
+
+        } else {
+
+            $country = 'Undefined IP!';
+
+            return view('FrontEnd.disableCountry',compact('country'));
+
+        }
+
+
 
         $blogs = Blog::when(isset(request()->search),function ($q){
             $key = request()->search;
@@ -47,7 +69,7 @@ class HomeController extends Controller
 
         $lastestNews = $blogs->orderBy('id','desc')->paginate(10);
 
-        return view('welcome',compact('lastestNews'));
+        return view('welcome',compact('lastestNews','country'));
     }
 
     public function AllMusic(Request $request)

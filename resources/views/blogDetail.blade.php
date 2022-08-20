@@ -34,10 +34,10 @@
                 <div class="mt-4 mt-md-0  " data-aos="zoom-in" data-aos-duration="1000">
                     <h3 class="fw-bolder h2 text-capitalize text-center mb-3 " > {{ $blog->title }}  </h3>
                     <div class="d-flex align-content-center justify-content-center  ">
-                        <p class="small me-2  me-md-4 "> <i class="icofont icofont-calendar me-2 "></i> {{ $blog->created_at->diffForHumans() }}</p>
+                        <p class="small me-2  me-md-4 "> <i class="icofont icofont-ui-calendar me-2 "></i> {{ $blog->created_at->diffForHumans() }}</p>
                         <p class="small me-2  me-md-4 "> <i class="icofont icofont-heart me-2 "></i> {{ $blog->countUser }} like</p>
                         <p class="small me-2  me-md-4"> <i class="icofont icofont-layers me-2 "></i> {{ $blog->categoryName->name }} </p>
-                        <p class="small"> <i class="icofont icofont-user me-2 "></i> {{ $blog->user->name }} </p>
+                        <p class="small"> <i class="icofont icofont-ui-user me-2 "></i> {{ $blog->user->name }} </p>
                     </div>
                     <div class="my-3 text-center">
                         <img src="{{ asset('storage/blog_photos/'.$blog->ImageRec) }}"  width="90%" class="rounded " alt="">
@@ -70,7 +70,7 @@
                         <div class="my-3 d-flex align-items-center justify-content-between  ">
                             <img src="{{ asset('storage/blog_photos/'.$relatedNew->ImageRec) }}" data-aos="zoom-in" data-aos-duration="1000" class="rounded " width="50%" alt="">
                             <div >
-                                <p class="small mb-2   "> <i class="icofont icofont-calendar me-2 "></i> {{ $relatedNew->created_at->format('d M Y') }}</p>
+                                <p class="small mb-2   "> <i class="icofont icofont-ui-calendar me-2 "></i> {{ $relatedNew->created_at->format('d M Y') }}</p>
                                 <p class="small mb-2   "> <i class="icofont icofont-ui-user-group me-2 "></i> {{ $relatedNew->countUser }} views</p>
                                 <p class="small mb-2 "> <i class="icofont icofont-layers me-2 "></i> {{ $relatedNew->categoryName->name }} </p>
                             </div>

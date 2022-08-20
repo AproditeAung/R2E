@@ -110,7 +110,7 @@
                                     <button class="btn-outline btn-danger btn " type="button" onclick="confirmBox()"><i class="icofont icofont-trash"></i></button>
                                 @endif
 
-                                <a href="{{ route('music.edit',$song->id) }}" class="btn btn-outline-secondary "><i class="icofont icofont-pen-alt-2"></i></a>
+                                <a href="{{ route('music.edit',$song->id) }}" class="btn btn-outline-secondary "><i class="icofont icofont-edit"></i></a>
                                 <a href="{{ route('music.show',$song->id) }}" class="btn btn-outline-info "><i class="icofont icofont-info"></i></a>
                             </td>
                             <td class="  ">

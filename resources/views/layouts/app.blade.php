@@ -195,11 +195,11 @@
                         <div class="offcanvas-body small">
                             <div class="d-flex justify-content-around align-items-center">
                                 <a href="{{ route('login') }}" class="customNavItem @yield('home_active')">
-                                    <i class="icofont icofont-lock  h1"></i>
+                                    <i class="icofont icofont-login  h1"></i>
                                     <p class="outline mb-0 mt-1 "></p>
                                 </a>
                                 <a href="{{ route('register') }}" class="customNavItem @yield('blog_active')">
-                                    <i class="icofont icofont-sub-listing h1"></i>
+                                    <i class="icofont icofont-link-alt h1"></i>
                                     <p class="outline mb-0 mt-1 "></p>
                                 </a>
                             </div>
@@ -219,7 +219,7 @@
                             <li>
                                 <a href="{{ route('login') }}" class="dropdown-item">
                                     <span class="me-2 ">Login</span>
-                                    <i class="icofont icofont-lock h4"></i>
+                                    <i class="icofont icofont-login  h4"></i>
                                 </a>
                             </li>
                         @endguest

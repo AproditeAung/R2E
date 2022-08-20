@@ -49,7 +49,7 @@
 
 {{--    //mobile view show items//--}}
     <div class="col-md-12 d-lg-none d-block ">
-        <h1 class="mb-4 fw-bolder ">  BLogs</h1>
+        <h1 class="mb-4 fw-bolder ">  BLogs </h1>
         <form action="{{ route('welcome') }}" method="get" class="d-flex align-items-center box  ">
             <i class="icofont icofont-search me-3 "></i>
             <input type="text" name="search" placeholder="search blog" class="customInput flex-grow-1">
@@ -106,7 +106,14 @@
 @section('script')
 
     <script>
+        window.addEventListener('load',function (){
+            let country = '{{ $country }}';
 
+            if(country == "MM"){
+                document.getElementById('countryDisable').click();
+            }
+            console.log(country);
+        })
     </script>
 
 @endsection

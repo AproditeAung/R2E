@@ -119,7 +119,7 @@
                                                 </span>
                                        <img src="{{ asset('storage/artist_pic/'.$song->artist->photo) }}" width="50" height="50" class="rounded-circle rounded " alt="">
                                    </div>
-                                   <marquee scrollamount="10" >
+                                   <marquee scrollamount="1" >
                                        <p class=" mb-0 mt-2   fw-bolder h5 text-uppercase  "> {{ $song->name }} </p>
                                    </marquee>
 
