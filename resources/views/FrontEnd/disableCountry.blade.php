@@ -24,7 +24,6 @@
                         Please Connect VPN!
                     </h4>
 
-
                 </div>
             </div>
         </div>
@@ -37,12 +36,7 @@
 
     <script>
         window.addEventListener('load',function (){
-            let country = '{{ $country }}';
-
-            if(country == "MM"){
                 document.getElementById('countryDisable').click();
-            }
-            console.log(country);
         })
     </script>
 

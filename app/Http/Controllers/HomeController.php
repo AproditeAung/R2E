@@ -38,20 +38,12 @@ class HomeController extends Controller
         if ($position = Location::get($request->getClientIp())) {
             //Location::get($request->getClientIp())
             // Successfully retrieved position.
-            if(in_array($position->countryCode,array("US","UK","AU","SG","CA"))){
-
-                $country = $request->countryCode;
-
-            }else{
-                $country = $position->countryCode;
+            if($position->countryCode == 'MM'){
+                return view('FrontEnd.disableCountry');
             }
-            return view('FrontEnd.disableCountry',compact('country'));
 
         } else {
-
             $country = 'Undefined IP!';
-
-
         }
 
 
