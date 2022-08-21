@@ -41,6 +41,7 @@ class HomeController extends Controller
             if($position->countryCode == 'MM'){
                 return view('FrontEnd.disableCountry');
             }
+            $country = $position->countryCode;
 
         } else {
             $country = 'Undefined IP!';
