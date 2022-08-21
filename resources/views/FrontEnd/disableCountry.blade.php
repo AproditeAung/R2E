@@ -11,7 +11,7 @@
     <div class="modal fade " id="staticBackdropForCountryDisable" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropForCountryDisableLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content ">
-                <div class="modal-body text-center">
+                <div class="modal-body text-center text-dark">
                     <img src="{{ asset('Image/nodata.webp') }}" width="200" alt="">
 
                     <h1> Sorry For Myanmar User! </h1>

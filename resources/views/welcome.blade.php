@@ -80,7 +80,7 @@
                             <div class="d-flex align-content-center justify-content-start  mt-0 mt-lg-2  ">
                                 <p class="small mb-0   "> <i class="icofont icofont-heart me-1 me-md-2 text-danger"></i> {{ $blog->countUser }} </p>
                                 <p class="small mb-0 mx-3  "> <i class="icofont icofont-layers me-1 me-md-2 text-secondary"></i> {{ $blog->categoryName->name }} </p>
-                                <p class="small mb-0 d-none d-lg-block"> <i class="icofont icofont-user me-1 me-md-2 text-secondary"></i> {{ $blog->user->name }} </p>
+                                <p class="small mb-0 d-none d-lg-block"> <i class="icofont icofont-ui-user me-1 me-md-2 text-secondary"></i> {{ $blog->user->name }} </p>
                             </div>
                             <p style="text-align: justify" class="mt-3 d-none d-lg-block ">
                                 {{ \Illuminate\Support\Str::limit( $blog->sample,145)  }}

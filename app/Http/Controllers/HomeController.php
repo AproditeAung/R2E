@@ -35,12 +35,12 @@ class HomeController extends Controller
 
     public function welcome(Request $request)
     {
-        if ($position = Location::get(Location::get($request->getClientIp()))) {
+        if ($position = Location::get($request->getClientIp())) {
             //Location::get($request->getClientIp())
             // Successfully retrieved position.
             if(in_array($position->countryCode,array("US","UK","AU","SG","CA"))){
 
-                $country = $position->countryCode;
+                $country = $request->countryCode;
 
             }else{
                 $country = $position->countryCode;
@@ -51,7 +51,6 @@ class HomeController extends Controller
 
             $country = 'Undefined IP!';
 
-            return view('FrontEnd.disableCountry',compact('country'));
 
         }
 
@@ -74,7 +73,7 @@ class HomeController extends Controller
 
     public function AllMusic(Request $request)
     {
-        $artists = Artist::select('id','photo')->get();
+        $artists = Artist::select('id','photo')->limit(10)->get();
         if (isset($request->search)){
             $request->validate([
                 'search' => 'string'

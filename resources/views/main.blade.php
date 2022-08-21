@@ -244,7 +244,7 @@
                                     <p class="outline mb-0 mt-1 "></p>
                                 </a>
                                 <a href="{{ route('all.blogs') }}" class="customNavItem @yield('blog_active')">
-                                    <i class="icofont icofont-blogger  h1"></i>
+                                    <i class="icofont icofont-readernaut  h1"></i>
                                     <p class="outline mb-0 mt-1 "></p>
                                 </a>
                                 <a href="{{ route('all.music') }}" class="customNavItem @yield('music_active')">
