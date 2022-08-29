@@ -11,6 +11,7 @@ use App\Models\Movie;
 use App\Models\Music;
 use App\Models\MusicCategory;
 use App\Models\ReportBlog;
+use App\Models\VideoBlog;
 use DebugBar\DebugBar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -28,7 +29,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('isAdmin')->except('welcome','AllMusic','changeProfile');
+        $this->middleware('isAdmin')->except('welcome','AllMusic','changeProfile','AllVideo');
     }
 
 
@@ -45,9 +46,8 @@ class HomeController extends Controller
 
         } else {
             $country = 'Undefined IP!';
+
         }
-
-
 
         $blogs = Blog::when(isset(request()->search),function ($q){
             $key = request()->search;
@@ -59,8 +59,7 @@ class HomeController extends Controller
             });
 
 
-        $lastestNews = $blogs->orderBy('id','desc')->paginate(10);
-
+        $lastestNews = $blogs->orderBy('id','desc')->paginate(5);
         return view('welcome',compact('lastestNews','country'));
     }
 
@@ -83,6 +82,26 @@ class HomeController extends Controller
 //return $songs;
 
         return view('songAll',compact('songs','artists'));
+    }
+
+    public function AllVideo(Request $request)
+    {
+        if(isset($request->search)){
+            $request->validate([
+                'search' => 'string'
+            ]);
+        }
+
+        $videos = VideoBlog::when(isset($request->search),function ($q){
+            return $q->orWhere('title','like','%'.\request()->search.'%');
+        })->when(isset($request->tag),function ($next){
+            return $next->withAnyTag(\request()->tag);
+    })->with('tagged')->orderBy('created_at','desc')->paginate(12);
+
+
+//        return $videos;
+
+        return view('videoAll',compact('videos'));
     }
 
     public function changeProfile(Request $request)

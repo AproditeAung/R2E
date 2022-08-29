@@ -82,7 +82,7 @@
 
                     <div class="">
                         <span class="d-flex justify-content-end ">
-                           @if($user->reader->todayRead == 300)
+                           @if($userRead['todayRead'] == 300)
                                 <span class=" small " style="color:#9200ffa1;">Mission Completed!</span>
                             @else
                                 <span class="me-2 small d-flex justify-content-end align-items-center" style="color:rgba(150,21,246,0.63);font-size: 10px">
@@ -90,11 +90,11 @@
                                     <i class="icofont icofont-heart mx-2  "></i>
                                 </span>
                             @endif
-                         ({{ $user->reader->readBlog }} / 300)
+                         ({{ $userRead['totalView'] }} / 300)
                         </span>
-                        <div class="" style="height: 5px; background: #cbcbcb;width: 200px">
+                        <div class="" style="height: 5px; background: #cbcbcb;width: 200px; overflow: hidden">
                             <div data-bs-container="body"
-                                 class="" style="height: 5px; background: #9200ffa1;width: {{  $user->reader->readBlog / 300 * 200 }}%">
+                                 class="" style="height: 5px; background: #9200ffa1;width: {{  $userRead['totalView'] / 300 * 100 }}%">
                             </div>
                         </div>
 
@@ -103,7 +103,7 @@
 
                 <div class=" mt-3 d-flex justify-content-between align-items-center   ">
                     <span class="fw-bold h6 ">
-                        @if($user->reader->updated_at->format('d') == now()->format('d'))
+                        @if($userRead['latest_date']->format('d') == now()->format('d'))
                             <img src="{{ asset('Image/only-today.png') }}" width="50" alt="">
                         @else
                             <img src="{{ asset('Image/yesterday.png') }}" width="50" alt="">
@@ -115,18 +115,18 @@
                     <div class="">
 
                         <span class="d-flex justify-content-between ">
-                              @if($user->reader->updated_at->format('d') != now()->format('d'))
-                                <span class=" small " style="color:#9200ffa1;">Yesterday View Only!</span>
+                            @if($userRead['latest_date']->format('d') != now()->format('d'))
+                                <span class=" small " style="color:#9200ffa1;">{{ $userRead['latest_date']->format('d')  }}  View Only!</span>
                             @endif
 
-                           @if($user->reader->todayRead == 50)
+                           @if($userRead['todayRead'] == 50)
                                 <span class="me-3 small " style="color:#9200ffa1;">Mission Completed!</span>
                             @endif
-                         ({{ $user->reader->todayRead }} / 50)
+                         ({{ $userRead['todayRead'] }} / 50)
                         </span>
-                        <div class="" style="height: 5px; background: #cbcbcb;width: 200px">
+                        <div class="" style="height: 5px; background: #cbcbcb;width: 200px; overflow: hidden">
                             <div data-bs-container="body"
-                                 class="" style="height: 5px; background: #9200ffa1;width: {{  $user->reader->todayRead / 50 * 200  }}%">
+                                 class="" style="height: 5px; background: #9200ffa1;width: {{  $userRead['todayRead'] / 50 * 100  }}%">
                             </div>
                         </div>
                     </div>

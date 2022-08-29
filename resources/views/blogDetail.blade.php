@@ -56,37 +56,25 @@
                 <span id="minute"> 00 </span> : <span id="second"> 00 </span>
             </span>
 
-
-
     </div>
     <div class="col-md-3 my-3 my-md-5  ">
         <h1 class="mb-5 mb-md-4 h3 "> <i class="icofont icofont-news me-3 "></i> Related News </h1>
         @forelse($relatedNews as $relatedNew)
-            <div  class=" ">
+                <a href="{{ route('guest.blog.detail',$relatedNew->slug) }}" class="link-secondary text-decoration-none   ">
                 <div class=" px-4  px-md-3 mb-3 ">
                     <h3 class="fw-bolder h6 text-capitalize "> {{ $relatedNew->title }}  </h3>
-
                     <div class="mt-4 mt-md-0 ">
-                        <div class="my-3 d-flex align-items-center justify-content-between  ">
-                            <img src="{{ asset('storage/blog_photos/'.$relatedNew->ImageRec) }}" data-aos="zoom-in" data-aos-duration="1000" class="rounded " width="50%" alt="">
-                            <div >
-                                <p class="small mb-2   "> <i class="icofont icofont-ui-calendar me-2 "></i> {{ $relatedNew->created_at->format('d M Y') }}</p>
-                                <p class="small mb-2   "> <i class="icofont icofont-ui-user-group me-2 "></i> {{ $relatedNew->countUser }} views</p>
-                                <p class="small mb-2 "> <i class="icofont icofont-layers me-2 "></i> {{ $relatedNew->categoryName->name }} </p>
-                            </div>
-                        </div>
-
                         <p style="text-align: justify" class="mt-3  fw-lighter ">
                             {{ \Illuminate\Support\Str::limit($relatedNew->sample,120) }}
-
                         </p>
-                    </div>
-                    <div class="text-end">
-                        <a href="{{ route('guest.blog.detail',$relatedNew->slug) }}" class="link-secondary  ">Read More</a>
+                        <div class="my-3 d-flex align-items-center justify-content-between  ">
+                            <p class="small mb-2   "> <i class="icofont icofont-users-social mx-3 "></i> {{ $relatedNew->countUser }} views</p>
+                            <p class="small mb-2 "> <i class="icofont icofont-layers "></i> {{ $relatedNew->categoryName->name }} </p>
+                        </div>
                     </div>
                 </div>
                 <hr >
-            </div>
+                </a>
 
         @empty
             <div  class=" ">

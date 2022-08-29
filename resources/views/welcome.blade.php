@@ -99,7 +99,13 @@
                 </div>
             </div>
         @endforelse
-        {{ $lastestNews->onEachSide(5)->links() }}
+            <div id="data-wrapper">
+                <!-- Results -->
+            </div>
+            <!-- Data Loader -->
+            <div class="auto-load text-center ">
+                <img src="{{ asset('Image/loading.svg') }}" width="100" alt="">
+            </div>
     </div>
 @endsection
 
@@ -114,6 +120,39 @@
             }
             console.log(country);
         })
+
+        var ENDPOINT = "{{ url('/') }}";
+        var page = 1;
+        infinteLoadMore(page);
+        $(window).scroll(function () {
+            if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
+                page++;
+                infinteLoadMore(page);
+            }
+        });
+        function infinteLoadMore(page) {
+            $.ajax({
+                url: ENDPOINT + "/scrollBlog?page=" + page,
+                datatype: "html",
+                type: "get",
+                beforeSend: function () {
+                    $('.auto-load').show();
+                }
+            })
+                .done(function (response) {
+                    if (response.length == 0) {
+                        $('.auto-load').html(`
+                            <h1> All Data Loaded </h1>
+                        `);
+                        return;
+                    }
+                    $('.auto-load').hide();
+                    $("#data-wrapper").append(response);
+                })
+                .fail(function (jqXHR, ajaxOptions, thrownError) {
+                    console.log('Server error occured');
+                });
+        }
     </script>
 
 @endsection

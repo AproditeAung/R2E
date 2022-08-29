@@ -5,7 +5,7 @@
 @section('style')
     <style>
         .page-link{
-            background-color: #494848 !important;   
+            background-color: #494848 !important;
             border: 1px solid #303031 !important;
         }
     </style>
@@ -58,6 +58,9 @@
                         <div class=" col-6 col-lg-4 mb-3  mb-lg-0 ">
                             <h4 class="mb-3 ">Video Manager</h4>
                             <div class="mb-2 me-4  ">
+                                <div class="mb-2 ">
+                                    <a href="{{ route('video.create') }}" class="btn btn-outline-secondary">Upload Video</a>
+                                </div>
                                 <img src="{{ asset('Image/coming-soon.png') }}" width="100" alt="">
                             </div>
                         </div>

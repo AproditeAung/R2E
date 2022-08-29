@@ -56,7 +56,7 @@ class User extends Authenticatable
 
     public function reader()
     {
-        return $this->hasOne(Reader::class);
+        return $this->hasMany(Reader::class);
     }
 
 }

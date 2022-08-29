@@ -10,6 +10,7 @@ use App\Models\Contact;
 use App\Models\Reader;
 use App\Models\ReaderWallet;
 use App\Models\ReportBlog;
+use App\Models\ReportMusic;
 use App\Models\Withdraw;
 use App\Notifications\EarnMoney;
 use http\Client\Curl\User;
@@ -235,28 +236,32 @@ class BlogController extends Controller
 
     public function profile()
     {
-//        if(Auth::user()->role === '2'){
-//            return redirect()->route('home');
-//        }
 
+        if(Auth::user()->reader->count() > 0){
+            $user = \App\Models\User::where('id',Auth::id())->with('detail')->first();
 
-//        $blogs = Blog::where('user_id',Auth::id())->paginate(4);
-//        $categories = Category::where('user_id',Auth::id())->paginate(4);
-        $user = \App\Models\User::where('id',Auth::id())->with('reader','detail')->first();
+        }else{
 
-        if($user->reader == null){
             $reader = new Reader();
-            $reader->user_id = $user->id;
-            $reader->readBlog = 0;
+            $reader->user_id = Auth::id();
             $reader->todayRead = 0;
             $reader->save();
+
+            $user = \App\Models\User::where('id',Auth::id())->with('detail')->first();
+
         }
 
-        $user = \App\Models\User::where('id',Auth::id())->with('reader','detail')->first();
+        $raw = Reader::where('user_id',Auth::id())->orderBY('created_at','desc');
+
+        $userRead =  ([
+            'totalView' => $raw->get()->sum('todayRead'),
+            'todayRead' => $raw->orderBy('id','asc')->first()->todayRead,
+            'latest_date' => $raw->first()->created_at,
+        ]);
 
 
 
-        return view('profile',compact('user'));
+        return view('profile',compact('user','userRead'));
     }
 
     public function feedBack(Request $request)
@@ -293,13 +298,15 @@ class BlogController extends Controller
            if(!Reader::where('user_id',Auth::id())->exists()){
                $reader = new Reader();
                $reader->user_id = Auth::id();
-               $reader->readBlog = 0;
                $reader->todayRead = 0;
                $reader->save();
            }else{
 
                $reader = Reader::where('user_id',Auth::id())->first();
 
+               if($reader->todayRead == 100){
+                   return response()->json(['status'=>'success','message'=>'Today Mission is Completed!']);
+               }
            }
 
 
@@ -315,24 +322,20 @@ class BlogController extends Controller
 
             if(!Reader::where('user_id',Auth::id())->whereDate('updated_at',now())->exists()){
 
-                $reader->increment('readBlog',1);
+                $reader = new Reader();
+                $reader->user_id = Auth::id();
                 $reader->todayRead = 1;
-                $reader->updated_at = now();
-                $reader->update();
+                $reader->save();
 
             }else{
-                $reader->increment('readBlog',1);
                 $reader->increment('todayRead',1);
             }
 
-            if($reader->todayRead >= 51){
-
-                return response()->json(['status'=>'success','message'=>'Today Mission is Completed!']);
-            }
 
 
+            $totalView = Reader::where('user_id',Auth::id())->get()->sum('todayRead');
             $readerWallet = ReaderWallet::where('user_id',Auth::id())->first();
-            if($reader->readBlog > 300){
+            if($totalView > 300){
 
                 if ($position = Location::get($user->detail->ip)) {
                     // Successfully retrieved position.
@@ -343,12 +346,12 @@ class BlogController extends Controller
 
                     }else{
                         $money = 2;
-                        $message = 'you get 2 Ks for Myanmar VPN';
+                        $message = 'you get 3 Ks for Myanmar VPN';
                     }
                 } else {
                     // Failed retrieving position.
                     $money = 2;
-                    $message = 'you get 2 Ks for IP IP Failed!';
+                    $message = 'you get 2 Ks for IP Failed!';
 
 
                 }
@@ -375,7 +378,7 @@ class BlogController extends Controller
             return $err;
         }
 
-        if($reader->readBlog < 300){
+        if($totalView < 300){
             return response()->json(['status'=>'success','message'=>'Earn Money After Show Google Adsense!']);
         }
 
@@ -395,47 +398,103 @@ class BlogController extends Controller
 
         for ($i=0; $i<7; $i++){
             if(isset(request()->StartDate)){
-                $date = Carbon::parse(request()->StartDate)->addDays($i) ;
+                $date = Carbon::parse(request()->StartDate)->addDays($i);
             }else{
                 $date = now()->subDays(6)->addDays($i);
             }
 
            if(Auth::user()->role == '2'){
                $viewers = ReportBlog::whereDate('created_at',$date)->get()->sum('viewers');
+               $Musicviewers = ReportMusic::whereDate('created_at',$date)->get()->sum('todayRead');
+
+           }else if (Auth::user()->role == '1'){
+
+               $viewers = ReportBlog::whereIn('blog_id',Blog::where('user_id',Auth::id())->pluck('id'))->whereDate('created_at',$date)->get();
 
            }else{
-               $viewers = ReportBlog::whereIn('blog_id',Blog::where('user_id',Auth::id())->pluck('id'))->whereDate('created_at',$date)->get();
+
+               $viewers = Reader::where('user_id',Auth::id())->whereDate('created_at',$date)->get()->sum('todayRead');
+
            }
 
 
 
-            array_push($weeklyViewers,['date' => $date->format('d-m-y') , 'viewers' => $viewers ?? 0]);
+            array_push($weeklyViewers,['date' => $date->format('d-m-y') , 'viewers' => $viewers ?? 0 , 'musicViewers' => $Musicviewers ?? 0]);
         }
 
 
         $monthlyViewers = [];
 
         for ($i=0; $i<12; $i++){
-            $month = Carbon::parse(now()->format('Y').'-1-1')->addMonths($i) ;
-            $viewers = ReportBlog::whereMonth('created_at',$month)->get()->sum('viewers');
+            $month = Carbon::parse(now()->format('Y').'-1-1')->addMonths($i);
+
+            if(Auth::user()->role == '2'){
+                $viewers = ReportBlog::whereMonth('created_at',$month)->get()->sum('viewers');
+
+            }else if (Auth::user()->role == '1'){
+                $viewers = ReportBlog::whereIn('blog_id',Blog::where('user_id',Auth::id())->pluck('id'))->whereMonth('created_at',$month)->get()->sum('viewers');
+
+            }else{
+                $viewers = Reader::where('user_id',Auth::id())->whereMonth('created_at',$month)->get()->sum('todayRead');
+            }
 
             array_push($monthlyViewers,['month' => $month->format('M') , 'viewers' => $viewers ?? 0]);
         }
 
 
-        $ALlTimeViewers = 0;
-        $TotalBlogs = Blog::all()->count();
-        $Contacts = Contact::all()->count();
+        if(Auth::user()->role == '2'){
+            $ALlTimeViewers = 0;
+            $TotalBlogs = Blog::all()->count();
+            $Contacts = Contact::all()->count();
 
-        foreach ($monthlyViewers as $m){
-            $ALlTimeViewers += $m['viewers'];
+            foreach ($monthlyViewers as $m){
+                $ALlTimeViewers += $m['viewers'];
+            }
+
+            $widget = [
+                'AllTimeViewers' => $ALlTimeViewers,
+                'TotalBLogs' => $TotalBlogs,
+                'Contacts' => $Contacts
+            ];
+            return view('FrontEnd.Dashboard',compact('weeklyViewers','monthlyViewers','widget'));
+        }else{
+            return view('FrontEnd.Dashboard',compact('weeklyViewers','monthlyViewers'));
         }
+    }
 
-        $widget = [
-            'AllTimeViewers' => $ALlTimeViewers,
-            'TotalBLogs' => $TotalBlogs,
-            'Contacts' => $Contacts
-        ];
-        return view('FrontEnd.Dashboard',compact('weeklyViewers','monthlyViewers','widget'));
+    public function getArticles(Request $request)
+    {
+        $results = Blog::with(['categoryName','user'])->orderBy('id')->paginate(3);
+        $artilces = '';
+        if ($request->ajax()) {
+            foreach ($results as $result) {
+                $artilces.='
+                <a href="'. route("guest.blog.detail",$result->id) .' " class="row align-items-center justify-content-start  mb-3  text-decoration-none link-secondary  ">
+                    <div class="col-6 col-md-5 text-center " data-aos="fade-up" data-aos-anchor-placement="bottom-bottom" data-aos-duration="1000">
+                        <img src="storage/blog_mini_photo/'.$result->ImageRec .' " width="100%" alt="" style="border-radius: 10px">
+                    </div>
+                    <div class="col-6 col-md-7 px-2 px-lg-4  px-md-3  d-flex flex-column justify-content-between  mt-2 mt-lg-4 "
+                         data-aos="zoom-in" data-aos-anchor-placement="bottom-bottom" data-aos-duration="1000">
+                        <div class="">
+                            <h6 class="font-weight-lighter text-secondary   d-block d-lg-none "> '.$result->created_at->format("d M Y") .'</h6>
+                            <h6 class="  my-2 my-lg-0  title "> '. \Illuminate\Support\Str::limit($result->title,30).' </h6>
+                            <div class="d-flex align-content-center justify-content-start  mt-0 mt-lg-2  ">
+                                <p class="small mb-0   "> <i class="icofont icofont-heart me-1 me-md-2 text-danger"></i> '.$result->countUser .' </p>
+                                <p class="small mb-0 mx-3  "> <i class="icofont icofont-layers me-1 me-md-2 text-secondary"></i> '.$result->categoryName->name.' </p>
+                                <p class="small mb-0 d-none d-lg-block"> <i class="icofont icofont-ui-user me-1 me-md-2 text-secondary"></i> '.$result->user->name.'  </p>
+                            </div>
+                            <p style="text-align: justify" class="mt-3 d-none d-lg-block ">
+
+                                '. \Illuminate\Support\Str::limit( $result->sample,145) .'
+                            </p>
+                        </div>
+                    </div>
+                </a>
+
+                ';
+            }
+            return $artilces;
+        }
+        return view('welcome');
     }
 }

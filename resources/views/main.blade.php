@@ -25,12 +25,13 @@
             z-index: 9999;
             transition: 1s all ease-in;" class="loader">
         <img src="{{ asset('Image/loading.svg') }}" width="30%" alt="">
-        <span style="text-align: center">{{ \Illuminate\Foundation\Inspiring::quote() }}</span>
+        <span style="text-align: center;color:#494848">{{ \Illuminate\Foundation\Inspiring::quote() }}</span>
     </div>
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dark.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/icofont/icofont.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/icofont (6)/icofont/icofont.css') }}">
     <link rel="stylesheet" href="{{ asset('summernote-lite.min.css') }}">
     <title>{{ env('app_name','H2E') }}</title>
 
@@ -199,6 +200,10 @@
                             <li class="nav-item">
                                 <a class="nav-link @yield('music_active')" aria-current="page" href="{{ route('all.music') }}">Music</a>
                             </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link @yield('music_active')" aria-current="page" href="{{ route('all.video') }}">Video</a>
+                            </li>
                             @auth
                                 <li class="nav-item">
                                     <a class="nav-link @yield('profile_active')" href="{{ route('profile') }}">Profile</a>
@@ -247,6 +252,10 @@
                                     <i class="icofont icofont-readernaut  h1"></i>
                                     <p class="outline mb-0 mt-1 "></p>
                                 </a>
+                                <a href="{{ route('all.video') }}" class="customNavItem @yield('video_active')">
+                                    <i class="icofont icofont-video-clapper  h1"></i>
+                                    <p class="outline mb-0 mt-1 "></p>
+                                </a>
                                 <a href="{{ route('all.music') }}" class="customNavItem @yield('music_active')">
                                     <i class="icofont icofont-music h1"></i>
                                     <p class="outline mb-0 mt-1 "></p>
@@ -267,10 +276,11 @@
                     <img src="{{ \Illuminate\Support\Facades\Auth::check() == true ? asset('Image/'.\Illuminate\Support\Facades\Auth::user()->photo) : asset('Image/profile.webp') }}" width="40" height="40"  class="customDropdown rounded rounded-circle dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" alt="">
                     <ul class="dropdown-menu  " aria-labelledby="dropdownMenuButton1">
 
-                        <li>
-                            <a href="{{ route('contact.create') }}" class="dropdown-item  @yield('contact_active')"> Contact Us</a>
-                        </li>
+
                         @guest
+                            <li>
+                                <a href="{{ route('contact.create') }}" class="dropdown-item  @yield('contact_active')"> Contact Us</a>
+                            </li>
                             <li><hr class="dropdown-divider"></li>
 
                             <li>
@@ -288,10 +298,10 @@
                             <li>
                                 <a href="{{ route('profile') }}" class="dropdown-item @yield('profile_active')"> Profile</a>
                             </li>
+                            <li>
+                                <a href="{{ route('dashboard') }}" class="dropdown-item @yield('dashboard_active')"> Dashboard</a>
+                            </li>
                             @if(\Illuminate\Support\Facades\Auth::user()->role > 0)
-                                <li>
-                                    <a href="{{ route('dashboard') }}" class="dropdown-item @yield('dashboard_active')"> Dashboard</a>
-                                </li>
                                 <li>
                                     <a href="{{ route('setting') }}" class="dropdown-item @yield('setting_active')"> Setting</a>
                                 </li>

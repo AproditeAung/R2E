@@ -168,7 +168,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center fw-bolder text-danger">
+                            <td colspan="5" class="text-center fw-bolder text-center">
                                 <img src="{{ asset('Image/nodata.webp') }}" alt="" width="100">
                             </td>
                         </tr>
@@ -194,7 +194,7 @@
                 @forelse($notifications as $key=>$noti)
                     <div class="d-flex justify-content-between align-items-center mb-3  ">
                         <div class="">
-                            <img src="{{ asset('Image/earn-money.png') }}" width="50" alt="">
+                            <img src="{{ asset('Image/money-sack.webp') }}" width="50" alt="">
                         </div>
                         <div class="">
                             <div class="small">{{ $noti->data['message'] }}</div>

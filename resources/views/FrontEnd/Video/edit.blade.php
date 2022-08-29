@@ -1,5 +1,5 @@
 @extends('main')
-@section('title') Video @endsection
+@section('title') Edit Video @endsection
 @section('style')
     <style>
         .bootstrap-tagsinput .tag {
@@ -41,9 +41,9 @@
         }
     </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css" rel="stylesheet" />
-    <head>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"></script>
-    </head>
+{{--    <head>--}}
+{{--        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"></script>--}}
+{{--    </head>--}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/resumable.js/1.1.0/resumable.min.js" integrity="sha512-UWMGINgjUq/2sNur/d2LbiAX6IHmZkkCivoKSdoX+smfB+wB8f96/6Sp8ediwzXBXMXaAqymp6S55SALBk5tNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 @endsection
 @section('profile_active','fw-bolder')
@@ -59,7 +59,7 @@
                         <hr>
 
                         <div id="upload-container" class="text-center">
-                            <button id="browseFile" class="btn btn-primary">Brows File</button>
+                            <button id="browseFile" class="btn btn-secondary  ">Brows File</button>
                         </div>
                         <div  style="display: none" class="progress mt-3" style="height: 25px">
                             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%; height: 100%">75%</div>
@@ -69,29 +69,36 @@
                             <video id="videoPreview" src="" controls style="width: 100%; height: auto"></video>
                         </div>
 
-                        <form action="{{ route('create.video') }}" class="" method="post">
-                            @csrf
+                        <form action="{{ route('video.update',$video->id ) }}" class="" method="post">
+                            @csrf @method('put')
                             <div class="form-group mb-3 ">
                                 <label for="">Title</label>
-                                <input type="text" name="title" class="form-control">
+                                <input type="text" name="title" value="{{ $video->title }}" class="form-control">
                                 <!-- this is video path -->
                                 <input type="hidden" name="name" id="name">
                             </div>
                             <div class="form-group mb-3 ">
                                 <label for="">Description</label>
-                                <textarea type="text" name="description" class="form-control"></textarea>
+                                <textarea type="text" name="description" class="form-control">
+                                    {{ $video->description }}
+                                </textarea>
 
                             </div>
 
                             <div class="mb-3">
                                 <label for="">Tags</label>
-                                <input class="form-control" type="text" data-role="tagsinput" name="tags" >
+
+
+                                <input type="text" class="form-control"
+                                       value="@forelse($video->tagged as $tag) {{ $tag->tag_name.',' }}@empty @endforelse"
+                                       data-role="tagsinput"  name="tags">
+
                                 @if ($errors->has('tags'))
                                     <span class="text-danger">{{ $errors->first('tags') }}</span>
                                 @endif
                             </div>
 
-                            <button class="btn btn-outline-secondary disabled" id="uploadVideoButton">Upload</button>
+                            <button class="btn btn-outline-secondary " id="uploadVideoButton">Upload</button>
                         </form>
                     </div>
 
@@ -100,46 +107,7 @@
                 </div>
             </div>
 
-                <div class="col-md-8">
-                    <div class="card bg-transparent border-secondary card-body mt-2 mt-lg-0 ">
-                        <table class="table table-borderless">
-                            <tr>
-                                <td>No</td>
-                                <td>Title</td>
-                                <td>Descripition</td>
-                                <td>Action</td>
-                                <td>Crated Date</td>
-                            </tr>
-                            <tbody>
-                            @foreach($videos as $key=>$video)
-                                <tr>
-                                    <td>{{ $key+1 }}</td>
-                                    <td>{{ $video->title }}</td>
-                                    <td>
-                                        @forelse($video->tagged as $tag)
-                                            <span class="small m-2 ">
-                                                {{ $tag->tag_name }}
-                                            </span>
-                                        @empty
-                                            <div class="tag">
-                                                NO TAGS
-                                            </div>
-                                        @endforelse
-                                    </td>
-                                    <td>
-                                        @include('components.showVideo')
-                                        <a href="{{ route('video.edit',$video->id) }}" class="btn btn-outline-primary btn-sm ">
-                                            <i class="icofont icofont-edit "></i>
-                                        </a>
-                                    </td>
-                                    <td>{{ $video->created_at->format('d M Y')  }}</td>
-                                </tr>
-                            @endforeach
-                            </tbody>
 
-                        </table>
-                    </div>
-                </div>
 
         </div>
     </div>
@@ -182,7 +150,6 @@
             $('#browseFile').addClass('d-none');
             $('#videoPreview').attr('src',response.path);
             $('.card-footer').show();
-            $('#uploadVideoButton').removeClass('disabled');
         });
 
         resumable.on('fileError', function (file, response) { // trigger when there is any error

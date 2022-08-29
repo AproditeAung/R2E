@@ -24,6 +24,10 @@
                         Please Connect VPN!
                     </h4>
 
+                    <a href="{{ route('welcome') }}" class="">
+                        <img src="{{ asset('Image/reload-5591029-4653032.png') }}" width="50" height="50" alt="">
+                    </a>
+
                 </div>
             </div>
         </div>

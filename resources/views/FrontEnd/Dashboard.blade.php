@@ -34,45 +34,47 @@
                 </div>
             </div>
 
-            <div class="col-lg-6 mt-3  my-md-5 col-xl-4">
-                <div class="card mb-3 bg-transparent border-secondary">
-                    <div class="d-flex justify-content-between align-items-center card-body ">
-                        <div class="widget-content-left">
-                            <div class="fw-bolder">Viewers</div>
-                            <div class="small">All time viewers</div>
-                        </div>
-                        <div class="widget-content-right">
-                            <div class="h2  "><span> {{ $widget['AllTimeViewers'] }} </span></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card mb-3 bg-transparent border-secondary">
-                    <div class="d-flex justify-content-between align-items-center card-body ">
-                        <div class="widget-content-left">
-                            <div class="fw-bolder">Blogs</div>
-                            <div class="small">All time Blogs</div>
-                        </div>
-                        <div class="widget-content-right">
-                            <div class="h2  "><span> {{ $widget['TotalBLogs'] }} </span></div>
+            @if(\Illuminate\Support\Facades\Auth::user()->role == '2')
+                <div class="col-lg-6 mt-3  my-md-5 col-xl-4">
+                    <div class="card mb-3 bg-transparent border-secondary">
+                        <div class="d-flex justify-content-between align-items-center card-body ">
+                            <div class="widget-content-left">
+                                <div class="fw-bolder">Viewers</div>
+                                <div class="small">All time viewers</div>
+                            </div>
+                            <div class="widget-content-right">
+                                <div class="h2  "><span> {{ $widget['AllTimeViewers'] }} </span></div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="card mb-3 bg-transparent border-secondary">
-                    <div class="d-flex justify-content-between align-items-center card-body ">
-                        <div class="widget-content-left">
-                            <div class="fw-bolder">Contact</div>
-                            <div class="small">All time Contact</div>
-                        </div>
-                        <div class="widget-content-right">
-                            <div class="h2  "><span> {{ $widget['Contacts'] }} </span></div>
+                    <div class="card mb-3 bg-transparent border-secondary">
+                        <div class="d-flex justify-content-between align-items-center card-body ">
+                            <div class="widget-content-left">
+                                <div class="fw-bolder">Blogs</div>
+                                <div class="small">All time Blogs</div>
+                            </div>
+                            <div class="widget-content-right">
+                                <div class="h2  "><span> {{ $widget['TotalBLogs'] }} </span></div>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="card mb-3 bg-transparent border-secondary">
+                        <div class="d-flex justify-content-between align-items-center card-body ">
+                            <div class="widget-content-left">
+                                <div class="fw-bolder">Contact</div>
+                                <div class="small">All time Contact</div>
+                            </div>
+                            <div class="widget-content-right">
+                                <div class="h2  "><span> {{ $widget['Contacts'] }} </span></div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
-
-
-            </div>
+                @endif
 
             <div class="col-md-12 mb-5   mt-4 ">
                 <div class="card bg-transparent border-secondary">
@@ -108,13 +110,24 @@
             type: 'line',
             data: {
                 labels: data.map(el=>el.date),
-                datasets: [{
-                    label: 'Blog Viewers Graph',
-                    data: data.map(el=>el.viewers),
-                    fill: false,
-                    borderColor: 'rgb(75, 192, 192)',
-                    tension: 0
-                }],
+                datasets: [
+                    {
+                        label: 'Blog Viewers Graph',
+                        data: data.map(el=>el.viewers),
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0
+                    },
+                    @if(\Illuminate\Support\Facades\Auth::user()->role == '2')
+                    {
+                        label: 'Music Viewers Graph',
+                        data: data.map(el => el.musicViewers),
+                        fill: false,
+                        borderColor: 'rgb(127,22,152)',
+                        tension: 0
+                    },
+                    @endif
+                ],
             },
             options: {
                 scales: {
@@ -142,13 +155,15 @@
             type: 'line',
             data: {
                 labels: monthlyData.map(el=>el.month),
-                datasets: [{
-                    label: 'Blog Viewers Graph',
-                    data: monthlyData.map(el=>el.viewers),
-                    fill: true,
-                    borderColor: 'rgb(63,182,90)',
-                    tension: 0
-                }],
+                datasets: [
+                    {
+                        label: 'Blog Viewers Graph',
+                        data: monthlyData.map(el=>el.viewers),
+                        fill: true,
+                        borderColor: 'rgb(63,182,90)',
+                        tension: 0
+                    }
+                ]
             },
             options: {
                 scales: {
