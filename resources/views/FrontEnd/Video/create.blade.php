@@ -69,29 +69,39 @@
                             <video id="videoPreview" src="" controls style="width: 100%; height: auto"></video>
                         </div>
 
-                        <form action="{{ route('create.video') }}" class="" method="post">
+                        <form action="{{ route('create.video') }}" class="" method="post" id="createVideoBlog">
                             @csrf
                             <div class="form-group mb-3 ">
                                 <label for="">Title</label>
-                                <input type="text" name="title" class="form-control">
+                                <input type="text" name="title" class="form-control" value="{{ old('title') }}">
                                 <!-- this is video path -->
-                                <input type="hidden" name="name" id="name">
+                                <input type="hidden" name="name" id="name" value="{{ old('name') }}">
                             </div>
                             <div class="form-group mb-3 ">
                                 <label for="">Description</label>
-                                <textarea type="text" name="description" class="form-control"></textarea>
+                                <textarea type="text" name="description" class="form-control">{{ old('description') }}</textarea>
 
                             </div>
 
                             <div class="mb-3">
                                 <label for="">Tags</label>
-                                <input class="form-control" type="text" data-role="tagsinput" name="tags" >
+                                <input class="form-control" type="text" data-role="tagsinput" name="tags" id="tags" value="{{ old('tags') }}" >
                                 @if ($errors->has('tags'))
                                     <span class="text-danger">{{ $errors->first('tags') }}</span>
                                 @endif
                             </div>
 
                             <button class="btn btn-outline-secondary disabled" id="uploadVideoButton">Upload</button>
+
+                            @if (count($errors) > 0)
+                                <div class="alert alert-danger mt-3 ">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li class="mb-0 ">{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                         </form>
                     </div>
 
@@ -138,6 +148,10 @@
                             </tbody>
 
                         </table>
+
+                        <div class="text-center">
+                            {{ $videos->links() }}
+                        </div>
                     </div>
                 </div>
 
@@ -147,6 +161,9 @@
 
 @section('script')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.js"></script>
+
+    <script src="{{ asset('vendor/jsvalidation/js/jsvalidation.js') }}"></script>
+    {!! JsValidator::formRequest('App\Http\Requests\StoreVideoBlogRequest', '#createVideoBlog'); !!}
 
     <script type="text/javascript">
         let browseFile = $('#browseFile');
@@ -183,7 +200,19 @@
             $('#videoPreview').attr('src',response.path);
             $('.card-footer').show();
             $('#uploadVideoButton').removeClass('disabled');
+
         });
+
+        @if (count($errors) > 0)
+
+            $('#browseFile').addClass('d-none');
+            $('#videoPreview').attr('src',$('#name').val());
+            $('.card-footer').show();
+            $('#uploadVideoButton').removeClass('disabled');
+
+        @endif
+
+
 
         resumable.on('fileError', function (file, response) { // trigger when there is any error
             console.log(file);

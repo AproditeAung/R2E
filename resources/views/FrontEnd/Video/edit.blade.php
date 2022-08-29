@@ -99,6 +99,16 @@
                             </div>
 
                             <button class="btn btn-outline-secondary " id="uploadVideoButton">Upload</button>
+
+                            @if (count($errors) > 0)
+                                <div class="alert alert-danger mt-3 ">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li class="mb-0 ">{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                         </form>
                     </div>
 

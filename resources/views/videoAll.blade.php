@@ -38,7 +38,7 @@
 @section('contant')
 
     <div class="d-flex justify-content-end ">
-        <div class="col-md-6 col-lg-4 mt-3 text-end align-self-end ">
+        <div class="col-12 col-md-6 col-lg-4 mt-3 text-end align-self-end ">
             <form action="{{ route('all.video')  }}" method="get" class="d-flex align-items-baseline box   ">
                 <i class="icofont icofont-search  me-2 "></i>
                 <input type="text" name="search" placeholder="search blog" class="customInput flex-grow-1">

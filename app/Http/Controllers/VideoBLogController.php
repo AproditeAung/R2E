@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreVideoBlogRequest;
 use App\Models\VideoBlog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
@@ -14,7 +16,7 @@ class VideoBLogController extends Controller
 {
     public function create()
     {
-        $videos = VideoBlog::with('tagged')->get();
+        $videos = VideoBlog::with('tagged')->paginate(10);
         return view('FrontEnd.Video.create',compact('videos'));
     }
 
@@ -62,6 +64,14 @@ class VideoBLogController extends Controller
 
     public function update(Request $request,VideoBlog $video)
     {
+        $request->validate([
+
+            'title' => 'required|string|',
+            'tags' => 'required'
+        ]);
+
+        Storage::delete('public/video/'.$video->name);
+
         $tags = explode(",", $request->tags);
         $video->title= $request->title;
         $video->description = $request->description ?? null;
@@ -70,7 +80,7 @@ class VideoBLogController extends Controller
         $video->update();
         $video->retag($tags);
 
-        return redirect()->route('video.create');
+        return redirect()->route('video.create')->with('message',['icon'=>'success','text'=>'updated!']);
 
     }
 
@@ -79,16 +89,14 @@ class VideoBLogController extends Controller
         return view('FrontEnd.Video.edit',compact('video'));
     }
 
-    public function createVideo(Request $request){
+    public function createVideo(StoreVideoBlogRequest $request){
+
+
 
 //        https://www.positronx.io/laravel-bootstrap-tags-system-example-tutorial/  this tutorial will help u
+        DB::beginTransaction();
       try{
-            $request->validate([
-                'name' => 'required|string|',
-                'title' => 'required|string|',
-                'description'=> 'string',
-                'tags' => 'required'
-            ]);
+
 
 
             $tags = explode(",", $request->tags);
@@ -101,9 +109,11 @@ class VideoBLogController extends Controller
 
             //this is tags
             $newVideo->tag($tags);
+            DB::commit();
 
-            return redirect()->back()->with('message',['icon'=>'success','text'=>'Successfully uploaded']);
+          return redirect()->back()->with('message',['icon'=>'success','text'=>'Successfully uploaded']);
         }catch (Exception $exception){
+            DB::rollBack();
             return redirect()->back()->with('message',['icon'=>'error','text'=>$exception->getMessage()]);
         }
     }

@@ -31,7 +31,6 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dark.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/icofont/icofont.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/icofont (6)/icofont/icofont.css') }}">
     <link rel="stylesheet" href="{{ asset('summernote-lite.min.css') }}">
     <title>{{ env('app_name','H2E') }}</title>
 
